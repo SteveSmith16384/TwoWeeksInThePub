@@ -119,9 +119,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	public void moveAvatarToStartPosition(AbstractAvatar avatar) {
-		/*float x = CITY_X + NumberFunctions.rndFloat(0, MAP_SIZE-20);
-		float z = CITY_Z + NumberFunctions.rndFloat(0, MAP_SIZE-20);
-*/
 		Vector3f pos = this.mapCreator.getStartPos();//.getHeightAtPoint(x, z);
 		avatar.setWorldTranslation(pos.x, pos.y, pos.z);
 	}
@@ -132,7 +129,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		this.twipGameData = new TwoWeeksGameData();
 
 		this.mapCreator.createMap();
-		
+		/*
 		{
 			// Place AI
 			for (int num=0 ; num<2 ; num++) {
@@ -141,7 +138,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 				this.actuallyAddEntity(s);
 			}
 		}
-
+*/
 	}
 
 
@@ -150,13 +147,13 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		int i = NumberFunctions.rnd(1, 4);
 		switch (i) {
 		case 1:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BasicCar", "Models/Car pack by Quaternius/BasicCar.blend", height, "Models/Car pack by Quaternius/CarTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BasicCar", "Models/Car pack by Quaternius/BasicCar.blend", height, "Models/Car pack by Quaternius/CarTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 2:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "CopCar", "Models/Car pack by Quaternius/CopCar.blend", height, "Models/Car pack by Quaternius/CopTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "CopCar", "Models/Car pack by Quaternius/CopCar.blend", height, "Models/Car pack by Quaternius/CopTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 3:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "RaceCar", "Models/Car pack by Quaternius/RaceCar.blend", height, "Models/Car pack by Quaternius/RaceCarTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "RaceCar", "Models/Car pack by Quaternius/RaceCar.blend", height, "Models/Car pack by Quaternius/RaceCarTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 4:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Taxi", "Models/Car pack by Quaternius/Taxi.blend", height, "Models/Car pack by Quaternius/TaxiTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Taxi", "Models/Car pack by Quaternius/Taxi.blend", height, "Models/Car pack by Quaternius/TaxiTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		default:
 			throw new RuntimeException("Invalid number: " + i);
 		}
@@ -168,15 +165,15 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		int i = NumberFunctions.rnd(1, 5);
 		switch (i) {
 		case 1:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BigBuilding", "Models/Suburban pack Vol.2 by Quaternius/Blends/BigBuilding.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/BigBuildingTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BigBuilding", "Models/Suburban pack Vol.2 by Quaternius/Blends/BigBuilding.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/BigBuildingTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 2:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BurgerShop", "Models/Suburban pack Vol.2 by Quaternius/Blends/BurgerShop.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/BurgerShopTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "BurgerShop", "Models/Suburban pack Vol.2 by Quaternius/Blends/BurgerShop.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/BurgerShopTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 3:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Shop", "Models/Suburban pack Vol.2 by Quaternius/Blends/Shop.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/ShopTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Shop", "Models/Suburban pack Vol.2 by Quaternius/Blends/Shop.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/ShopTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 4:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "SimpleHouse", "Models/Suburban pack Vol.2 by Quaternius/Blends/SimpleHouse.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/HouseTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "SimpleHouse", "Models/Suburban pack Vol.2 by Quaternius/Blends/SimpleHouse.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/HouseTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		case 5:
-			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "SimpleHouse2", "Models/Suburban pack Vol.2 by Quaternius/Blends/SimpleHouse2.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/HouseTexture.png", pos.x, pos.y, pos.z, new Vector3f());
+			return new GenericStaticModel(this, this.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "SimpleHouse2", "Models/Suburban pack Vol.2 by Quaternius/Blends/SimpleHouse2.blend", -1, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/HouseTexture.png", pos.x, pos.y, pos.z, new Vector3f(), true);
 		default:
 			throw new RuntimeException("Invalid number: " + i);
 		}

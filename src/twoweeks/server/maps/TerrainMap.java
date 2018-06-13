@@ -48,7 +48,7 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 			// Place trees
 			for (int z=80; z<=120 ; z+= 10) {
 				for (int x=80; x<=120 ; x+= 10) {
-					GenericStaticModel tree6 = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, new Vector3f());
+					GenericStaticModel tree6 = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, new Vector3f(), true);
 					placeGenericModel(tree6, x, z);
 				}
 			}

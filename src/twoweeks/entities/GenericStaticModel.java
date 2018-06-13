@@ -16,7 +16,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 public class GenericStaticModel extends PhysicalEntity {
 
-	public GenericStaticModel(IEntityController _game, int id, int type, String name, String modelFile, float height, String tex, float x, float y, float z, Vector3f dir) {
+	public GenericStaticModel(IEntityController _game, int id, int type, String name, String modelFile, float height, String tex, float x, float y, float z, Vector3f dir, boolean moveToFloor) {
 		super(_game, id, type, name, false, true, false);
 
 		if (_game.isServer()) {
@@ -26,17 +26,21 @@ public class GenericStaticModel extends PhysicalEntity {
 			creationData.put("height", height);
 			creationData.put("tex", tex);
 			creationData.put("dir", dir);
+			creationData.put("moveToFloor", moveToFloor);
 		}
 
 		Spatial model = game.getAssetManager().loadModel(modelFile);
 		if (tex != null) {
-			JMEModelFunctions.setTextureOnSpatial( game.getAssetManager(), model, tex);
+			JMEModelFunctions.setTextureOnSpatial(game.getAssetManager(), model, tex);
 		}
 		model.setShadowMode(ShadowMode.CastAndReceive);
 		if (height > 0) {
 			JMEModelFunctions.scaleModelToHeight(model, height);
 		}
-		JMEModelFunctions.moveYOriginTo(model, 0f);
+
+		if (moveToFloor) {
+			JMEModelFunctions.moveYOriginTo(model, 0f);
+		}
 
 		this.mainNode.attachChild(model);
 		
