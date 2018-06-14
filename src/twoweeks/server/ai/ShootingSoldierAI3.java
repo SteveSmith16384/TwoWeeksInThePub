@@ -1,6 +1,7 @@
 package twoweeks.server.ai;
 
 import com.jme3.math.Vector3f;
+import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -17,8 +18,8 @@ import twoweeks.entities.Terrain1;
 
 public class ShootingSoldierAI3 implements IArtificialIntelligence {
 
-	private static final float VIEW_ANGLE_RADS = -1f; // See everywhere
-	private static final boolean SHOOT_AT_ENEMY = true;
+	private static final float VIEW_ANGLE_RADS = 1f;
+	private static final boolean SHOOT_AT_ENEMY = false; // todo
 
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
@@ -129,6 +130,16 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	@Override
 	public ITargetable getCurrentTarget() {
 		return this.currentTarget;
+	}
+
+
+	@Override
+	public void wounded(ICausesHarmOnContact collider) {
+		if (collider.getActualShooter() != null) {
+			PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
+			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation()).normalizeLocal();
+			this.changeDirection(dir);
+		}
 	}
 
 }

@@ -19,7 +19,7 @@ import twoweeks.entities.GenericStaticModel;
 import twoweeks.entities.MercClientAvatar;
 import twoweeks.entities.MercEnemyAvatar;
 import twoweeks.entities.PlayersBullet;
-import twoweeks.entities.TWIB_AISoldier;
+import twoweeks.entities.TWIP_AISoldier;
 import twoweeks.entities.Terrain1;
 
 public class TwoWeeksClientEntityCreator {
@@ -151,7 +151,7 @@ public class TwoWeeksClientEntityCreator {
 			int side = (int)msg.data.get("side");
 			int animcode = (int)msg.data.get("animcode");
 			String name = (String)msg.data.get("name");
-			TWIB_AISoldier soldier = new TWIB_AISoldier(game, id, pos.x, pos.y, pos.z, side, animcode, name);
+			TWIP_AISoldier soldier = new TWIP_AISoldier(game, id, pos.x, pos.y, pos.z, side, animcode, name);
 			return soldier;
 		}
 

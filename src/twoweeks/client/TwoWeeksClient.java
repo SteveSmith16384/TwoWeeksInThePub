@@ -81,7 +81,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
-		getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
+		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 
 		// Add shadows
 		final int SHADOWMAP_SIZE = 1024*2;
@@ -105,6 +105,12 @@ public class TwoWeeksClient extends AbstractGameClient {
 	}
 
 
+	@Override
+	protected void allEntitiesSent() {
+		getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
+	}
+
+	
 	@Override
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);

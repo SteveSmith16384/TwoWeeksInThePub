@@ -23,7 +23,7 @@ import twoweeks.TwoWeeksGameData;
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.entities.GenericStaticModel;
 import twoweeks.entities.MercServerAvatar;
-import twoweeks.entities.TWIB_AISoldier;
+import twoweeks.entities.TWIP_AISoldier;
 import twoweeks.server.maps.CustomMap;
 import twoweeks.server.maps.IMapCreator;
 
@@ -129,16 +129,16 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		this.twipGameData = new TwoWeeksGameData();
 
 		this.mapCreator.createMap();
-		/*
+
 		{
 			// Place AI
 			for (int num=0 ; num<2 ; num++) {
 				Vector3f pos = this.mapCreator.getStartPos();// new Vector3f(NumberFunctions.rndFloat(10, MAP_SIZE-10), 255, NumberFunctions.rndFloat(10, MAP_SIZE-10));
-				TWIB_AISoldier s = new TWIB_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
+				TWIP_AISoldier s = new TWIP_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
 				this.actuallyAddEntity(s);
 			}
 		}
-*/
+
 	}
 
 

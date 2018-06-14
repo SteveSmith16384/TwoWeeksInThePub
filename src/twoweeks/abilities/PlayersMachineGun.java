@@ -18,10 +18,12 @@ import twoweeks.entities.PlayersBullet;
 
 public class PlayersMachineGun extends AbstractMagazineGun<PlayersBullet> implements IAbility, IEntityContainer<PlayersBullet> {
 
+	private static final int MAG_SIZE = 10;
+	
 	private LinkedList<PlayersBullet> ammoCache = new LinkedList<PlayersBullet>(); 
 
 	public PlayersMachineGun(IEntityController game, int id, int playerID, AbstractAvatar owner, int avatarID, int abilityNum, ClientData client) {
-		super(game, id, TwoWeeksClientEntityCreator.MACHINE_GUN, playerID, owner, avatarID, abilityNum, "Laser Rifle", .2f, 2, 2, client);
+		super(game, id, TwoWeeksClientEntityCreator.MACHINE_GUN, playerID, owner, avatarID, abilityNum, "Laser Rifle", .2f, 2, MAG_SIZE, client);
 
 	}
 

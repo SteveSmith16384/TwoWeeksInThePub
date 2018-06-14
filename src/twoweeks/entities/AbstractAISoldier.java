@@ -149,6 +149,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		}
 		if (health > 0) {
 			this.health -= amt;
+			ai.wounded(collider);
 			if (health <= 0) {
 				if (Globals.DEBUG_BULLET_HIT) {
 					Globals.p(this + " killed");

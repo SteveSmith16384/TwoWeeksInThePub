@@ -8,9 +8,9 @@ import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.models.SoldierModel;
 import twoweeks.server.ai.ShootingSoldierAI3;
 
-public class TWIB_AISoldier extends AbstractAISoldier {
+public class TWIP_AISoldier extends AbstractAISoldier {
 
-	public TWIB_AISoldier(IEntityController _game, int id, float x, float y, float z, int _side, int csInitialAnimCode, String name) {
+	public TWIP_AISoldier(IEntityController _game, int id, float x, float y, float z, int _side, int csInitialAnimCode, String name) {
 		super(_game, id, TwoWeeksClientEntityCreator.AI_SOLDIER, x, y, z, _side, 
 				new SoldierModel(_game.getAssetManager()), csInitialAnimCode, name);
 
