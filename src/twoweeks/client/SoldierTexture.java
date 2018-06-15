@@ -39,13 +39,13 @@ public class SoldierTexture {
 						g.setColor(Color.white);
 						break;
 					case 2: // Hair
-						g.setColor(getRandomHairColour());//Color.black);
+						g.setColor(getRandomHairColour());
 						break;
 					case 3: // Shirt
-						g.setColor(Color.gray);
+						g.setColor(Color.yellow);
 						break;
 					case 4: // Trousers
-						g.setColor(Color.gray);
+						g.setColor(Color.MAGENTA);
 						break;
 					}
 					

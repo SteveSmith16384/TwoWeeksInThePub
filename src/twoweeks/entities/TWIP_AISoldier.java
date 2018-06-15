@@ -6,7 +6,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.models.SoldierModel;
-import twoweeks.server.ai.ShootingSoldierAI3;
+import twoweeks.server.ai.TWIPSoldierAI3;
 
 public class TWIP_AISoldier extends AbstractAISoldier {
 
@@ -15,7 +15,7 @@ public class TWIP_AISoldier extends AbstractAISoldier {
 				new SoldierModel(_game.getAssetManager()), csInitialAnimCode, name);
 
 		if (_game.isServer()) {
-			ai = new ShootingSoldierAI3(this);
+			ai = new TWIPSoldierAI3(this);
 		}
 	}
 

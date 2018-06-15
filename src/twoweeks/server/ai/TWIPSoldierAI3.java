@@ -16,7 +16,7 @@ import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.Floor;
 import twoweeks.entities.Terrain1;
 
-public class ShootingSoldierAI3 implements IArtificialIntelligence {
+public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	private static final float VIEW_ANGLE_RADS = 1f;
 	private static final boolean SHOOT_AT_ENEMY = false; // todo
@@ -26,10 +26,11 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 	private RealtimeInterval checkForEnemyInt = new RealtimeInterval(1000);
 	private ITargetable currentTarget;
 	private int animCode = 0;
+	private Vector3f prevPos = new Vector3f(); // To check if we've moved
 
 	private float waitForSecs = 0; // e.g. wait for door to open
 
-	public ShootingSoldierAI3(AbstractAISoldier _pe) {
+	public TWIPSoldierAI3(AbstractAISoldier _pe) {
 		soldierEntity = _pe;
 
 		currDir = new Vector3f();
@@ -79,38 +80,50 @@ public class ShootingSoldierAI3 implements IArtificialIntelligence {
 			animCode = AbstractAvatar.ANIM_IDLE;
 		}
 
+		// If we've failed to move when we should, change direction
+		if (soldierEntity.simpleRigidBody.getAdditionalForce().length() > 0) {
+			if (prevPos.distance(this.soldierEntity.getWorldTranslation()) == 0) {
+				changeDirection(getRandomDirection());
+			}
+		}
+		prevPos.set(this.soldierEntity.getWorldTranslation());
 	}
 
 
 	@Override
 	public void collided(PhysicalEntity pe) {
-		if (pe instanceof Floor == false) {
+		/*if (pe instanceof Floor == false) {
 			// Change direction to away from blockage, unless it's a doior
 			if (pe instanceof Terrain1 == false) {
 				//Globals.p("AISoldier has collided with " + pe);
 				//changeDirection(currDir.mult(-1));
-				changeDirection(getRandomDirection()); // Start us pointing in the right direction
+				changeDirection(getRandomDirection());
 			}
-		}
-
+		}*/
 	}
 
 
 	private void changeDirection(Vector3f dir) {
-		//Globals.p("Changing direction to " + dir);
-		this.currDir.set(dir);
+		Globals.p("Changing direction to " + dir);
+		this.currDir.set(dir.normalizeLocal());
 		soldierEntity.getMainNode().lookAt(soldierEntity.getWorldTranslation().add(currDir), Vector3f.UNIT_Y); // Point us in the right direction
 	}
 
 
 	private static Vector3f getRandomDirection() {
-		int i = NumberFunctions.rnd(0,  3);
+		int i = NumberFunctions.rnd(0,  7);
 		switch (i) {
 		case 0: return new Vector3f(1f, 0, 0);
 		case 1: return new Vector3f(-1f, 0, 0);
 		case 2: return new Vector3f(0f, 0, 1f);
 		case 3: return new Vector3f(0f, 0, -1f);
-		}
+
+		// Diagonals
+		case 4: return new Vector3f(1f, 0, 1f);
+		case 5: return new Vector3f(-1f, 0, -1f);
+		case 6: return new Vector3f(-1f, 0, 1f);
+		case 7: return new Vector3f(1f, 0, -1f);
+}
 		throw new RuntimeException("Invalid direction: " + i);
 	}
 
