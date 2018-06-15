@@ -1,6 +1,5 @@
 package twoweeks.client;
 
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
@@ -9,6 +8,7 @@ import com.scs.stevetech1.entities.AbstractClientAvatar;
 import com.scs.stevetech1.entities.AbstractEnemyAvatar;
 import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.DebuggingSphere;
+import com.scs.stevetech1.entities.ExplosionShard;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
 
@@ -16,6 +16,7 @@ import twoweeks.abilities.PlayersMachineGun;
 import twoweeks.entities.AIBullet;
 import twoweeks.entities.Floor;
 import twoweeks.entities.GenericStaticModel;
+import twoweeks.entities.MapBorder;
 import twoweeks.entities.MercClientAvatar;
 import twoweeks.entities.MercEnemyAvatar;
 import twoweeks.entities.PlayersBullet;
@@ -155,15 +156,14 @@ public class TwoWeeksClientEntityCreator {
 			return soldier;
 		}
 
-		/*case MAP_BORDER:
+		case MAP_BORDER:
 		{
-			Vector3f pos = (Vector3f)msg.data.get("pos");
 			Vector3f dir = (Vector3f)msg.data.get("dir");
 			float size = (float)msg.data.get("size");
 			MapBorder hill = new MapBorder(game, id, pos.x, pos.y, pos.z, size, dir);
 			return hill;
 		}
-
+/*
 		case CRATE:
 		{
 			Vector3f pos = (Vector3f)msg.data.get("pos");
@@ -180,7 +180,11 @@ public class TwoWeeksClientEntityCreator {
 		}
 
 		case Globals.BULLET_EXPLOSION_EFFECT:
-			return null; // todo
+			Vector3f forceDirection = (Vector3f) msg.data.get("forceDirection");
+			float size = (float) msg.data.get("size");
+			String tex = (String) msg.data.get("tex");
+			ExplosionShard expl = new ExplosionShard(game, pos.x, pos.y, pos.z, size, forceDirection, tex);
+			return expl;
 			
 		default:
 			throw new RuntimeException("Unknown entity type for creation: " + msg.type);

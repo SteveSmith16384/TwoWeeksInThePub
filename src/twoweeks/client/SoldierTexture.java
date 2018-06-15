@@ -7,6 +7,8 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
 import com.scs.stevetech1.jme.PaintableImage;
 
+import ssmith.lang.NumberFunctions;
+
 /**
  * Rows:
  * 0 - Skin tone
@@ -32,20 +34,20 @@ public class SoldierTexture {
 			public void paint(Graphics2D g) {
 				for (int row=0 ; row<5 ; row++) {
 					switch (row) {
-					case 0: // Skin
-						g.setColor(Color.green);
+					case 0: // Trousers
+						g.setColor(getRandomTrousersColour());
 						break;
-					case 1: // Eyes and brows
-						g.setColor(Color.white);
+					case 1: // Shirt
+						g.setColor(getRandomShirtColour());
 						break;
 					case 2: // Hair
 						g.setColor(getRandomHairColour());
 						break;
-					case 3: // Shirt
-						g.setColor(Color.yellow);
+					case 3: // Eyes and brows
+						g.setColor(Color.black);
 						break;
-					case 4: // Trousers
-						g.setColor(Color.MAGENTA);
+					case 4: // Skin
+						g.setColor(getRandomSkinColour());
 						break;
 					}
 					
@@ -83,7 +85,33 @@ public class SoldierTexture {
 		
 	
 	private static Color getRandomHairColour() {
-		return Color.black;
+		return Color.darkGray;
+	}
+	
+
+	private static Color getRandomSkinColour() {
+		return new Color(255,224,189);
+	}
+	
+
+	private static Color getRandomShirtColour() {
+		int i = NumberFunctions.rnd(1, 8);
+		switch (i) {
+		case 1: return Color.WHITE;
+		case 2: return Color.BLUE;
+		case 3: return Color.CYAN;
+		case 4: return Color.gray;
+		case 5: return Color.green;
+		case 6: return Color.lightGray;
+		case 7: return Color.orange;
+		case 8: return Color.yellow;
+		default: return Color.WHITE;
+		}
+	}
+	
+
+	private static Color getRandomTrousersColour() {
+		return getRandomShirtColour();
 	}
 	
 }

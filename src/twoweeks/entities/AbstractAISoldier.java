@@ -223,7 +223,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public void drawOnHud(Camera cam) {
-		if (health > 0) {
+		/*if (health > 0) {
 			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
 			if (insideoutside != FrustumIntersect.Outside) {
 				if (this.hudNode.getText().length() == 0) {
@@ -235,7 +235,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			} else {
 				this.hudNode.setText(""); // Hide it
 			}
-		}
+		}*/
 	}
 
 
@@ -288,7 +288,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			} else {
 				this.timeToNextShot = RELOAD_INTERVAL;
 				bullets = BULLETS_IN_MAG;
-				Globals.p("AI Reloading");
+				//Globals.p("AI Reloading");
 			}
 		}
 	}

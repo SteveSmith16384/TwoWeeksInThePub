@@ -16,6 +16,8 @@ import com.jme3.scene.Spatial;
 import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.server.Globals;
 
+import twoweeks.client.SoldierTexture;
+
 public class ModelViewer extends SimpleApplication implements AnimEventListener {
 
 	private AnimControl control;
@@ -31,10 +33,6 @@ public class ModelViewer extends SimpleApplication implements AnimEventListener 
 	@Override
 	public void simpleInitApp() {
 		assetManager.registerLocator("assets/", FileLocator.class); // default
-		//assetManager.registerLocator("../UndercoverAgent/assets/", FileLocator.class); // default
-		//assetManager.registerLocator("../MoonbaseAssault/assets/", FileLocator.class); // default
-		//assetManager.registerLocator("../TwoWeeks/assets/", FileLocator.class); // default
-		//assetManager.registerLocator("assets/Textures/", FileLocator.class);
 
 		super.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
@@ -42,14 +40,14 @@ public class ModelViewer extends SimpleApplication implements AnimEventListener 
 
 		setupLight();
 
-		Spatial model = assetManager.loadModel("Models/landscape_asset_v2a/obj/road-straight-low.obj");
-		JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/landscape_asset_v2a/obj/basetexture.jpg");
-		rootNode.attachChild(model);
+		//Spatial model = assetManager.loadModel("Models/Airplane pack by Quaternius/OBJ/Military Airplane.obj");
+		Spatial model = assetManager.loadModel("Models/Airplane pack by Quaternius/Blends/Private plane.blend");
+		
+		//Spatial model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
+		//JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture());
 
-		Spatial model2 = assetManager.loadModel("Models/landscape_asset_v2a/obj/grass.obj");
-		JMEModelFunctions.setTextureOnSpatial(assetManager, model2, "Models/landscape_asset_v2a/obj/basetexture.jpg");
-		model2.move(8, 0, 0);
-		rootNode.attachChild(model2);
+		//JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/landscape_asset_v2a/obj/basetexture.jpg");
+		rootNode.attachChild(model);
 
 		if (model instanceof Node) {
 			control = this.getNodeWithControls((Node)model);
@@ -57,7 +55,7 @@ public class ModelViewer extends SimpleApplication implements AnimEventListener 
 				control.addListener(this);
 				Globals.p("Animations: " + control.getAnimationNames());
 				AnimChannel channel = control.createChannel();
-				channel.setAnim("run");
+				//channel.setAnim("run");
 			} else {
 				Globals.p("No animation control");
 			}

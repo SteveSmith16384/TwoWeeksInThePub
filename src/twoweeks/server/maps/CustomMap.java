@@ -1,7 +1,5 @@
 package twoweeks.server.maps;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -11,14 +9,15 @@ import com.scs.stevetech1.server.Globals;
 import ssmith.lang.NumberFunctions;
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.entities.GenericStaticModel;
+import twoweeks.entities.MapBorder;
 import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
-/*
+	/*
 	private static int map[][] = new int[][] {
 		{1, 2} 
 	};
-*/
+	 */
 	/*
 	private static int map[][] = new int[][] {
 		{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4}, 
@@ -52,11 +51,12 @@ public class CustomMap implements IMapCreator {
 	private static final int BEACH_BOTTOM = 15;
 	private static final int ROAD_CROSSROADS_LOW = 16;
 	private static final int HILL_RAMP_E = 17;
+	private static final int HILL_RAMP_W = 18;
 
 	private static final int SECTOR_SIZE = 8;
 
 	private TwoWeeksServer server;
-	
+
 	private int[][] map;/* = new int[][] {
 		{5, 2, 6} 
 	};*/
@@ -72,9 +72,9 @@ public class CustomMap implements IMapCreator {
 		if (Globals.PLAYERS_START_IN_CORNER) {
 			return new Vector3f(map.length/2, 30f, map[0].length/2);
 		} else {
-		float x = 1 + NumberFunctions.rndFloat(0, map.length-1);
-		float z = 1 + NumberFunctions.rndFloat(0, map[0].length);
-		return new Vector3f(x, 20f, z);
+			float x = NumberFunctions.rndFloat(1, (map.length * SECTOR_SIZE)-1);
+			float z = NumberFunctions.rndFloat(1, (map.length * SECTOR_SIZE)-1);
+			return new Vector3f(x, 20f, z);
 		}
 	}
 
@@ -117,6 +117,19 @@ public class CustomMap implements IMapCreator {
 					}
 				}
 			}
+			
+			float mapsize = map.length * SECTOR_SIZE;
+			// Border
+			MapBorder borderL = new MapBorder(server, server.getNextEntityID(), 0, 0, 0, mapsize, Vector3f.UNIT_Z);
+			server.actuallyAddEntity(borderL);
+			MapBorder borderR = new MapBorder(server, server.getNextEntityID(), mapsize+MapBorder.BORDER_WIDTH, 0, 0, mapsize, Vector3f.UNIT_Z);
+			server.actuallyAddEntity(borderR);
+			MapBorder borderBack = new MapBorder(server, server.getNextEntityID(), 0, 0, mapsize, mapsize, Vector3f.UNIT_X);
+			server.actuallyAddEntity(borderBack);
+			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), 0, 0, -MapBorder.BORDER_WIDTH, mapsize, Vector3f.UNIT_X);
+			server.actuallyAddEntity(borderFront);
+
+
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -214,6 +227,11 @@ public class CustomMap implements IMapCreator {
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(), false);
+
+		case HILL_RAMP_W:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(1, 0, 0), false);
 
 		default: 
 			throw new RuntimeException("Invalid map code: " + code);

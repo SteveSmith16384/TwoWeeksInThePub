@@ -19,7 +19,7 @@ import twoweeks.entities.Terrain1;
 public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	private static final float VIEW_ANGLE_RADS = 1f;
-	private static final boolean SHOOT_AT_ENEMY = false; // todo
+	private static final boolean SHOOT_AT_ENEMY = true; // todo
 
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
@@ -104,7 +104,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 
 	private void changeDirection(Vector3f dir) {
-		Globals.p("Changing direction to " + dir);
+		//Globals.p("Changing direction to " + dir);
 		this.currDir.set(dir.normalizeLocal());
 		soldierEntity.getMainNode().lookAt(soldierEntity.getWorldTranslation().add(currDir), Vector3f.UNIT_Y); // Point us in the right direction
 	}

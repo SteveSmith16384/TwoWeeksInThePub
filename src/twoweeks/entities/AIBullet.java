@@ -6,6 +6,7 @@ import com.jme3.asset.TextureKey;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
@@ -28,7 +29,7 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 
 	public static final float RANGE = 30f;
 	public static final float SPEED = 20f;
-	private static final boolean USE_CYLINDER = false;
+	private static final boolean USE_CYLINDER = true;
 
 	public AIBullet(IEntityController _game, int id, int side, float x, float y, float z, IEntity shooter, Vector3f dir) {
 		super(_game, id, TwoWeeksClientEntityCreator.AI_BULLET, x, y, z, "AIBullet", side, shooter, dir, true, SPEED, RANGE);
@@ -61,16 +62,8 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 			laserNode.setMaterial(mat);
 		}
 
-		//laserNode.setShadowMode(ShadowMode.Cast);
+		laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
-
-		/*No, since we use a Ray
-		 * this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this);
-		this.simpleRigidBody.setAerodynamicness(1);
-		this.simpleRigidBody.setGravity(0);
-		if (game.isServer()) {
-			this.simpleRigidBody.setLinearVelocity(dir.normalize().mult(10)); // 20));  // Only the server moves the bullet
-		}*/
 
 	}
 
