@@ -40,7 +40,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	private TwoWeeksCollisionValidator collisionValidator = new TwoWeeksCollisionValidator();
 	private TwoWeeksGameData twipGameData;
 	private IMapCreator mapCreator;
-	
+
 	public static void main(String[] args) {
 		try {
 			MyProperties props = null;
@@ -107,7 +107,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	@Override
 	public void simpleInitApp() {
 		super.simpleInitApp();
-		
+
 	}
 
 
@@ -131,11 +131,13 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		this.mapCreator.createMap();
 
 		{
-			// Place AI
-			for (int num=0 ; num<2 ; num++) {
-				Vector3f pos = this.mapCreator.getStartPos();// new Vector3f(NumberFunctions.rndFloat(10, MAP_SIZE-10), 255, NumberFunctions.rndFloat(10, MAP_SIZE-10));
-				TWIP_AISoldier s = new TWIP_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
-				this.actuallyAddEntity(s);
+			if (!Globals.NO_AI_UNITS) {
+				// Place AI
+				for (int num=0 ; num<20 ; num++) {
+					Vector3f pos = this.mapCreator.getStartPos();// new Vector3f(NumberFunctions.rndFloat(10, MAP_SIZE-10), 255, NumberFunctions.rndFloat(10, MAP_SIZE-10));
+					TWIP_AISoldier s = new TWIP_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
+					this.actuallyAddEntity(s);
+				}
 			}
 		}
 

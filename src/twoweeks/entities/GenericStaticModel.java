@@ -7,6 +7,7 @@ import com.jme3.collision.Collidable;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -34,6 +35,7 @@ public class GenericStaticModel extends PhysicalEntity {
 			JMEModelFunctions.setTextureOnSpatial(game.getAssetManager(), model, tex);
 		}
 		model.setShadowMode(ShadowMode.CastAndReceive);
+		
 		if (height > 0) {
 			JMEModelFunctions.scaleModelToHeight(model, height);
 		}
@@ -42,9 +44,13 @@ public class GenericStaticModel extends PhysicalEntity {
 			JMEModelFunctions.moveYOriginTo(model, 0f);
 		}
 
-		this.mainNode.attachChild(model);
+		if (dir.length() > 0) {
+			model.lookAt(this.getWorldTranslation().add(dir), Vector3f.UNIT_Y);
+		}
 		
-		mainNode.lookAt(this.getWorldTranslation().add(dir), Vector3f.UNIT_Y);//.setLocalRotation(q);
+		//Node container = new Node();
+		//container.attachChild(model); // Wrap the model in a node so we can keep the models rotation and position adjustment
+		this.mainNode.attachChild(model); //model.getLocalRotation();
 		
 		mainNode.setLocalTranslation(x, y, z);
 

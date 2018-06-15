@@ -13,11 +13,11 @@ import twoweeks.entities.GenericStaticModel;
 import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
-	/*
+/*
 	private static int map[][] = new int[][] {
 		{1, 2} 
 	};
-	 */
+*/
 	/*
 	private static int map[][] = new int[][] {
 		{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4}, 
@@ -54,7 +54,10 @@ public class CustomMap implements IMapCreator {
 	private static final int SECTOR_SIZE = 8;
 
 	private TwoWeeksServer server;
-	private int[][] map;
+	
+	private int[][] map;/* = new int[][] {
+		{5, 2, 6} 
+	};*/
 
 	public CustomMap(TwoWeeksServer _server) {
 		server = _server;	
@@ -64,10 +67,10 @@ public class CustomMap implements IMapCreator {
 
 	@Override
 	public Vector3f getStartPos() {
-		return new Vector3f(map.length/2, 30f, map[0].length/2);
-		/*float x = 1 + NumberFunctions.rndFloat(0, map.length-1); todo - re-add
+		//return new Vector3f(map.length/2, 30f, map[0].length/2);
+		float x = 1 + NumberFunctions.rndFloat(0, map.length-1);
 		float z = 1 + NumberFunctions.rndFloat(0, map[0].length);
-		return new Vector3f(x, 20f, z);*/
+		return new Vector3f(x, 20f, z);
 	}
 
 
@@ -77,9 +80,7 @@ public class CustomMap implements IMapCreator {
 			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
-			//int mapsize = Integer.parseInt(lines[0].split(",")[0].trim());
 			map = new int[lines[0].split(",").length][lines.length];
-			//mapCode = new int[mapsize][mapsize];
 
 			for (int lineNum=0 ; lineNum<lines.length ; lineNum++) {
 				String line = lines[lineNum];
@@ -112,8 +113,7 @@ public class CustomMap implements IMapCreator {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
