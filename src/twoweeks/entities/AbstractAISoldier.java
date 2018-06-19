@@ -46,7 +46,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	public static final float RELOAD_INTERVAL = 4f;
 	
 	public static final float START_HEALTH = 5f;
-	public static final float SPEED = .53f;//.47f;
+	public static final float WALKING_SPEED = .53f;
+	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
 
 	private IAvatarModel soldierModel; // Need this to animate the model
 	private float health = START_HEALTH;
@@ -276,7 +277,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			if (Globals.DEBUG_AI_BULLET_POS) {
 				Globals.p("AI shooting!  AI at " + this.getWorldTranslation());
 			}
-			Vector3f pos = this.getWorldTranslation().clone();
+			Vector3f pos = this.getWorldTranslation().clone(); // Must clone otherwsei AI jumps when shooting
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
 			AbstractAIBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);

@@ -22,6 +22,7 @@ import ssmith.util.MyProperties;
 import twoweeks.TwoWeeksCollisionValidator;
 import twoweeks.TwoWeeksGameData;
 import twoweeks.client.hud.TwoWeeksHUD;
+import twoweeks.netmessages.GameDataMessage;
 import twoweeks.server.TwoWeeksServer;
 
 public class TwoWeeksClient extends AbstractGameClient {
@@ -121,7 +122,12 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	protected void handleMessage(MyAbstractMessage message) {
+		if (message instanceof GameDataMessage) {
+			GameDataMessage hdm = (GameDataMessage) message;
+			this.hud.setUnitsRemaining(hdm.gameData.numUnitsLeft);
+		} else {
 			super.handleMessage(message);
+		}
 	}
 
 
@@ -230,7 +236,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {TwoWeeksGameData.class};
+		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class}; // Must be in the same order on client and server!
 	}
 
 

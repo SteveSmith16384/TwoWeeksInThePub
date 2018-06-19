@@ -42,7 +42,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 	private static BitmapFont font_small;
 	
 	private BitmapText abilityGun, abilityOther, healthText; // Update instantly 
-	private String debugText, gameStatus, gameTime, pingText, numPlayers;
+	private String debugText, gameStatus, gameTime, pingText, numPlayers, unitsRemaining;
 	private BitmapText textArea; 
 
 	public TwoWeeksHUD(AbstractGameClient _game, Camera _cam) { 
@@ -218,6 +218,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 		str.append(this.gameTime + "\n");
 		str.append(this.pingText + "\n");
 		str.append(this.numPlayers + "\n");
+		str.append(this.unitsRemaining + "\n");
 		/*if (client.currentAvatar != null) {
 			str.append("Pos: " + client.currentAvatar.getWorldTranslation() + "\n");
 		}*/
@@ -274,10 +275,13 @@ public class TwoWeeksHUD extends Node implements IHUD {
 	}
 
 
+	public void setUnitsRemaining(int i) {
+		this.unitsRemaining = "Units Left: " + i;
+	}
+
+
 	private void setNumPlayers(int i) {
-		//this.numPlayers.setText("Num Players: " + i);
 		this.numPlayers = "Num Players: " + i;
-		//this.updateTextArea();
 	}
 
 

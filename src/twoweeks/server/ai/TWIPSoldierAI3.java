@@ -14,7 +14,7 @@ import ssmith.util.RealtimeInterval;
 import twoweeks.entities.AIBullet;
 import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.Floor;
-import twoweeks.entities.Terrain1;
+import twoweeks.entities.MapBorder;
 
 public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
@@ -27,7 +27,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 	private ITargetable currentTarget;
 	private int animCode = 0;
 	private Vector3f prevPos = new Vector3f(); // To check if we've moved
-
+	private boolean runs = true;
 	private float waitForSecs = 0; // e.g. wait for door to open
 
 	public TWIPSoldierAI3(AbstractAISoldier _pe) {
@@ -35,6 +35,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 		currDir = new Vector3f();
 		changeDirection(getRandomDirection()); // Start us pointing in the right direction
+		
 	}
 
 
@@ -45,9 +46,15 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 		} 
 
 		if (currentTarget != null) { // Find enemy
-			boolean cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, AIBullet.RANGE, VIEW_ANGLE_RADS);
+			boolean cansee = true;
+			if (this.currentTarget.isAlive()) {
+				cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, AIBullet.RANGE, VIEW_ANGLE_RADS);
+			} else {
+				cansee = false;
+			}
 			if (!cansee) {
 				this.currentTarget = null;
+				runs = NumberFunctions.rnd(1,  2) == 1;
 				if (Globals.DEBUG_AI_TARGETTING) {
 					Globals.p("AI no longer see target");
 				}
@@ -73,8 +80,13 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 			animCode = AbstractAvatar.ANIM_IDLE;
 			this.soldierEntity.shoot((PhysicalEntity)currentTarget);
 		} else if (waitForSecs <= 0) {
-			soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.SPEED)); // Walk forwards
-			animCode = AbstractAvatar.ANIM_WALKING;
+			if (runs) {
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.RUNNING_SPEED)); // Walk forwards
+				animCode = AbstractAvatar.ANIM_RUNNING;
+			} else {
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.WALKING_SPEED)); // Walk forwards
+				animCode = AbstractAvatar.ANIM_WALKING;
+			}
 		} else {
 			soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 			animCode = AbstractAvatar.ANIM_IDLE;
@@ -92,14 +104,14 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	@Override
 	public void collided(PhysicalEntity pe) {
-		/*if (pe instanceof Floor == false) {
+		if (pe instanceof Floor == false) {
 			// Change direction to away from blockage, unless it's a doior
-			if (pe instanceof Terrain1 == false) {
+			if (pe instanceof MapBorder) {
 				//Globals.p("AISoldier has collided with " + pe);
 				//changeDirection(currDir.mult(-1));
 				changeDirection(getRandomDirection());
 			}
-		}*/
+		}
 	}
 
 
@@ -123,7 +135,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 		case 5: return new Vector3f(-1f, 0, -1f);
 		case 6: return new Vector3f(-1f, 0, 1f);
 		case 7: return new Vector3f(1f, 0, -1f);
-}
+		}
 		throw new RuntimeException("Invalid direction: " + i);
 	}
 

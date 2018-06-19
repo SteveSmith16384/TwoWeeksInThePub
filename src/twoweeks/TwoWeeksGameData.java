@@ -1,13 +1,15 @@
 package twoweeks;
 
-public class TwoWeeksGameData { //extends SimpleGameData {
+import com.jme3.network.serializing.Serializable;
 
+@Serializable
+public class TwoWeeksGameData {
+
+	public int numUnitsLeft;
+	
 	public TwoWeeksGameData() { // For Kryo
 		super();
 	}
-/*
-	public TwoWeeksGameData(int _gameID) {
-		super(_gameID);
-	}
-*/
+
+
 }

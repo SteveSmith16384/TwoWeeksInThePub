@@ -101,7 +101,8 @@ public class TwoWeeksClientEntityCreator {
 			float height = (float)msg.data.get("height");
 			Vector3f dir = (Vector3f)msg.data.get("dir");
 			boolean moveToFloor = (boolean)msg.data.get("moveToFloor");
-			GenericStaticModel generic = new GenericStaticModel(game, id, TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, name, modelFile, height, tex, pos.x, pos.y, pos.z, dir, moveToFloor);
+			float scale = (float)msg.data.get("scale");
+			GenericStaticModel generic = new GenericStaticModel(game, id, TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, name, modelFile, height, tex, pos.x, pos.y, pos.z, dir, moveToFloor, scale);
 			return generic; // generic.getMainNode().getChild(0).getLocalRotation();
 		}
 

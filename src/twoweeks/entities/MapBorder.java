@@ -25,7 +25,7 @@ public class MapBorder extends PhysicalEntity {
 	private static final boolean INVISIBLE = true;
 
 	public static final float BORDER_WIDTH = 2f;
-	public static final float BORDER_HEIGHT = 5f;
+	public static final float BORDER_HEIGHT = 30f; // Since players start high
 
 	public MapBorder(IEntityController _game, int id, float x, float y, float z, float size, Vector3f dir) {
 		super(_game, id, TwoWeeksClientEntityCreator.MAP_BORDER, "InvisibleMapBorder", false, true, false);

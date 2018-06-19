@@ -27,8 +27,8 @@ import twoweeks.server.TwoWeeksServer;
 
 public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 
-	public static final float RANGE = 30f;
-	public static final float SPEED = 20f;
+	public static final float RANGE = 25f;
+	public static final float SPEED = 18f;
 	private static final boolean USE_CYLINDER = true;
 
 	public AIBullet(IEntityController _game, int id, int side, float x, float y, float z, IEntity shooter, Vector3f dir) {
@@ -83,7 +83,7 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 				IDebrisTexture dt = (IDebrisTexture)pe;
 				tex = dt.getDebrisTexture();
 			}
-			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);
+			//server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);  No, too many things
 		}
 		this.remove();
 	}
