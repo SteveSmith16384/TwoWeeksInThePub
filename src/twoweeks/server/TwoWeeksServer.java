@@ -32,7 +32,7 @@ import twoweeks.server.maps.IMapCreator;
 
 public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeightAdjuster {
 
-	private static final int NUM_AI_SOLDIERS = 2;
+	private static final int NUM_AI_SOLDIERS = 50;
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
 

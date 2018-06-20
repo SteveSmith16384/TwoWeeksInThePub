@@ -52,6 +52,8 @@ public class CustomMap implements IMapCreator {
 	private static final int ROAD_CROSSROADS_LOW = 16;
 	private static final int HILL_RAMP_E = 17;
 	private static final int HILL_RAMP_W = 18;
+	private static final int HILL_RAMP_N = 19;
+	private static final int HILL_RAMP_S = 20;
 
 	private static final float ACTUAL_SECTOR_SIZE = 8;
 	private static final float SECTOR_SIZE = 5;
@@ -86,7 +88,7 @@ public class CustomMap implements IMapCreator {
 	@Override
 	public void createMap() {		
 		try {
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/map1.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
 			map = new int[lines[0].split(",").length][lines.length];
@@ -135,7 +137,7 @@ public class CustomMap implements IMapCreator {
 
 
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
@@ -155,7 +157,7 @@ public class CustomMap implements IMapCreator {
 
 		case WATER:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
-					"Grass", "Models/landscape_asset_v2a/obj/water.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					"Water", "Models/landscape_asset_v2a/obj/water.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(), false, scale);
 
 		case STRAIGHT_ROAD_LR_LOW:
@@ -177,7 +179,7 @@ public class CustomMap implements IMapCreator {
 
 		case BEACH_BOTTOM:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
-					"beachTop", "Models/landscape_asset_v2a/obj/water-beach-straight.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					"beachBottom", "Models/landscape_asset_v2a/obj/water-beach-straight.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
 
 		case ROAD_BEND_RD_LOW:
@@ -231,12 +233,22 @@ public class CustomMap implements IMapCreator {
 
 		case HILL_RAMP_E:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
-					"Grass", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
-					0, 0, 0, new Vector3f(), false, scale);
+					"Grass Ramp E", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
 
 		case HILL_RAMP_W:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
-					"Grass", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					"Grass Ramp W", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
+
+		case HILL_RAMP_N:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp N", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
+
+		case HILL_RAMP_S:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp S", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
 
 		default: 
@@ -246,8 +258,6 @@ public class CustomMap implements IMapCreator {
 
 
 	private void placeGenericModel(GenericStaticModel model, float x, float y, float z) {
-		//float scale = SECTOR_SIZE / ACTUAL_SECTOR_SIZE; 
-		//model.getMainNode().scale(scale, 1f, scale);
 		Vector3f pos = new Vector3f(x, y, z);
 		model.setWorldTranslation(pos);
 		server.actuallyAddEntity(model);

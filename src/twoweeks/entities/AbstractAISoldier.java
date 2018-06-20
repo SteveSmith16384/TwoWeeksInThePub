@@ -54,7 +54,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	public int side;
 	protected IArtificialIntelligence ai;
 	private int serverSideCurrentAnimCode; // Server-side
-	
+	private long timeKilled;
+
 	// Weapon
 	private int bullets = BULLETS_IN_MAG;
 	private float timeToNextShot = 0; 
@@ -82,7 +83,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		}
 
 		// Create box for collisions
-		//Box box = new Box(soldierModel.getBoundingBox().getXExtent(), soldierModel.getBoundingBox().getYExtent(), soldierModel.getBoundingBox().getZExtent());
 		Box box = new Box(soldierModel.getSize().x/2, soldierModel.getSize().y/2, soldierModel.getSize().z/2);
 		Geometry bbGeom = new Geometry("bbGeom_" + name, box);
 		bbGeom.setLocalTranslation(0, soldierModel.getSize().y/2, 0); // origin is centre!
@@ -121,9 +121,16 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) {
 				ai.process(server, tpf_secs);
 			}
-			this.serverSideCurrentAnimCode = ai.getAnimCode(); // AbstractAvatar.ANIM_WALKING;
+			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
+			this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
+			
+			long diff = System.currentTimeMillis() - timeKilled;
+			if (diff > 5000) {
+				this.remove();
+				return;
+			}
 		}
 
 		super.processByServer(server, tpf_secs);
@@ -162,6 +169,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 				this.game.getPhysicsController().removeSimpleRigidBody(this.simpleRigidBody); // Prevent us colliding
 				this.simpleRigidBody.setMovedByForces(false);
+
+				this.timeKilled = System.currentTimeMillis();
 			}
 		}
 	}
@@ -174,7 +183,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		if (soldierModel.getModel() != null) {
 			this.soldierModel.getModel().removeFromParent();
 		}
-		//this.hudNode.removeFromParent();
 	}
 
 
