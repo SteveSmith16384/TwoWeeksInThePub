@@ -88,7 +88,9 @@ public class CustomMap implements IMapCreator {
 	@Override
 	public void createMap() {		
 		try {
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
+			Globals.p("Loading map from file...");
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
 			map = new int[lines[0].split(",").length][lines.length];
@@ -135,6 +137,7 @@ public class CustomMap implements IMapCreator {
 			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), 0, 0, -MapBorder.BORDER_WIDTH, mapsize, Vector3f.UNIT_X);
 			server.actuallyAddEntity(borderFront);
 
+			Globals.p("Finished loading map");
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);

@@ -180,7 +180,7 @@ public class TwoWeeksClientEntityCreator {
 			return sphere;
 		}
 
-		case Globals.BULLET_EXPLOSION_EFFECT:
+		case Globals.EXPLOSION_SHARD:
 			Vector3f forceDirection = (Vector3f) msg.data.get("forceDirection");
 			float size = (float) msg.data.get("size");
 			String tex = (String) msg.data.get("tex");

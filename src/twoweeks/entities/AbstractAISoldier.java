@@ -257,7 +257,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public void setRotation(Vector3f dir) {
 		Vector3f dir2 = new Vector3f(dir.x, 0, dir.z); 
-		JMEAngleFunctions.rotateToDirection(this.soldierModel.getModel(), dir2);
+		JMEAngleFunctions.rotateToWorldDirection(this.soldierModel.getModel(), dir2);
 	}
 
 
