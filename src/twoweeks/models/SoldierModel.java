@@ -95,6 +95,11 @@ public class SoldierModel implements IAvatarModel {
 			channel.setAnim("Walk"); // Was "Run"
 			break;
 
+		case AbstractAvatar.ANIM_RUNNING:
+			channel.setLoopMode(LoopMode.Loop);
+			channel.setAnim("Run");
+			break;
+
 		case AbstractAvatar.ANIM_SHOOTING:
 			channel.setLoopMode(LoopMode.DontLoop);
 			channel.setAnim("Punch");

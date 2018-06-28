@@ -38,13 +38,15 @@ import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.server.IArtificialIntelligence;
 import com.scs.stevetech1.shared.IEntityController;
 
+import twoweeks.server.TwoWeeksServer;
+
 public abstract class AbstractAISoldier extends PhysicalEntity implements IAffectedByPhysics, IDamagable, INotifiedOfCollision,
 IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetable {
 
 	public static final int BULLETS_IN_MAG = 6;
 	public static final float SHOOT_INTERVAL = 1f;
 	public static final float RELOAD_INTERVAL = 4f;
-	
+
 	public static final float START_HEALTH = 5f;
 	public static final float WALKING_SPEED = .53f;
 	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
@@ -125,11 +127,13 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		} else {
 			this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
-			
-			long diff = System.currentTimeMillis() - timeKilled;
-			if (diff > 5000) {
-				this.remove();
-				return;
+
+			if (TwoWeeksServer.REMOVE_DEAD_SOLDIERS) {
+				long diff = System.currentTimeMillis() - timeKilled;
+				if (diff > 5000) {
+					this.remove();
+					return;
+				}
 			}
 		}
 
@@ -290,7 +294,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
 			AbstractAIBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
 			this.game.addEntity(bullet);
-			
+
 			this.bullets--;
 			if (this.bullets > 0) {
 				this.timeToNextShot = SHOOT_INTERVAL;

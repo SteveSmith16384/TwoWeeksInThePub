@@ -13,26 +13,7 @@ import twoweeks.entities.MapBorder;
 import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
-	/*
-	private static int map[][] = new int[][] {
-		{1, 2} 
-	};
-	 */
-	/*
-	private static int map[][] = new int[][] {
-		{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4}, 
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-		{ 1, 5, 2, 2,10, 2, 2, 2, 6, 1}, 
-		{ 1, 3, 9, 9, 3, 1, 9, 9, 3, 1}, 
-		{ 1, 3, 1, 9, 3, 1, 9, 1, 3, 1}, 
-		{ 1,13, 9, 9,16, 2, 2, 2,12, 1}, 
-		{ 1, 3, 9, 1, 3, 1, 9, 9, 3, 1}, 
-		{ 1, 8, 2, 2,11, 2, 2, 2, 7, 1}, 
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-		{15,15,15,15,15,15,15,15,15,15}, 
-		{14,14,14,14,14,14,14,14,14,14} 
-	};
-	 */
+
 	// Map codes
 	private static final int GRASS = 1;
 	private static final int STRAIGHT_ROAD_LR_LOW = 2;
@@ -60,9 +41,8 @@ public class CustomMap implements IMapCreator {
 
 	private TwoWeeksServer server;
 
-	private int[][] map;/* = new int[][] {
-		{5, 2, 6} 
-	};*/
+	private int[][] map;
+
 
 	public CustomMap(TwoWeeksServer _server) {
 		server = _server;	
@@ -90,7 +70,8 @@ public class CustomMap implements IMapCreator {
 		try {
 			Globals.p("Loading map from file...");
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/small_map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
 			map = new int[lines[0].split(",").length][lines.length];
@@ -112,7 +93,7 @@ public class CustomMap implements IMapCreator {
 
 					if (map[x][z] == HOUSE) {
 						GenericStaticModel house = server.getRandomBuilding(new Vector3f(0, 0, 0));
-						placeGenericModel(house, x*SECTOR_SIZE, 2f, z*SECTOR_SIZE);
+						placeGenericModel(house, (x*SECTOR_SIZE), 2f, (z*SECTOR_SIZE));
 						server.moveEntityUntilItHitsSomething(house, new Vector3f(0, -1, 0));
 					} else if (map[x][z] == STRAIGHT_ROAD_UD_LOW) {
 						GenericStaticModel car = server.getRandomVehicle(new Vector3f(0, 0, 0));
@@ -120,7 +101,7 @@ public class CustomMap implements IMapCreator {
 						server.moveEntityUntilItHitsSomething(car, new Vector3f(0, -1, 0));
 					} else if (map[x][z] == GRASS) {
 						GenericStaticModel tree = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, new Vector3f(), true, 1f);
-						placeGenericModel(tree, (x*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/2, SECTOR_SIZE/2), 2f, (z*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/2, SECTOR_SIZE/2));
+						placeGenericModel(tree, (x*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/3, SECTOR_SIZE/3), 2f, (z*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/3, SECTOR_SIZE/3));
 						server.moveEntityUntilItHitsSomething(tree, new Vector3f(0, -1, 0));
 					}
 				}

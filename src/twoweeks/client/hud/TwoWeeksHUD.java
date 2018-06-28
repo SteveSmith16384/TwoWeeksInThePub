@@ -72,47 +72,38 @@ public class TwoWeeksHUD extends Node implements IHUD {
 			}
 		}*/
 
+		float xPos = hud_width - 150f;
+
 		textArea = new BitmapText(font_small, false);
 		textArea.setColor(defaultColour);
-		textArea.setLocalTranslation(10, hud_height/2, 0);
+		textArea.setLocalTranslation(xPos, hud_height/2, 0);
 		this.attachChild(textArea);
-		textArea.setText("Waiting for data...\n...");
+		textArea.setText("Waiting for data...");
 
 		float yPos = hud_height - LINE_SPACING;
-/*
-		yPos -= LINE_SPACING;
-		gameStatus = new BitmapText(font_small, false);
-		gameStatus.setColor(defaultColour);
-		gameStatus.setLocalTranslation(10, yPos, 0);
-		this.attachChild(gameStatus);
 
-		yPos -= LINE_SPACING;
-		gameTime = new BitmapText(font_small, false);
-		gameTime.setColor(defaultColour);
-		gameTime.setLocalTranslation(10, yPos, 0);
-		this.attachChild(gameTime);
-*/
 		yPos -= LINE_SPACING;
 		abilityGun = new BitmapText(font_small, false);
 		abilityGun.setColor(defaultColour);
-		abilityGun.setLocalTranslation(10, yPos, 0);
+		abilityGun.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityGun);
 
 		yPos -= LINE_SPACING;
 		abilityOther = new BitmapText(font_small, false);
 		abilityOther.setColor(defaultColour);
-		abilityOther.setLocalTranslation(10, yPos, 0);
+		abilityOther.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(abilityOther);
 
 		yPos -= LINE_SPACING;
 		healthText = new BitmapText(font_small, false);
 		healthText.setColor(defaultColour);
-		healthText.setLocalTranslation(10, yPos, 0);
+		healthText.setLocalTranslation(xPos, yPos, 0);
 		this.attachChild(healthText);
 
 		log_ta = new TextArea("log", font_small, 6, "");
 		log_ta.setColor(defaultColour);
-		log_ta.setLocalTranslation(0, hud_height/2, 0);
+		//log_ta.setLocalTranslation(hud_width/2, hud_height/2, 0);
+		log_ta.setLocalTranslation(20, hud_height-20, 0);
 		this.attachChild(log_ta);
 
 		// Damage box
@@ -336,8 +327,12 @@ public class TwoWeeksHUD extends Node implements IHUD {
 
 	@Override
 	public void setLog(LinkedList<String> gameLog) {
-		// TODO Auto-generated method stub
-		
+		StringBuilder str = new StringBuilder();
+		for(String line : gameLog) {
+			str.append(line + "\n");
+		}
+		this.log_ta.setText(str.toString());
+	
 	}
 
 	

@@ -40,13 +40,15 @@ public class ModelViewer extends SimpleApplication implements AnimEventListener 
 
 		setupLight();
 
-		//Spatial model = assetManager.loadModel("Models/Airplane pack by Quaternius/OBJ/Military Airplane.obj");
-		Spatial model = assetManager.loadModel("Models/Airplane pack by Quaternius/Blends/Private plane.blend");
-		
 		//Spatial model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
 		//JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture());
 
+		Spatial model = assetManager.loadModel("Models/Suburban pack Vol.2 by Quaternius/Blends/BigBuilding.blend");
+		JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/Suburban pack Vol.2 by Quaternius/Blends/Textures/BigBuildingTexture.png");
+		
+		//Spatial model = assetManager.loadModel("Models/landscape_asset_v2a/obj/grass.obj");
 		//JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/landscape_asset_v2a/obj/basetexture.jpg");
+
 		rootNode.attachChild(model);
 
 		if (model instanceof Node) {

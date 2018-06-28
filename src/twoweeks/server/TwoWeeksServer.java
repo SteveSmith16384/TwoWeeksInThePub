@@ -32,15 +32,15 @@ import twoweeks.server.maps.IMapCreator;
 
 public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeightAdjuster {
 
-	private static final int NUM_AI_SOLDIERS = 50;
+	private static final int NUM_AI_SOLDIERS = 20;
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
+	public static final boolean REMOVE_DEAD_SOLDIERS = false;
 
 	private static AtomicInteger nextSideNum = new AtomicInteger(1);
 
 	public static final String GAME_ID = "Two Weeks";
 
-	//private Terrain1 terrain;
 	private TwoWeeksCollisionValidator collisionValidator = new TwoWeeksCollisionValidator();
 	private TwoWeeksGameData twipGameData;
 	private IMapCreator mapCreator;
@@ -290,6 +290,13 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			tha.adjustHeight(heightmap);
 		}
 
+	}
+
+
+
+	@Override
+	protected String getSideName(int side) {
+		return this.clients.get(side).playerData.playerName;
 	}
 
 
