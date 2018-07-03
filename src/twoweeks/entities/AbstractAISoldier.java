@@ -236,19 +236,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public void drawOnHud(Camera cam) {
-		/*if (health > 0) {
-			FrustumIntersect insideoutside = cam.contains(this.getMainNode().getWorldBound());
-			if (insideoutside != FrustumIntersect.Outside) {
-				if (this.hudNode.getText().length() == 0) {
-					hudNode.setText(name);
-				}
-				Vector3f pos = this.getWorldTranslation().add(0, soldierModel.getSize().y, 0); // todo - not this every time
-				Vector3f screen_pos = cam.getScreenCoordinates(pos);
-				this.hudNode.setLocalTranslation(screen_pos.x, screen_pos.y, 0);
-			} else {
-				this.hudNode.setText(""); // Hide it
-			}
-		}*/
+		// No
 	}
 
 

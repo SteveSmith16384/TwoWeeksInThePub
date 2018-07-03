@@ -32,10 +32,12 @@ import twoweeks.server.maps.IMapCreator;
 
 public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeightAdjuster {
 
-	private static final int NUM_AI_SOLDIERS = 20;
+	private static final int NUM_AI_SOLDIERS = 0;
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
 	public static final boolean REMOVE_DEAD_SOLDIERS = false;
+	public static final float STEP_FORCE = 20f;
+	public static final float RAMP_FORCE = 10f;
 
 	private static AtomicInteger nextSideNum = new AtomicInteger(1);
 
@@ -103,7 +105,10 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 		//this.mapCreator = new TerrainMap(this);
 		this.mapCreator = new CustomMap(this);
-		countUnitsInt = new RealtimeInterval(5000);
+		countUnitsInt = new RealtimeInterval(2000);
+		
+		super.physicsController.setStepForce(STEP_FORCE);
+		super.physicsController.setRampForce(RAMP_FORCE);
 		
 		start(JmeContext.Type.Headless);
 

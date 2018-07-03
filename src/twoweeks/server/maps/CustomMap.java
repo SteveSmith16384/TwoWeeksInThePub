@@ -56,10 +56,9 @@ public class CustomMap implements IMapCreator {
 			float x = NumberFunctions.rndFloat(1, 8);
 			float z = NumberFunctions.rndFloat(1, 8);
 			return new Vector3f(x, 20f, z);
-			//return new Vector3f(map.length/2, 30f, map[0].length/2);
 		} else {
 			float x = NumberFunctions.rndFloat(1, (map.length * SECTOR_SIZE)-1);
-			float z = NumberFunctions.rndFloat(1, (map.length * SECTOR_SIZE)-1);
+			float z = NumberFunctions.rndFloat(1, (map[0].length * SECTOR_SIZE)-1);
 			return new Vector3f(x, 20f, z);
 		}
 	}
@@ -69,9 +68,9 @@ public class CustomMap implements IMapCreator {
 	public void createMap() {		
 		try {
 			Globals.p("Loading map from file...");
-			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/small_map1.csv").toURI())));
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/small_map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
 			map = new int[lines[0].split(",").length][lines.length];

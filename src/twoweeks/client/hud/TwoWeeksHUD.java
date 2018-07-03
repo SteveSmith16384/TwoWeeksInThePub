@@ -191,7 +191,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 	}
 
 
-	public void log(String s) {
+	public void appendToLog(String s) {
 		this.logLines.add(s);
 		while (this.logLines.size() > MAX_LINES) {
 			this.logLines.remove(0);
@@ -315,7 +315,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 
 	@Override
 	public void showMessage(String s) {
-		this.log(s);
+		this.appendToLog(s); // todo - show bigger msg
 	}
 	
 
@@ -324,7 +324,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 		this.attachChild(n);
 	}
 
-
+/*
 	@Override
 	public void setLog(LinkedList<String> gameLog) {
 		StringBuilder str = new StringBuilder();
@@ -334,6 +334,6 @@ public class TwoWeeksHUD extends Node implements IHUD {
 		this.log_ta.setText(str.toString());
 	
 	}
-
+*/
 	
 }

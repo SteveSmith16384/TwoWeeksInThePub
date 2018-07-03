@@ -73,6 +73,9 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	public void simpleInitApp() {
+		super.physicsController.setStepForce(TwoWeeksServer.STEP_FORCE);
+		super.physicsController.setRampForce(TwoWeeksServer.RAMP_FORCE);
+		
 		hud = new TwoWeeksHUD(this, this.cam);
 
 		super.simpleInitApp();
