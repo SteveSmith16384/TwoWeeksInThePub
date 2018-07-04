@@ -6,7 +6,6 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.Camera.FrustumIntersect;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
@@ -55,7 +54,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	private float health = START_HEALTH;
 	public int side;
 	protected IArtificialIntelligence ai;
-	private int serverSideCurrentAnimCode; // Server-side
+	private int serverSideCurrentAnimCode;
 	private long timeKilled;
 
 	// Weapon
@@ -81,7 +80,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		} else {
 			this.soldierModel.createAndGetModel(_side);
 			game.getGameNode().attachChild(this.soldierModel.getModel());
-			this.setAnimCode(_csInitialAnimCode);
+			this.setAnimCode_ClientSide(_csInitialAnimCode);
 		}
 
 		// Create box for collisions
@@ -120,12 +119,16 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	public void processByServer(AbstractGameServer server, float tpf_secs) {
 		if (health > 0) {
 			timeToNextShot -= tpf_secs;
-			if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) {
+			//if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) { No, move around in deploy stage
 				ai.process(server, tpf_secs);
-			}
+			//}
 			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
-			this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
+			if (this.serverSideCurrentAnimCode != AbstractAvatar.ANIM_DIED) { // This should never be needed
+				Globals.p("Warning: Manually setting death anim");
+				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
+				this.sendUpdate = true;
+			}
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 
 			if (TwoWeeksServer.REMOVE_DEAD_SOLDIERS) {
@@ -144,7 +147,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public void processByClient(IClientApp client, float tpf_secs) {
 		// Set position and direction of avatar model, which doesn't get moved automatically
-		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation());
+		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation()); // this.soldierModel.setAnim(anim);
 	}
 
 
@@ -207,20 +210,15 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public void setAnimCode(int animCode) {
+	public void setAnimCode_ClientSide(int animCode) {
 		if (soldierModel != null) {
 			this.soldierModel.setAnim(animCode);
-			if (Globals.DEBUG_DIE_ANIM) {
-				if (animCode == AbstractAvatar.ANIM_DIED) {
-					Globals.p("setAnimCode=" + animCode);
-				}
-			}
 		}
 	}
 
 
 	@Override
-	public void processManualAnimation(float tpf_secs) {
+	public void processManualAnimation_ClientSide(float tpf_secs) {
 		// Do nothing, already handled
 	}
 

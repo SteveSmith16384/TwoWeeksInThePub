@@ -3,6 +3,7 @@ package twoweeks.server.ai;
 import com.jme3.math.Vector3f;
 import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.ITargetable;
+import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -19,16 +20,19 @@ import twoweeks.entities.MapBorder;
 public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	private static final float VIEW_ANGLE_RADS = 1f;
-	private static final boolean SHOOT_AT_ENEMY = true; // todo
+	//private static final boolean SHOOT_AT_ENEMY = true; // todo
 
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
 	private RealtimeInterval checkForEnemyInt = new RealtimeInterval(1000);
 	private ITargetable currentTarget;
+	private float distToTarget;
 	private int animCode = 0;
 	private Vector3f prevPos = new Vector3f(); // To check if we've moved
 	private boolean runs = true;
 	private float waitForSecs = 0; // e.g. wait for door to open
+	private Vector3f tmpDir = new Vector3f();
+	private Vector3f tmpMove = new Vector3f();
 
 	public TWIPSoldierAI3(AbstractAISoldier _pe) {
 		soldierEntity = _pe;
@@ -69,22 +73,33 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 			}
 		} else { // Face enemy
 			PhysicalEntity pe = (PhysicalEntity)this.currentTarget;
-			Vector3f dir = pe.getWorldTranslation().subtract(this.soldierEntity.getWorldTranslation()); // todo - don't create each time
+			Vector3f dir = pe.getWorldTranslation().subtract(this.soldierEntity.getWorldTranslation(), tmpDir);
 			dir.y = 0;
 			dir.normalizeLocal();
 			this.changeDirection(dir);
+			this.distToTarget = this.soldierEntity.distance((PhysicalEntity)this.currentTarget);
 		}
 
-		if (currentTarget != null && SHOOT_AT_ENEMY) {
-			soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
-			animCode = AbstractAvatar.ANIM_IDLE;
+		boolean shoots = server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED;
+		if (currentTarget != null && shoots) {
+			//soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
+			//animCode = AbstractAvatar.ANIM_IDLE;
 			this.soldierEntity.shoot((PhysicalEntity)currentTarget);
-		} else if (waitForSecs <= 0) {
+			runs = false; // Walk towards target
+			
+			if (this.distToTarget < 4f) {
+				soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
+				animCode = AbstractAvatar.ANIM_IDLE;
+				return; // Don't move!
+			}
+		}
+		
+		if (waitForSecs <= 0) {
 			if (runs) {
-				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.RUNNING_SPEED)); // Walk forwards
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.RUNNING_SPEED, tmpMove)); // Walk forwards
 				animCode = AbstractAvatar.ANIM_RUNNING;
 			} else {
-				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.WALKING_SPEED)); // Walk forwards
+				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.WALKING_SPEED, tmpMove)); // Walk forwards
 				animCode = AbstractAvatar.ANIM_WALKING;
 			}
 		} else {

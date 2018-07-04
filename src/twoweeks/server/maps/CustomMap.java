@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.jme3.math.Vector3f;
+import com.scs.stevetech1.entities.DebuggingSphere;
+import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
@@ -36,8 +38,9 @@ public class CustomMap implements IMapCreator {
 	private static final int HILL_RAMP_N = 19;
 	private static final int HILL_RAMP_S = 20;
 
-	private static final float ACTUAL_SECTOR_SIZE = 8;
-	private static final float SECTOR_SIZE = 5;
+	private static final float ACTUAL_SECTOR_SIZE = 8; // Actual size of the map tiles
+	private static final float SECTOR_SIZE = 5; // The size we want to scale the tiles to
+	private static float SECTOR_HEIGHT = (4-0.625f) * (SECTOR_SIZE / ACTUAL_SECTOR_SIZE);
 
 	private TwoWeeksServer server;
 
@@ -53,13 +56,12 @@ public class CustomMap implements IMapCreator {
 	@Override
 	public Vector3f getStartPos() {
 		if (Globals.PLAYERS_START_IN_CORNER) {
-			float x = NumberFunctions.rndFloat(1, 8);
-			float z = NumberFunctions.rndFloat(1, 8);
-			return new Vector3f(x, 20f, z);
+			return new Vector3f(0, 20f, 0);
 		} else {
-			float x = NumberFunctions.rndFloat(1, (map.length * SECTOR_SIZE)-1);
-			float z = NumberFunctions.rndFloat(1, (map[0].length * SECTOR_SIZE)-1);
-			return new Vector3f(x, 20f, z);
+			// Don't forget, centre of tiles is 0, 0, so edge of tile goes into negative space
+			float x = NumberFunctions.rndFloat(0, (map.length-1) * SECTOR_SIZE);
+			float z = NumberFunctions.rndFloat(0, (map[0].length-1) * SECTOR_SIZE);
+			return new Vector3f(x, Globals.DEBUG_PLAYER_START_POS?3f:20f, z);
 		}
 	}
 
@@ -68,7 +70,8 @@ public class CustomMap implements IMapCreator {
 	public void createMap() {		
 		try {
 			Globals.p("Loading map from file...");
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/1x1_map.csv").toURI())));
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/small_map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
@@ -99,24 +102,32 @@ public class CustomMap implements IMapCreator {
 						placeGenericModel(car, x*SECTOR_SIZE, 2f, z*SECTOR_SIZE);
 						server.moveEntityUntilItHitsSomething(car, new Vector3f(0, -1, 0));
 					} else if (map[x][z] == GRASS) {
-						GenericStaticModel tree = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, new Vector3f(), true, 1f);
+						GenericStaticModel tree = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, JMEAngleFunctions.getRandomDirection_All(), true, 1f);
 						placeGenericModel(tree, (x*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/3, SECTOR_SIZE/3), 2f, (z*SECTOR_SIZE) + NumberFunctions.rndFloat(-SECTOR_SIZE/3, SECTOR_SIZE/3));
 						server.moveEntityUntilItHitsSomething(tree, new Vector3f(0, -1, 0));
 					}
 				}
 			}
-			
-			float mapsize = map.length * SECTOR_SIZE;
+
 			// Border
-			MapBorder borderL = new MapBorder(server, server.getNextEntityID(), 0, 0, 0, mapsize, Vector3f.UNIT_Z);
+			float mapWidth = map.length * SECTOR_SIZE;
+			float mapDepth = map[0].length * SECTOR_SIZE;
+			float thick = 1f;
+			MapBorder borderL = new MapBorder(server, server.getNextEntityID(), -(SECTOR_SIZE/2) - (thick/2), 0, mapDepth/2, thick, mapDepth);
 			server.actuallyAddEntity(borderL);
-			MapBorder borderR = new MapBorder(server, server.getNextEntityID(), mapsize+MapBorder.BORDER_WIDTH, 0, 0, mapsize, Vector3f.UNIT_Z);
+			MapBorder borderR = new MapBorder(server, server.getNextEntityID(), mapWidth-(SECTOR_SIZE/2) + (thick/2), 0, mapDepth/2, thick, mapDepth);
 			server.actuallyAddEntity(borderR);
-			MapBorder borderBack = new MapBorder(server, server.getNextEntityID(), 0, 0, mapsize, mapsize, Vector3f.UNIT_X);
+			/*MapBorder borderBack = new MapBorder(server, server.getNextEntityID(), 0, 0, mapsize, mapsize, Vector3f.UNIT_X);
 			server.actuallyAddEntity(borderBack);
 			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), 0, 0, -MapBorder.BORDER_WIDTH, mapsize, Vector3f.UNIT_X);
 			server.actuallyAddEntity(borderFront);
-
+			 */
+			
+			if (Globals.DEBUG_PLAYER_START_POS) {
+				DebuggingSphere ds = new DebuggingSphere(server,server.getNextEntityID(), .5f, 2f, .5f, true, false);
+				server.actuallyAddEntity(ds);
+			}
+			
 			Globals.p("Finished loading map");
 
 		} catch (Exception e) {
@@ -243,7 +254,7 @@ public class CustomMap implements IMapCreator {
 	private void placeGenericModel(GenericStaticModel model, float x, float y, float z) {
 		Vector3f pos = new Vector3f(x, y, z);
 		model.setWorldTranslation(pos);
-		server.actuallyAddEntity(model);
+		server.actuallyAddEntity(model); // model.getMainNode().getWorldBound()
 	}
 
 

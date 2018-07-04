@@ -32,12 +32,12 @@ import twoweeks.server.maps.IMapCreator;
 
 public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeightAdjuster {
 
-	private static final int NUM_AI_SOLDIERS = 0;
+	private static final int NUM_AI_SOLDIERS = 5;
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
 	public static final boolean REMOVE_DEAD_SOLDIERS = false;
-	public static final float STEP_FORCE = 20f;
-	public static final float RAMP_FORCE = 10f;
+	public static final float STEP_FORCE = 8f;
+	public static final float RAMP_FORCE = 3f;
 
 	private static AtomicInteger nextSideNum = new AtomicInteger(1);
 
@@ -143,6 +143,10 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	public void moveAvatarToStartPosition(AbstractAvatar avatar) {
 		Vector3f pos = this.mapCreator.getStartPos();
 		avatar.setWorldTranslation(pos.x, pos.y, pos.z);
+		
+		if (Globals.DEBUG_PLAYER_START_POS) {
+			Globals.p("Moving " + avatar + " to start pos: " + pos);
+		}
 	}
 
 
@@ -156,7 +160,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			if (!Globals.NO_AI_UNITS) {
 				// Place AI
 				for (int num=0 ; num<NUM_AI_SOLDIERS ; num++) {
-					Vector3f pos = this.mapCreator.getStartPos();// new Vector3f(NumberFunctions.rndFloat(10, MAP_SIZE-10), 255, NumberFunctions.rndFloat(10, MAP_SIZE-10));
+					Vector3f pos = this.mapCreator.getStartPos();
 					TWIP_AISoldier s = new TWIP_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
 					this.actuallyAddEntity(s);
 				}
@@ -301,7 +305,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	protected String getSideName(int side) {
-		return this.clients.get(side).playerData.playerName;
+ 		return this.clients.get(side).playerData.playerName;
 	}
 
 

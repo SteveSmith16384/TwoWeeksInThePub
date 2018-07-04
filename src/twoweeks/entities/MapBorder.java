@@ -22,24 +22,23 @@ import twoweeks.client.TwoWeeksClientEntityCreator;
 
 public class MapBorder extends PhysicalEntity {
 
-	private static final boolean INVISIBLE = true;
+	private static final boolean INVISIBLE = false;
 
-	public static final float BORDER_WIDTH = 2f;
 	public static final float BORDER_HEIGHT = 30f; // Since players start high
 
-	public MapBorder(IEntityController _game, int id, float x, float y, float z, float size, Vector3f dir) {
+	public MapBorder(IEntityController _game, int id, float x, float y, float z, float w, float d) {
 		super(_game, id, TwoWeeksClientEntityCreator.MAP_BORDER, "InvisibleMapBorder", false, true, false);
 
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
-			creationData.put("size", size);
-			creationData.put("dir", dir);
+			creationData.put("w", w);
+			creationData.put("d", d);
 		}
 
-		Box box1 = new Box(BORDER_WIDTH/2, BORDER_HEIGHT/2, size/2);
-		float w = BORDER_WIDTH;
+		Box box1 = new Box(w/2, BORDER_HEIGHT/2, d/2);
+		//float w = BORDER_WIDTH;
 		float h = BORDER_HEIGHT;
-		float d = size;
+		//float d = size;
 		//box1.scaleTextureCoordinates(new Vector2f(BORDER_WIDTH, BORDER_HEIGHT));
 		box1.setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(new float[]{
 				0, h, w, h, w, 0, 0, 0, // back
@@ -54,7 +53,7 @@ public class MapBorder extends PhysicalEntity {
 			if (INVISIBLE) {
 				geometry.setCullHint(CullHint.Always);
 			} else {
-				TextureKey key3 = new TextureKey("Textures/spacewall.png");
+				TextureKey key3 = new TextureKey("Textures/fence.png");
 				key3.setGenerateMips(true);
 				Texture tex3 = game.getAssetManager().loadTexture(key3);
 				tex3.setWrap(WrapMode.Repeat);
@@ -65,9 +64,9 @@ public class MapBorder extends PhysicalEntity {
 			}
 		}
 
-		geometry.setLocalTranslation(-BORDER_WIDTH/2, BORDER_HEIGHT/2, size/2);
+		geometry.setLocalTranslation(0, BORDER_HEIGHT/2, 0); // move up
 		mainNode.attachChild(geometry);
-		JMEAngleFunctions.rotateToWorldDirection(mainNode, dir);
+		//JMEAngleFunctions.rotateToWorldDirection(mainNode, dir);
 		mainNode.setLocalTranslation(x, y, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);

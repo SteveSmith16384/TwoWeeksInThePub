@@ -78,6 +78,10 @@ public class SoldierModel implements IAvatarModel {
 			// Do nothing; only dying can stop a jumping anim
 			return;
 		}
+		
+		if (this.currAnimCode == AbstractAvatar.ANIM_DIED) { // Can't override "dead"
+			return; 
+		}
 
 		switch (animCode) {
 		case AbstractAvatar.ANIM_DIED:

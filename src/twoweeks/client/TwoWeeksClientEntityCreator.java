@@ -159,9 +159,9 @@ public class TwoWeeksClientEntityCreator {
 
 		case MAP_BORDER:
 		{
-			Vector3f dir = (Vector3f)msg.data.get("dir");
-			float size = (float)msg.data.get("size");
-			MapBorder hill = new MapBorder(game, id, pos.x, pos.y, pos.z, size, dir);
+			float w = (float)msg.data.get("w");
+			float d = (float)msg.data.get("d");
+			MapBorder hill = new MapBorder(game, id, pos.x, pos.y, pos.z, w, d);
 			return hill;
 		}
 /*
