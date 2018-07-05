@@ -133,7 +133,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 	private void changeDirection(Vector3f dir) {
 		//Globals.p("Changing direction to " + dir);
 		this.currDir.set(dir.normalizeLocal());
-		soldierEntity.getMainNode().lookAt(soldierEntity.getWorldTranslation().add(currDir), Vector3f.UNIT_Y); // Point us in the right direction
+		soldierEntity.getMainNode().lookAt(soldierEntity.getWorldTranslation().add(currDir, tmpDir), Vector3f.UNIT_Y); // Point us in the right direction
 	}
 
 
@@ -177,8 +177,9 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 	public void wounded(ICausesHarmOnContact collider) {
 		if (collider.getActualShooter() != null) {
 			PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
-			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation()).normalizeLocal();
+			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
 			this.changeDirection(dir);
+			this.checkForEnemyInt.fireInterval();
 		}
 	}
 
