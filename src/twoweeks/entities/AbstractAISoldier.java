@@ -46,7 +46,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	public static final float SHOOT_INTERVAL = 1f;
 	public static final float RELOAD_INTERVAL = 4f;
 
-	public static final float START_HEALTH = 5f;
+	public static final float START_HEALTH = 15f;
 	public static final float WALKING_SPEED = .53f;
 	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
 
@@ -178,6 +178,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 				this.simpleRigidBody.setMovedByForces(false);
 
 				this.timeKilled = System.currentTimeMillis();
+				
+				this.collideable = false;
 			}
 		}
 	}

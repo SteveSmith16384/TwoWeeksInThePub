@@ -305,7 +305,11 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	protected String getSideName(int side) {
+		try {
  		return this.clients.get(side).playerData.playerName;
+		} catch (Exception ex) { // Get error until we implement calculating the winning side
+			return "Unknown";
+		}
 	}
 
 

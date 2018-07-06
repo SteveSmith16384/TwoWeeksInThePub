@@ -38,6 +38,11 @@ public class CustomMap implements IMapCreator {
 	private static final int HILL_RAMP_N = 19;
 	private static final int HILL_RAMP_S = 20;
 
+	private static final int ROAD_HILL_E = 21;
+	private static final int ROAD_HILL_W = 22;
+	private static final int ROAD_HILL_N = 23;
+	private static final int ROAD_HILL_S = 24;
+
 	private static final float ORIGINAL_SECTOR_SIZE = 8; // Actual size of the map tiles
 	private static final float NEW_SECTOR_SIZE = 5; // The size we want to scale the tiles to
 	//private static float SECTOR_HEIGHT = (4-0.625f) * (NEW_SECTOR_SIZE / ORIGINAL_SECTOR_SIZE);
@@ -254,6 +259,26 @@ public class CustomMap implements IMapCreator {
 		case HILL_RAMP_S:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp S", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
+
+		case ROAD_HILL_E:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp E", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
+
+		case ROAD_HILL_W:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp W", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
+
+		case ROAD_HILL_N:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp N", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
+
+		case ROAD_HILL_S:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp S", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
 
 		default: 

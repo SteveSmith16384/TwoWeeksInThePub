@@ -58,12 +58,6 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 		//laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 
-		/*
-		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), true, this);
-		simpleRigidBody.setAerodynamicness(1);
-		simpleRigidBody.setGravity(0);
-		this.simpleRigidBody.setLinearVelocity(dir.normalize().mult(10)); // 20));
-*/
 	}
 
 
@@ -73,36 +67,6 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 		return ((RANGE-dist) / dist) * 1;
 	}
 
-/*
-	@Override
-	public void processByServer(AbstractEntityServer server, float tpf_secs) {
-		if (launched) {
-			if (Globals.DEBUG_NO_BULLET) {
-				//Globals.p("Shooter at " + ((PhysicalEntity)this.shooter).getWorldTranslation());
-				Globals.p("Bullet at " + this.getWorldTranslation());
-			}
-			super.processByServer(server, tpf_secs);
-
-		}
-	}
-
-/*
-	@Override
-	public void processByClient(IClientApp client, float tpf_secs) {
-		if (launched) {
-			if (Globals.DEBUG_NO_BULLET) {
-				//Globals.p("Shooter at " + ((PhysicalEntity)this.shooter).getWorldTranslation());
-				Globals.p("Bullet at " + this.getWorldTranslation());
-			}
-			//simpleRigidBody.process(tpf_secs);
-
-			float dist = this.origin.distance(this.getWorldTranslation());
-			if (dist > 30) {
-				this.remove();
-			}
-		}
-	}
-*/
 
 	@Override
 	public void collided(PhysicalEntity pe) {

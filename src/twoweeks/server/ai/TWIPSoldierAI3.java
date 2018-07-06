@@ -87,7 +87,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 			this.soldierEntity.shoot((PhysicalEntity)currentTarget);
 			runs = false; // Walk towards target
 			
-			if (this.distToTarget < 4f) {
+			if (this.distToTarget < 3f) {
 				soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 				animCode = AbstractAvatar.ANIM_IDLE;
 				return; // Don't move!
@@ -123,7 +123,6 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 			// Change direction to away from blockage, unless it's a doior
 			if (pe instanceof MapBorder) {
 				//Globals.p("AISoldier has collided with " + pe);
-				//changeDirection(currDir.mult(-1));
 				changeDirection(getRandomDirection());
 			}
 		}
