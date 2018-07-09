@@ -33,15 +33,25 @@ public class CustomMap implements IMapCreator {
 	private static final int WATER = 14;
 	private static final int BEACH_BOTTOM = 15;
 	private static final int ROAD_CROSSROADS_LOW = 16;
-	private static final int HILL_RAMP_E = 17;
-	private static final int HILL_RAMP_W = 18;
-	private static final int HILL_RAMP_N = 19;
-	private static final int HILL_RAMP_S = 20;
+	private static final int HILL_RAMP_E_UP = 17;
+	private static final int HILL_RAMP_W_UP = 18;
+	private static final int HILL_RAMP_N_UP = 19;
+	private static final int HILL_RAMP_S_UP = 20;
 
-	private static final int ROAD_HILL_E = 21;
-	private static final int ROAD_HILL_W = 22;
-	private static final int ROAD_HILL_N = 23;
-	private static final int ROAD_HILL_S = 24;
+	private static final int ROAD_HILL_E_UP = 21; // todo - up or down?
+	private static final int ROAD_HILL_W_UP = 22;
+	private static final int ROAD_HILL_N_UP = 23;
+	private static final int ROAD_HILL_S_UP = 24;
+
+	private static final int CORNER_HILL_UP_NE = 25;
+	private static final int CORNER_HILL_UP_NW = 26;
+	private static final int CORNER_HILL_UP_SE = 27;
+	private static final int CORNER_HILL_UP_SW = 28;
+
+	private static final int CORNER_HILL_DOWN_NE = 29;
+	private static final int CORNER_HILL_DOWN_NW = 30;
+	private static final int CORNER_HILL_DOWN_SE = 31;
+	private static final int CORNER_HILL_DOWN_SW = 32;
 
 	private static final float ORIGINAL_SECTOR_SIZE = 8; // Actual size of the map tiles
 	private static final float NEW_SECTOR_SIZE = 5; // The size we want to scale the tiles to
@@ -62,7 +72,7 @@ public class CustomMap implements IMapCreator {
 	@Override
 	public Vector3f getStartPos() {
 		if (Globals.PLAYERS_START_IN_CORNER) {
-			return new Vector3f(0, 20f, 0);
+			return new Vector3f(0, 7f, 0);
 		} else {
 			// Don't forget, centre of tiles is 0, 0, so edge of tile goes into negative space
 			float x = NumberFunctions.rndFloat(0, (map.length-1) * NEW_SECTOR_SIZE);
@@ -76,7 +86,7 @@ public class CustomMap implements IMapCreator {
 	public void createMap() {		
 		try {
 			Globals.p("Loading map from file...");
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/1x3_map_hills.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/all_hills_test.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/small_map1.csv").toURI())));
@@ -94,11 +104,11 @@ public class CustomMap implements IMapCreator {
 					if (tokens[x].contains(":")) {
 						String subtokens[] = tokens[x].split(":");
 						code = subtokens[0];
-						mapHeight[x][lineNum] = Integer.parseInt(subtokens[1]);
+						mapHeight[x][lineNum] = Integer.parseInt(subtokens[1].trim());
 					} else {
 						code = tokens[x].trim();
 					}
-					map[x][lineNum] = Integer.parseInt(code);
+					map[x][lineNum] = Integer.parseInt(code.trim());
 				}
 			}
 
@@ -138,12 +148,13 @@ public class CustomMap implements IMapCreator {
 			server.actuallyAddEntity(borderBack);
 			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), (mapWidth/2)-(NEW_SECTOR_SIZE/2), 0, -(NEW_SECTOR_SIZE/2) - (thick/2), mapWidth, thick);
 			server.actuallyAddEntity(borderFront);
-			
-			if (Globals.DEBUG_PLAYER_START_POS) {
-				DebuggingSphere ds = new DebuggingSphere(server,server.getNextEntityID(), .5f, 2f, .5f, true, false);
-				server.actuallyAddEntity(ds);
-			}
-			
+
+			//if (Globals.DEBUG_PLAYER_START_POS) {
+			// todo - remove
+			DebuggingSphere ds = new DebuggingSphere(server,server.getNextEntityID(), 1f, 2f, 1f, true, false);
+			server.actuallyAddEntity(ds);
+			//}
+
 			Globals.p("Finished loading map");
 
 		} catch (Exception e) {
@@ -241,47 +252,90 @@ public class CustomMap implements IMapCreator {
 					"roadLR", "Models/landscape_asset_v2a/obj/road-crossing-low.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
 
-		case HILL_RAMP_E:
+		case HILL_RAMP_E_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp E", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
 
-		case HILL_RAMP_W:
+		case HILL_RAMP_W_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp W", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
 
-		case HILL_RAMP_N:
+		case HILL_RAMP_N_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp N", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
 
-		case HILL_RAMP_S:
+		case HILL_RAMP_S_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp S", "Models/landscape_asset_v2a/obj/hill-ramp.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
 
-		case ROAD_HILL_E:
+		case ROAD_HILL_E_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp E", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
 
-		case ROAD_HILL_W:
+		case ROAD_HILL_W_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp W", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
 
-		case ROAD_HILL_N:
+		case ROAD_HILL_N_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp N", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
 
-		case ROAD_HILL_S:
+		case ROAD_HILL_S_UP:
 			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
 					"Grass Ramp S", "Models/landscape_asset_v2a/obj/road-hill.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
 					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
 
-		default: 
+			//-----------------------------------
+		case CORNER_HILL_UP_NE:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp E", "Models/landscape_asset_v2a/obj/hill-corner-high.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
+
+		case CORNER_HILL_UP_NW:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp W", "Models/landscape_asset_v2a/obj/hill-corner-high.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
+
+		case CORNER_HILL_UP_SE:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp N", "Models/landscape_asset_v2a/obj/hill-corner-high.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
+
+		case CORNER_HILL_UP_SW:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp S", "Models/landscape_asset_v2a/obj/hill-corner-high.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
+
+			//-----------------------------------
+		case CORNER_HILL_DOWN_NE:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp E", "Models/landscape_asset_v2a/obj/hill-corner-low.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, 1), false, scale);
+
+		case CORNER_HILL_DOWN_NW:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp W", "Models/landscape_asset_v2a/obj/hill-corner-low.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(0, 0, -1), false, scale);
+
+		case CORNER_HILL_DOWN_SE:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp N", "Models/landscape_asset_v2a/obj/hill-corner-low.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(-1, 0, 0), false, scale);
+
+		case CORNER_HILL_DOWN_SW:
+			return new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, 
+					"Grass Ramp S", "Models/landscape_asset_v2a/obj/hill-corner-low.obj", -1, "Models/landscape_asset_v2a/obj/basetexture.jpg", 
+					0, 0, 0, new Vector3f(1, 0, 0), false, scale);
+
+
+		default:  // 
 			throw new RuntimeException("Invalid map code: " + code);
 		}
 	}

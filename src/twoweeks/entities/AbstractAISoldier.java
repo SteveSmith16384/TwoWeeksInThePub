@@ -48,7 +48,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	public static final float START_HEALTH = 15f;
 	public static final float WALKING_SPEED = .53f;
-	public static final float RUNNING_SPEED = 1.3f;//1.21f;//1.19f; //1.13f; //0.93
+	public static final float RUNNING_SPEED = 1.3f;
 
 	private IAvatarModel soldierModel; // Need this to animate the model
 	private float health = START_HEALTH;
