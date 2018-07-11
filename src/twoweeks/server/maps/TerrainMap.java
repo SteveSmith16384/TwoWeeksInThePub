@@ -1,13 +1,9 @@
 package twoweeks.server.maps;
 
-import com.jme3.bounding.BoundingBox;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.scs.stevetech1.entities.DebuggingSphere;
+import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.server.Globals;
 
 import ssmith.lang.NumberFunctions;
@@ -26,7 +22,6 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 	private static final int CITY_SIZE = 60;
 	private static final float SPACE_BETWEEN_BUILDINGS = 6f;
 	
-	private static final Vector3f DOWN_VEC = new Vector3f(0, -1, 0);
 
 	private TwoWeeksServer server;
 	
@@ -61,7 +56,7 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 
 	private void placeGenericModel(GenericStaticModel tree5, float x, float z) {
 		Vector3f pos = new Vector3f(x, 0, z);
-		pos.y = this.getLowestHeightAtPoint(tree5.getMainNode());
+		pos.y = JMEModelFunctions.getLowestHeightAtPoint(tree5.getMainNode(), server.getGameNode());
 		tree5.setWorldTranslation(pos);
 		server.actuallyAddEntity(tree5); //tree5.getMainNode().getWorldBound();
 
@@ -75,7 +70,7 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 				if (NumberFunctions.rnd(1, 3) == 1) {
 					Vector3f pos = new Vector3f(x, 0f, z);
 					GenericStaticModel building = server.getRandomBuilding(pos);
-					pos.y = getLowestHeightAtPoint(building.getMainNode());
+					pos.y = JMEModelFunctions.getLowestHeightAtPoint(building.getMainNode(), server.getGameNode());
 					building.setWorldTranslation(pos);
 					server.actuallyAddEntity(building); //building.getMainNode().getWorldBound();
 					//Globals.p("Placed building at " + pos);
@@ -89,7 +84,7 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 				if (NumberFunctions.rnd(1, 3) == 1) {
 					Vector3f pos = new Vector3f(x, 0f, z);
 					GenericStaticModel vehicle = server.getRandomVehicle(pos);
-					pos.y = getLowestHeightAtPoint(vehicle.getMainNode());
+					pos.y = JMEModelFunctions.getLowestHeightAtPoint(vehicle.getMainNode(), server.getGameNode());
 					vehicle.setWorldTranslation(pos);
 					server.actuallyAddEntity(vehicle); //building.getMainNode().getWorldBound();
 					Globals.p("Placed vehicle at " + pos);
@@ -106,10 +101,10 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 		float x = CITY_X + NumberFunctions.rndFloat(0, MAP_SIZE-20);
 		float z = CITY_Z + NumberFunctions.rndFloat(0, MAP_SIZE-20);
 
-		return getHeightAtPoint(x, z);
+		return JMEModelFunctions.getHeightAtPoint(x, z, server.getGameNode());
 	}
 
-
+/*
 	public Vector3f getHeightAtPoint(float x, float z) {
 		Ray r = new Ray(new Vector3f(x, 255, z), DOWN_VEC);
 		CollisionResults crs = new CollisionResults();
@@ -118,7 +113,7 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 		return pos;
 	}
 
-
+/*
 	public float getLowestHeightAtPoint(Spatial s) {
 		CollisionResults crs = new CollisionResults();
 		BoundingBox bb = (BoundingBox)s.getWorldBound();
@@ -151,10 +146,10 @@ public class TerrainMap implements IMapCreator, ITerrainHeightAdjuster {
 
 		return res;
 	}
-
+*/
 
 	private void dropDebugSphere(Terrain1 terrain, float x, float z) {
-		Vector3f pos = this.getHeightAtPoint(x, z);// crs.getClosestCollision().getContactPoint();
+		Vector3f pos = JMEModelFunctions.getHeightAtPoint(x, z, server.getGameNode());// crs.getClosestCollision().getContactPoint();
 		DebuggingSphere ds = new DebuggingSphere(server, server.getNextEntityID(), pos.x, pos.y, pos.z, true, false);
 		server.actuallyAddEntity(ds);
 	}

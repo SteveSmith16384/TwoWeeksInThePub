@@ -32,10 +32,8 @@ import twoweeks.server.maps.IMapCreator;
 
 public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeightAdjuster {
 
-	private static final int NUM_AI_SOLDIERS = 0;
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
-	public static final boolean REMOVE_DEAD_SOLDIERS = false;
 	public static final float STEP_FORCE = 8f;
 	public static final float RAMP_FORCE = 3f;
 
@@ -154,18 +152,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		this.twipGameData = new TwoWeeksGameData();
 
 		this.mapCreator.createMap();
-
-		{
-			if (!Globals.NO_AI_UNITS) {
-				// Place AI
-				for (int num=0 ; num<NUM_AI_SOLDIERS ; num++) {
-					Vector3f pos = this.mapCreator.getStartPos();
-					TWIP_AISoldier s = new TWIP_AISoldier(this, this.getNextEntityID(), pos.x, pos.y + 5, pos.z, nextSideNum.getAndAdd(1), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
-					this.actuallyAddEntity(s);
-				}
-			}
-		}
-
 	}
 
 

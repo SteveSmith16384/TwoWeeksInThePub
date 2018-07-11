@@ -20,7 +20,6 @@ import twoweeks.entities.MapBorder;
 public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	private static final float VIEW_ANGLE_RADS = 1f;
-	//private static final boolean SHOOT_AT_ENEMY = true; // todo
 
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
@@ -39,7 +38,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 		currDir = new Vector3f();
 		changeDirection(getRandomDirection()); // Start us pointing in the right direction
-		
+
 	}
 
 
@@ -86,14 +85,14 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 			//animCode = AbstractAvatar.ANIM_IDLE;
 			this.soldierEntity.shoot((PhysicalEntity)currentTarget);
 			runs = false; // Walk towards target
-			
+
 			if (this.distToTarget < 3f) {
 				soldierEntity.simpleRigidBody.getAdditionalForce().set(0, 0, 0); // Stop walking
 				animCode = AbstractAvatar.ANIM_IDLE;
 				return; // Don't move!
 			}
 		}
-		
+
 		if (waitForSecs <= 0) {
 			if (runs) {
 				soldierEntity.simpleRigidBody.setAdditionalForce(this.currDir.mult(AbstractAISoldier.RUNNING_SPEED, tmpMove)); // Walk forwards
@@ -174,11 +173,13 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 	@Override
 	public void wounded(ICausesHarmOnContact collider) {
-		if (collider.getActualShooter() != null) {
-			PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
-			Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
-			this.changeDirection(dir);
-			this.checkForEnemyInt.fireInterval();
+		if (this.soldierEntity.getHealth() > 0) {
+			if (collider.getActualShooter() != null) {
+				PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
+				Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
+				this.changeDirection(dir);
+				this.checkForEnemyInt.fireInterval();
+			}
 		}
 	}
 

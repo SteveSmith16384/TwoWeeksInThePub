@@ -22,7 +22,7 @@ import twoweeks.client.TwoWeeksClientEntityCreator;
 
 public class MapBorder extends PhysicalEntity {
 
-	private static final boolean INVISIBLE = false;
+	private static final boolean INVISIBLE = true;
 
 	public static final float BORDER_HEIGHT = 30f; // Since players start high
 

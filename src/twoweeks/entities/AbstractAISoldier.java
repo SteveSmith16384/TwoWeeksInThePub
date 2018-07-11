@@ -124,16 +124,16 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			//}
 			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
-			if (this.serverSideCurrentAnimCode != AbstractAvatar.ANIM_DIED) { // This should never be needed
+			/*if (this.serverSideCurrentAnimCode != AbstractAvatar.ANIM_DIED) { // This should never be needed
 				Globals.p("Warning: Manually setting death anim");
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true;
-			}
+			}*/
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 
-			if (TwoWeeksServer.REMOVE_DEAD_SOLDIERS) {
+			if (Globals.REMOVE_DEAD_SOLDIERS) {
 				long diff = System.currentTimeMillis() - timeKilled;
-				if (diff > 5000) {
+				if (diff > 10000) {
 					this.remove();
 					return;
 				}
