@@ -4,6 +4,7 @@ import com.jme3.asset.TextureKey;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
@@ -55,7 +56,7 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 			laserNode.setMaterial(floor_mat);
 		}
 
-		//laserNode.setShadowMode(ShadowMode.Cast);
+		laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 
 	}

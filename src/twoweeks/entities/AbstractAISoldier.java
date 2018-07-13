@@ -16,9 +16,9 @@ import com.scs.stevetech1.components.IAffectedByPhysics;
 import com.scs.stevetech1.components.IAnimatedClientSide;
 import com.scs.stevetech1.components.IAnimatedServerSide;
 import com.scs.stevetech1.components.IAvatarModel;
-import com.scs.stevetech1.components.ICausesHarmOnContact;
 import com.scs.stevetech1.components.IDamagable;
 import com.scs.stevetech1.components.IDrawOnHUD;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.IGetRotation;
 import com.scs.stevetech1.components.IKillable;
 import com.scs.stevetech1.components.INotifiedOfCollision;
@@ -26,10 +26,10 @@ import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.components.IRewindable;
 import com.scs.stevetech1.components.ISetRotation;
 import com.scs.stevetech1.components.ITargetable;
-import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -37,14 +37,12 @@ import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.server.IArtificialIntelligence;
 import com.scs.stevetech1.shared.IEntityController;
 
-import twoweeks.server.TwoWeeksServer;
-
 public abstract class AbstractAISoldier extends PhysicalEntity implements IAffectedByPhysics, IDamagable, INotifiedOfCollision,
 IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetable {
 
-	public static final int BULLETS_IN_MAG = 6;
-	public static final float SHOOT_INTERVAL = 1f;
-	public static final float RELOAD_INTERVAL = 4f;
+	public static final int BULLETS_IN_MAG = 8;
+	public static final float SHOOT_INTERVAL = .3f;
+	public static final float RELOAD_INTERVAL = 3f;
 
 	public static final float START_HEALTH = 15f;
 	public static final float WALKING_SPEED = .53f;
@@ -158,7 +156,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public void damaged(float amt, ICausesHarmOnContact collider, String reason) {
+	public void damaged(float amt, IEntity collider, String reason) {
 		if (Globals.DEBUG_BULLET_HIT) {
 			Globals.p(this + " damaged()");
 		}
@@ -170,7 +168,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider.getActualShooter()));
+				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 
@@ -235,7 +233,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public void drawOnHud(Camera cam) {
+	public void drawOnHud(IHUD hud, Camera cam) {
 		// No
 	}
 

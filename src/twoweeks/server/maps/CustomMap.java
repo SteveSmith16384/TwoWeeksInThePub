@@ -20,7 +20,7 @@ import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
 
-	private static final int NUM_AI_SOLDIERS = 2;
+	private static final int NUM_AI_SOLDIERS = -1;//50;
 	private static final float AI_SOLDIERS_PER_SECTOR = 0.05f;// .0008f;
 	
 	// Map codes

@@ -103,10 +103,10 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 		this.mapCreator = new CustomMap(this);
 		countUnitsInt = new RealtimeInterval(2000);
-		
+
 		super.physicsController.setStepForce(STEP_FORCE);
 		super.physicsController.setRampForce(RAMP_FORCE);
-		
+
 		start(JmeContext.Type.Headless);
 
 	}
@@ -122,16 +122,18 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	@Override
 	public void simpleUpdate(float tpf_secs) {
 		super.simpleUpdate(tpf_secs);
-		
-		if (countUnitsInt.hitInterval()) {
-			twipGameData.numUnitsLeft = 0;
-			for (int i=0 ; i<this.entitiesForProcessing.size() ; i++) {
-				IEntity e = this.entitiesForProcessing.get(i);
-				if (e instanceof AbstractAvatar || e instanceof AbstractAISoldier) {
-					twipGameData.numUnitsLeft++;
+
+		if (super.gameData.isInGame()) {
+			if (countUnitsInt.hitInterval()) {
+				twipGameData.numUnitsLeft = 0;
+				for (int i=0 ; i<this.entitiesForProcessing.size() ; i++) {
+					IEntity e = this.entitiesForProcessing.get(i);
+					if (e instanceof AbstractAvatar || e instanceof AbstractAISoldier) {
+						twipGameData.numUnitsLeft++;
+					}
 				}
+				this.gameNetworkServer.sendMessageToAll(new GameDataMessage(this.twipGameData));
 			}
-			this.gameNetworkServer.sendMessageToAll(new GameDataMessage(this.twipGameData));
 		}
 	}
 
@@ -140,7 +142,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	public void moveAvatarToStartPosition(AbstractAvatar avatar) {
 		Vector3f pos = this.mapCreator.getStartPos();
 		avatar.setWorldTranslation(pos.x, pos.y, pos.z);
-		
+
 		if (Globals.DEBUG_PLAYER_START_POS) {
 			Globals.p("Moving " + avatar + " to start pos: " + pos);
 		}
@@ -291,7 +293,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	@Override
 	protected String getSideName(int side) {
 		try {
- 		return this.clients.get(side).playerData.playerName;
+			return this.clients.get(side).playerData.playerName;
 		} catch (Exception ex) { // Get error until we implement calculating the winning side
 			return "Unknown";
 		}

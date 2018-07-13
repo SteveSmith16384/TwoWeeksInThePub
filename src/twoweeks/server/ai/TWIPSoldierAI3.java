@@ -1,7 +1,7 @@
 package twoweeks.server.ai;
 
 import com.jme3.math.Vector3f;
-import com.scs.stevetech1.components.ICausesHarmOnContact;
+import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAvatar;
@@ -172,14 +172,14 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 
 	@Override
-	public void wounded(ICausesHarmOnContact collider) {
+	public void wounded(IEntity collider) {
 		if (this.soldierEntity.getHealth() > 0) {
-			if (collider.getActualShooter() != null) {
-				PhysicalEntity pe = (PhysicalEntity)collider.getActualShooter();
+			//if (collider.getActualShooter() != null) {
+				PhysicalEntity pe = (PhysicalEntity)collider;//.getActualShooter();
 				Vector3f dir = pe.getWorldTranslation().subtract(soldierEntity.getWorldTranslation(), tmpDir).normalizeLocal();
 				this.changeDirection(dir);
 				this.checkForEnemyInt.fireInterval();
-			}
+			//}
 		}
 	}
 
