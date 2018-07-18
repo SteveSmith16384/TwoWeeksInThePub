@@ -37,6 +37,8 @@ import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.server.IArtificialIntelligence;
 import com.scs.stevetech1.shared.IEntityController;
 
+import twoweeks.TwoWeeksGlobals;
+
 public abstract class AbstractAISoldier extends PhysicalEntity implements IAffectedByPhysics, IDamagable, INotifiedOfCollision,
 IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetable {
 
@@ -118,7 +120,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		if (health > 0) {
 			timeToNextShot -= tpf_secs;
 			//if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) { No, move around in deploy stage
-				ai.process(server, tpf_secs);
+			ai.process(server, tpf_secs);
 			//}
 			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
@@ -131,7 +133,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 			if (Globals.REMOVE_DEAD_SOLDIERS) {
 				long diff = System.currentTimeMillis() - timeKilled;
-				if (diff > 10000) {
+				if (diff > 10000) { // todo - const
 					this.remove();
 					return;
 				}
@@ -145,7 +147,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public void processByClient(IClientApp client, float tpf_secs) {
 		// Set position and direction of avatar model, which doesn't get moved automatically
-		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation()); // this.soldierModel.setAnim(anim);
+		this.soldierModel.getModel().setLocalTranslation(this.getWorldTranslation());
 	}
 
 
@@ -176,7 +178,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 				this.simpleRigidBody.setMovedByForces(false);
 
 				this.timeKilled = System.currentTimeMillis();
-				
+
 				this.collideable = false;
 			}
 		}
@@ -315,7 +317,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public int getTargetPriority() {
-		return 2;
+		return TwoWeeksGlobals.PRI_STD_AI;
 	}
 
 

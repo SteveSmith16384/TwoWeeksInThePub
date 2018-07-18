@@ -124,12 +124,13 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 
 	@Override
-	protected void handleMessage(MyAbstractMessage message) {
+	protected boolean handleMessage(MyAbstractMessage message) {
 		if (message instanceof GameDataMessage) {
 			GameDataMessage hdm = (GameDataMessage) message;
 			this.hud.setUnitsRemaining(hdm.gameData.numUnitsLeft);
+			return true;
 		} else {
-			super.handleMessage(message);
+			return super.handleMessage(message);
 		}
 	}
 

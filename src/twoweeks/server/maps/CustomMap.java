@@ -20,7 +20,7 @@ import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
 
-	private static final int NUM_AI_SOLDIERS = -1;//50;
+	private static final int NUM_AI_SOLDIERS = -1;//50; // -1 = Dont use this config
 	private static final float AI_SOLDIERS_PER_SECTOR = 0.05f;// .0008f;
 	
 	// Map codes
@@ -95,10 +95,10 @@ public class CustomMap implements IMapCreator {
 	public void createMap() {		
 		try {
 			Globals.p("Loading map from file...");
-			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/1x1_map.csv").toURI())));
+			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/1x1_map.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/all_hills_test.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/test_map.csv").toURI())));
-			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/all_roads.csv").toURI())));
+			String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/all_roads.csv").toURI())));
 			//String text = new String(Files.readAllBytes(Paths.get(getClass().getResource("/serverdata/large_map1.csv").toURI())));
 			String[] lines = text.split(System.lineSeparator());
 
@@ -183,7 +183,7 @@ public class CustomMap implements IMapCreator {
 				if (!Globals.NO_AI_UNITS) {
 					// Place AI
 					int numAI = NUM_AI_SOLDIERS;
-					if (NUM_AI_SOLDIERS == 0) {
+					if (NUM_AI_SOLDIERS < 0) {
 						numAI = (int)(mapWidth * mapDepth * AI_SOLDIERS_PER_SECTOR);
 					}
 					Globals.p("Creating " + numAI + " AI");
