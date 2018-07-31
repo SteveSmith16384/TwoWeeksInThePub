@@ -55,12 +55,10 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 			//game.addEntity(expl);
 
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
-				if (game.isServer()) {
-					// Create debugging sphere
-					Vector3f pos = this.getWorldTranslation();
-					DebuggingSphere ds = new DebuggingSphere(game, game.getNextEntityID(), pos.x, pos.y, pos.z, true, false);
-					game.addEntity(ds);
-				}
+				// Create debugging sphere
+				Vector3f pos = this.getWorldTranslation();
+				DebuggingSphere ds = new DebuggingSphere(game, game.getNextEntityID(), pos.x, pos.y, pos.z, true, false);
+				game.addEntity(ds);
 			}
 		}
 		this.remove();

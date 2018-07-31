@@ -77,13 +77,13 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 	@Override
 	public void collided(PhysicalEntity pe) {
 		if (game.isServer()) {
-			AbstractGameServer server = (AbstractGameServer)game;
+			/*AbstractGameServer server = (AbstractGameServer)game;
 			String tex = "Textures/sun.jpg";
 			if (pe instanceof IDebrisTexture) {
 				IDebrisTexture dt = (IDebrisTexture)pe;
 				tex = dt.getDebrisTexture();
 			}
-			//server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);  No, too many entities!
+			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);  No, too many entities!*/
 		}
 		this.remove();
 	}

@@ -98,10 +98,11 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		simpleRigidBody.canWalkUpSteps = true;
 		simpleRigidBody.setBounciness(0);
 
+		if (!_game.isServer()) {
 		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
 		hudNode = new BitmapText(font_small);
 		hudNode.setText(name);
-
+		}
 	}
 
 

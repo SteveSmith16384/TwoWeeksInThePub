@@ -5,7 +5,7 @@ A battle-royale style game made using SteveTech1 and JMonkeyEngine.
 
 ## Gameplay Video
 
-[![Two Weeks Gameplay](http://img.youtube.com/vi/ROtYhj_YU80/0.jpg)](http://www.youtube.com/watch?v=ROtYhj_YU80)
+[![Two Weeks Gameplay](http://img.youtube.com/vi/ROtYhj_YU80/0.jpg)](http://www.youtube.com/watch?v=O-QbPfuOZQ4
 
 
 

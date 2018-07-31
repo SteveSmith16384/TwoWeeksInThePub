@@ -27,5 +27,11 @@ public class TWIP_AISoldier extends AbstractAISoldier {
 	}
 
 
+	@Override
+	public void updateClientSideHealth(int amt) {
+		
+	}
+	
+
 }
 
