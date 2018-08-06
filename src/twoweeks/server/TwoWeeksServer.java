@@ -12,6 +12,8 @@ import com.scs.stevetech1.data.GameOptions;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
+import com.scs.stevetech1.netmessages.MyAbstractMessage;
+import com.scs.stevetech1.netmessages.NewPlayerRequestMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -24,8 +26,9 @@ import twoweeks.TwoWeeksGameData;
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.GenericStaticModel;
-import twoweeks.entities.MercServerAvatar;
+import twoweeks.entities.PlayerMercServerAvatar;
 import twoweeks.entities.TWIP_AISoldier;
+import twoweeks.netmessages.EnterCarMessage;
 import twoweeks.netmessages.GameDataMessage;
 import twoweeks.server.maps.CustomMap;
 import twoweeks.server.maps.IMapCreator;
@@ -64,8 +67,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
 			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 1000000);
-			//float gravity = props.getPropertyAsFloat("gravity", -5);
-			//float aerodynamicness = props.getPropertyAsFloat("aerodynamicness", 0.99f);
 
 			//startLobbyServer(lobbyPort, timeoutMillis); // Start the lobby in the same process, why not?  Feel from to comment this line out and run it seperately (If you want a lobby).
 
@@ -139,6 +140,16 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
+	protected void handleMessage(MyAbstractMessage message) {
+		if (message instanceof EnterCarMessage) {
+			this.playerEnterCar((EnterCarMessage)message);
+		} else {
+			super.handleMessage(message);
+		}
+	}
+	
+
+	@Override
 	public void moveAvatarToStartPosition(AbstractAvatar avatar) {
 		Vector3f pos = this.mapCreator.getStartPos();
 		avatar.setWorldTranslation(pos.x, pos.y, pos.z);
@@ -198,7 +209,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	protected AbstractServerAvatar createPlayersAvatarEntity(ClientData client, int entityid) {
-		MercServerAvatar avatar = new MercServerAvatar(this, client, client.remoteInput, entityid);
+		PlayerMercServerAvatar avatar = new PlayerMercServerAvatar(this, client, client.remoteInput, entityid);
 		return avatar;
 	}
 
@@ -236,7 +247,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class}; // Must be in the same order on client and server!
+		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class, EnterCarMessage.class}; // Must be in the same order on client and server!
 	}
 
 
@@ -300,4 +311,8 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	}
 
 
+	private void playerEnterCar(EnterCarMessage msg) {
+		//1 - find car
+		//2 - change avatar to car
+	}
 }

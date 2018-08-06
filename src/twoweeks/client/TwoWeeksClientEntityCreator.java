@@ -14,11 +14,13 @@ import com.scs.stevetech1.server.Globals;
 
 import twoweeks.abilities.PlayersMachineGun;
 import twoweeks.entities.AIBullet;
+import twoweeks.entities.CarEnemyAvatar;
 import twoweeks.entities.Floor;
 import twoweeks.entities.GenericStaticModel;
 import twoweeks.entities.MapBorder;
-import twoweeks.entities.MercClientAvatar;
 import twoweeks.entities.MercEnemyAvatar;
+import twoweeks.entities.PlayerCarClientAvatar;
+import twoweeks.entities.PlayerMercClientAvatar;
 import twoweeks.entities.PlayersBullet;
 import twoweeks.entities.TWIP_AISoldier;
 import twoweeks.entities.Terrain1;
@@ -35,6 +37,7 @@ public class TwoWeeksClientEntityCreator {
 	public static final int AI_SOLDIER = 10;
 	public static final int MAP_BORDER = 11;
 	public static final int AI_BULLET = 17;
+	public static final int CAR_AVATAR = 18;
 
 
 	public TwoWeeksClientEntityCreator() {
@@ -67,19 +70,33 @@ public class TwoWeeksClientEntityCreator {
 		{
 			int playerID = (int)msg.data.get("playerID");
 			int side = (int)msg.data.get("side");
-			float moveSpeed = (float)msg.data.get("moveSpeed");
-			float jumpForce = (float)msg.data.get("jumpForce");
+			//float moveSpeed = (float)msg.data.get("moveSpeed");
+			//float jumpForce = (float)msg.data.get("jumpForce");
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
-				AbstractClientAvatar avatar = new MercClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side, moveSpeed, jumpForce);
-				//game.getCamera().lookAt(pos.add(Vector3f.UNIT_X), Vector3f.UNIT_Y); // Look somewhere
-				//Vector3f look = new Vector3f(15f, 1f, 15f);
-				//game.getCamera().lookAt(look, Vector3f.UNIT_Y); // Look somewhere
+				AbstractClientAvatar avatar = new PlayerMercClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side);
 				return avatar;
 			} else {
 				// Create a simple avatar since we don't control these
 				AbstractEnemyAvatar avatar = new MercEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
+				return avatar;
+			}
+		}
+
+		case CAR_AVATAR:
+		{
+			int playerID = (int)msg.data.get("playerID");
+			int side = (int)msg.data.get("side");
+			//float moveSpeed = (float)msg.data.get("moveSpeed");
+			String playersName = (String)msg.data.get("playersName");
+
+			if (playerID == game.playerID) {
+				AbstractClientAvatar avatar = new PlayerCarClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side);
+				return avatar;
+			} else {
+				// Create a simple avatar since we don't control these
+				AbstractEnemyAvatar avatar = new CarEnemyAvatar(game, CAR_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
 				return avatar;
 			}
 		}

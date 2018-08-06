@@ -18,7 +18,7 @@ import com.scs.stevetech1.server.Globals;
 
 import twoweeks.client.SoldierTexture;
 
-public class SoldierModel implements IAvatarModel {
+public class SoldierModel implements IAvatarModel { // todo - rename to SoldierAvatarModel
 
 	public static final float MODEL_HEIGHT = 0.7f;
 	private static final float MODEL_WIDTH = 0.3f;

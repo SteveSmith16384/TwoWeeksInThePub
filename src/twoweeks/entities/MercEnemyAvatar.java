@@ -21,12 +21,6 @@ public class MercEnemyAvatar extends AbstractEnemyAvatar implements AnimEventLis
 		this.soldier = (SoldierModel)anim;
 	}
 	
-/*
-	@Override
-	public ChronologicalLookup<HistoricalAnimationData> getAnimList() {
-		return animData;
-	}
-	*/
 
 	@Override
 	public void setAnimCode_ClientSide(int animCode) {
@@ -37,12 +31,6 @@ public class MercEnemyAvatar extends AbstractEnemyAvatar implements AnimEventLis
 		this.currentAnimCode = animCode;
 	}
 
-/*
-	@Override
-	public int getCurrentAnimCode() {
-		return this.currentAnimCode;
-	}
-*/
 
 	@Override
 	public void processManualAnimation_ClientSide(float tpf_secs) {

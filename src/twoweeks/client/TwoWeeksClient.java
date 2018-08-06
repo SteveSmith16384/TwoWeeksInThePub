@@ -22,6 +22,7 @@ import ssmith.util.MyProperties;
 import twoweeks.TwoWeeksCollisionValidator;
 import twoweeks.TwoWeeksGameData;
 import twoweeks.client.hud.TwoWeeksHUD;
+import twoweeks.netmessages.EnterCarMessage;
 import twoweeks.netmessages.GameDataMessage;
 import twoweeks.server.TwoWeeksServer;
 
@@ -239,7 +240,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	protected Class[] getListofMessageClasses() {
-		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class}; // Must be in the same order on client and server!
+		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class, EnterCarMessage.class}; // Must be in the same order on client and server!
 	}
 
 
@@ -247,6 +248,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 	public void onAction(String name, boolean value, float tpf) {
 		if (name.equalsIgnoreCase(TEST)) {
 			if (value) {
+				super.sendMessage(new EnterCarMessage(true));
 				/*SmallExplosionModel ex = new SmallExplosionModel(this.getAssetManager(), this.getRenderManager());
 				ex.setLocalTranslation(0, 0, 0);
 				ex.process();
