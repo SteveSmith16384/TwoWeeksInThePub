@@ -32,7 +32,10 @@ public class TwoWeeksClient extends AbstractGameClient {
 	private DirectionalLight sun;
 	private TwoWeeksCollisionValidator collisionValidator;
 	private TwoWeeksHUD hud;
-	
+
+	private String ipAddress;
+	private int port;
+
 	public static void main(String[] args) {
 		try {
 			MyProperties props = null;
@@ -44,8 +47,6 @@ public class TwoWeeksClient extends AbstractGameClient {
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
 			int gamePort = props.getPropertyAsInt("gamePort", 6145);
-			String lobbyIpAddress = props.getPropertyAsString("lobbyIpAddress", "localhost");
-			int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
@@ -53,7 +54,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 			float mouseSensitivity = props.getPropertyAsFloat("mouseSensitivity", 1f);
 
-			new TwoWeeksClient(gameIpAddress, gamePort, lobbyIpAddress, lobbyPort,
+			new TwoWeeksClient(gameIpAddress, gamePort,
 					tickrateMillis, clientRenderDelayMillis, timeoutMillis,
 					mouseSensitivity);
 		} catch (Exception e) {
@@ -63,11 +64,13 @@ public class TwoWeeksClient extends AbstractGameClient {
 	}
 
 
-	private TwoWeeksClient(String gameIpAddress, int gamePort, String lobbyIpAddress, int lobbyPort, 
+	private TwoWeeksClient(String gameIpAddress, int gamePort,
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(TwoWeeksServer.GAME_ID, "key", "Two Weeks", null, gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
+		super(TwoWeeksServer.GAME_ID, "key", "Two Weeks", null,  
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
+		ipAddress = gameIpAddress;
+		port = gamePort;
 		start();
 	}
 
@@ -94,6 +97,8 @@ public class TwoWeeksClient extends AbstractGameClient {
 		dlsr.setLight(sun);
 		this.viewPort.addProcessor(dlsr);
 		
+		this.setupForGame();
+		this.connect(ipAddress, port);
 	}
 
 
