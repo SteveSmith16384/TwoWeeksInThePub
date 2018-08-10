@@ -98,7 +98,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		this.viewPort.addProcessor(dlsr);
 		
 		this.setupForGame();
-		this.connect(ipAddress, port);
+		this.connect(this, ipAddress, port, false);
 	}
 
 

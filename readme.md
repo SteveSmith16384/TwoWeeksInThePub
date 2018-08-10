@@ -12,3 +12,10 @@ A battle-royale style game made using SteveTech1 and JMonkeyEngine.
 ## Credits: 
 Designed and programmed by Stephen Carlyle-Smith
 For Model credits, see the files inside the model folder.
+
+## Compiling
+If you are trying to compile this, you'll probably want to use the development branch of SteveTech1, since that's what I usually develop against.
+
+
+## LICENCES
+* This game is licenced under MIT.
