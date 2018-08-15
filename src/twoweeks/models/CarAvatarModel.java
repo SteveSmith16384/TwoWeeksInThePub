@@ -25,7 +25,7 @@ public class CarAvatarModel implements IAvatarModel {
 
 
 	@Override
-	public Spatial createAndGetModel(int side) {
+	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/Car pack by Quaternius/RaceCar.blend");
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/Car pack by Quaternius/RaceCarTexture.png");

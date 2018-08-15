@@ -78,7 +78,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			creationData.put("side", side);
 			creationData.put("name", name);
 		} else {
-			this.soldierModel.createAndGetModel(_side);
+			this.soldierModel.createAndGetModel();
 			game.getGameNode().attachChild(this.soldierModel.getModel());
 			this.setAnimCode_ClientSide(_csInitialAnimCode);
 		}
@@ -171,7 +171,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.gameNetworkServer.sendMessageToAll(new EntityKilledMessage(this, collider, reason));
+				server.sendMessageToAcceptedClients(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 

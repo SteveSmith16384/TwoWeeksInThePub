@@ -36,7 +36,7 @@ public class SoldierModel implements IAvatarModel { // todo - rename to SoldierA
 
 
 	@Override
-	public Spatial createAndGetModel(int side) {
+	public Spatial createAndGetModel() {
 		if (!Globals.USE_BOXES_FOR_AVATARS_SOLDIER) {
 			model = assetManager.loadModel("Models/AnimatedHuman/Animated Human.blend");
 			JMEModelFunctions.setTextureOnSpatial(assetManager, model, SoldierTexture.getTexture());

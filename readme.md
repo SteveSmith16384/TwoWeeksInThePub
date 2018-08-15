@@ -2,6 +2,8 @@
 
 A battle-royale style game made using SteveTech1 and JMonkeyEngine.
 
+By Stephen Carlyle-Smith (stephen.carlylesmith@googlemail.com)
+
 
 ## Gameplay Video
 
@@ -10,7 +12,7 @@ A battle-royale style game made using SteveTech1 and JMonkeyEngine.
 
 
 ## Credits: 
-Designed and programmed by Stephen Carlyle-Smith
+Designed and programmed by Stephen Carlyle-Smith (stephen.carlylesmith@googlemail.com)
 For Model credits, see the files inside the model folder.
 
 ## Compiling
