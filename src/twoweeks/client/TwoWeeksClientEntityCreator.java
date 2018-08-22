@@ -75,7 +75,7 @@ public class TwoWeeksClientEntityCreator {
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
-				AbstractClientAvatar avatar = new PlayerMercClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side);
+				AbstractClientAvatar avatar = new PlayerMercClientAvatar(game, id, game.input, game.getCamera(), id, pos.x, pos.y, pos.z, side);
 				return avatar;
 			} else {
 				// Create a simple avatar since we don't control these
@@ -92,7 +92,7 @@ public class TwoWeeksClientEntityCreator {
 			String playersName = (String)msg.data.get("playersName");
 
 			if (playerID == game.playerID) {
-				AbstractClientAvatar avatar = new PlayerCarClientAvatar(game, id, game.input, game.getCamera(), game.hud, id, pos.x, pos.y, pos.z, side);
+				AbstractClientAvatar avatar = new PlayerCarClientAvatar(game, id, game.input, game.getCamera(), id, pos.x, pos.y, pos.z, side);
 				return avatar;
 			} else {
 				// Create a simple avatar since we don't control these

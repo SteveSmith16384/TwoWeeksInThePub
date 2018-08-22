@@ -97,7 +97,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		dlsr.setLight(sun);
 		this.viewPort.addProcessor(dlsr);
 		
-		this.setupForGame();
+		//this.setupForGame();
 		this.connect(this, ipAddress, port, false);
 	}
 
@@ -116,7 +116,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 
 	@Override
-	protected void allEntitiesSent() {
+	protected void allEntitiesReceived() {
 		getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 	}
 
@@ -183,12 +183,12 @@ public class TwoWeeksClient extends AbstractGameClient {
 		//currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", this.cam.getWidth()/2, this.cam.getHeight()/2, 5);
 	}
 
-
+/*
 	@Override
 	protected IHUD createAndGetHUD() {
 		return hud;
 	}
-
+*/
 
 	@Override
 	protected void gameStatusChanged(int oldStatus, int newStatus) {

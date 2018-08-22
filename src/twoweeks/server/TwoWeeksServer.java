@@ -13,7 +13,7 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
-import com.scs.stevetech1.netmessages.NewPlayerRequestMessage;
+import com.scs.stevetech1.netmessages.connecting.NewPlayerRequestMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -133,7 +133,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 						twipGameData.numUnitsLeft++;
 					}
 				}
-				this.sendMessageToAcceptedClients(new GameDataMessage(this.twipGameData));
+				this.sendMessageToInGameClients(new GameDataMessage(this.twipGameData));
 			}
 		}
 	}

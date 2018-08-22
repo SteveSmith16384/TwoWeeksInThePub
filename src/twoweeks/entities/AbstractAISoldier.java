@@ -171,7 +171,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 					Globals.p(this + " killed");
 				}
 				AbstractGameServer server = (AbstractGameServer)game;
-				server.sendMessageToAcceptedClients(new EntityKilledMessage(this, collider, reason));
+				server.sendMessageToInGameClients(new EntityKilledMessage(this, collider, reason));
 				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
 				this.sendUpdate = true; // Send new anim code
 
