@@ -169,7 +169,6 @@ public class CustomMap implements IMapCreator {
 			server.actuallyAddEntity(borderFront);
 
 			//if (Globals.DEBUG_PLAYER_START_POS) {
-			// todo - remove
 			/*DebuggingSphere ds = new DebuggingSphere(server,server.getNextEntityID(), 1f, 4f, 1f, true, false);
 			server.actuallyAddEntity(ds);
 			ds = new DebuggingSphere(server,server.getNextEntityID(), 3f, 5f, 1f, true, false);

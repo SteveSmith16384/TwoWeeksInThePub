@@ -7,7 +7,7 @@ import com.scs.stevetech1.entities.AbstractEnemyAvatar;
 import com.scs.stevetech1.shared.IEntityController;
 
 import twoweeks.models.CarAvatarModel;
-import twoweeks.models.SoldierModel;
+import twoweeks.models.SoldierAvatarModel;
 
 public class CarEnemyAvatar extends AbstractEnemyAvatar implements AnimEventListener {
 	

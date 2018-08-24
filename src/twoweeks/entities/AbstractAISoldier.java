@@ -29,7 +29,6 @@ import com.scs.stevetech1.components.ITargetable;
 import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.hud.IHUD;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -125,16 +124,11 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			//}
 			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
-			/*if (this.serverSideCurrentAnimCode != AbstractAvatar.ANIM_DIED) { // This should never be needed
-				Globals.p("Warning: Manually setting death anim");
-				this.serverSideCurrentAnimCode = AbstractAvatar.ANIM_DIED;
-				this.sendUpdate = true;
-			}*/
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 
 			if (Globals.REMOVE_DEAD_SOLDIERS) {
 				long diff = System.currentTimeMillis() - timeKilled;
-				if (diff > 10000) { // todo - const
+				if (diff > server.gameOptions.avatarRestartTimeSecs * 1000) {
 					this.remove();
 					return;
 				}
@@ -236,7 +230,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public void drawOnHud(IHUD hud, Camera cam) {
+	public void drawOnHud(Node hud, Camera cam) {
 		// No
 	}
 

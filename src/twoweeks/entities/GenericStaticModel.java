@@ -16,7 +16,8 @@ import com.scs.stevetech1.server.Globals;
 import com.scs.stevetech1.shared.IEntityController;
 
 public class GenericStaticModel extends PhysicalEntity {
-
+	
+	// todo - pass tex, modelFile as codes
 	public GenericStaticModel(IEntityController _game, int id, int type, String name, String modelFile, float height, String tex, float x, float y, float z, Vector3f dir, boolean moveToFloor, float scale) {
 		super(_game, id, type, name, false, true, false);
 

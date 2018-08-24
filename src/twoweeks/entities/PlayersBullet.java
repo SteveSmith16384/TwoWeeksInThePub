@@ -31,7 +31,7 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 
 
 	@Override
-	protected void createSimpleRigidBody(Vector3f dir) {
+	protected void createModelAndSimpleRigidBody(Vector3f dir) {
 		Vector3f origin = Vector3f.ZERO;
 		Spatial laserNode = BeamLaserModel.Factory(game.getAssetManager(), origin, origin.add(dir.mult(TwoWeeksServer.LASER_LENGTH)), ColorRGBA.Pink, !game.isServer(), "Textures/cells3.png", TwoWeeksServer.LASER_DIAM, true);
 		laserNode.setShadowMode(ShadowMode.Cast);

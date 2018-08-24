@@ -7,18 +7,18 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractEnemyAvatar;
 import com.scs.stevetech1.shared.IEntityController;
 
-import twoweeks.models.SoldierModel;
+import twoweeks.models.SoldierAvatarModel;
 
 public class MercEnemyAvatar extends AbstractEnemyAvatar implements AnimEventListener {
 	
 	//private ChronologicalLookup<HistoricalAnimationData> animData = new ChronologicalLookup<HistoricalAnimationData>(true, 500);
-	private SoldierModel soldier;
+	private SoldierAvatarModel soldier;
 	private int currentAnimCode = -1;
 	
 	public MercEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, int side, String name) {
-		super(game, type, eid, x, y, z, new SoldierModel(game.getAssetManager()), side, name);
+		super(game, type, eid, x, y, z, new SoldierAvatarModel(game.getAssetManager()), side, name);
 		
-		this.soldier = (SoldierModel)anim;
+		this.soldier = (SoldierAvatarModel)anim;
 	}
 	
 

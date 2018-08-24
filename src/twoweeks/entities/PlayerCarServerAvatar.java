@@ -13,7 +13,7 @@ import twoweeks.server.TwoWeeksServer;
 public class PlayerCarServerAvatar extends AbstractServerAvatar implements IDebrisTexture {
 	
 	public PlayerCarServerAvatar(TwoWeeksServer _module, ClientData client, IInputDevice _input, int eid) {
-		super(_module, TwoWeeksClientEntityCreator.CAR_AVATAR, client, _input, eid, new CarAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, null); // todo
+		super(_module, TwoWeeksClientEntityCreator.CAR_AVATAR, client, _input, eid, new CarAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, null);
 	
 	}
 

@@ -18,7 +18,7 @@ import com.scs.stevetech1.server.Globals;
 
 import twoweeks.client.SoldierTexture;
 
-public class SoldierModel implements IAvatarModel { // todo - rename to SoldierAvatarModel
+public class SoldierAvatarModel implements IAvatarModel {
 
 	public static final float MODEL_HEIGHT = 0.7f;
 	private static final float MODEL_WIDTH = 0.3f;
@@ -30,7 +30,7 @@ public class SoldierModel implements IAvatarModel { // todo - rename to SoldierA
 	public boolean isJumping = false;
 	private int currAnimCode = -1;
 
-	public SoldierModel(AssetManager _assetManager) {
+	public SoldierAvatarModel(AssetManager _assetManager) {
 		assetManager = _assetManager;
 	}
 

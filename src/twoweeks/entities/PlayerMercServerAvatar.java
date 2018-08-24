@@ -10,48 +10,46 @@ import com.scs.stevetech1.shared.IAbility;
 import twoweeks.TwoWeeksGlobals;
 import twoweeks.abilities.PlayersMachineGun;
 import twoweeks.client.TwoWeeksClientEntityCreator;
-import twoweeks.models.SoldierModel;
+import twoweeks.models.SoldierAvatarModel;
 import twoweeks.server.TwoWeeksServer;
 
 public class PlayerMercServerAvatar extends AbstractServerAvatar implements IDebrisTexture {
-	
+
 	public PlayerMercServerAvatar(TwoWeeksServer _module, ClientData client, IInputDevice _input, int eid) {
-		super(_module, TwoWeeksClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, TwoWeeksGlobals.MOVE_SPEED, TwoWeeksGlobals.JUMP_FORCE));
-		
+		super(_module, TwoWeeksClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, TwoWeeksGlobals.MOVE_SPEED, TwoWeeksGlobals.JUMP_FORCE));
+
 		IAbility abilityGun = new PlayersMachineGun(_module, _module.getNextEntityID(), playerID, this, eid, 0, client);
 		_module.actuallyAddEntity(abilityGun);
-		
+
 		//IAbility abilityGrenades = new GrenadeLauncher(_module, _module.getNextEntityID(), this, 1, client);
 		//_module.actuallyAddEntity(abilityGrenades);
 
 	}
 
-	
+
 	@Override
 	public String getDebrisTexture() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Textures/blood.png";
 	}
 
-	
+
 	@Override
 	public float getMinDebrisSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0.001f;
 	}
+
 
 	@Override
 	public float getMaxDebrisSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0.004f;
 	}
-	
+
 
 	@Override
 	public void updateClientSideHealth(int amt) {
 		// Do nothing
-		
+
 	}
-	
+
 
 }

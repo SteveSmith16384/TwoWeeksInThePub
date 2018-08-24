@@ -1,7 +1,6 @@
 package twoweeks.client.hud;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
@@ -18,13 +17,11 @@ import com.jme3.ui.Picture;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.gui.TextArea;
-import com.scs.stevetech1.hud.IHUD;
-import com.scs.stevetech1.server.Globals;
 
 import ssmith.util.RealtimeInterval;
 import twoweeks.client.TwoWeeksClient;
 
-public class TwoWeeksHUD extends Node implements IHUD {
+public class TwoWeeksHUD extends Node {
 
 	private static final float LINE_SPACING = 10;
 	private static final int MAX_LINES = 5;
@@ -155,7 +152,6 @@ public class TwoWeeksHUD extends Node implements IHUD {
 	}
 
 
-	@Override
 	public void processByClient(AbstractGameClient client, float tpf) {
 		if (updateHudTextInterval.hitInterval()) {
 			if (client.gameData != null) {
@@ -306,7 +302,7 @@ public class TwoWeeksHUD extends Node implements IHUD {
 		this.attachChild(targetting_reticule);
 	}
 
-
+/*
 	@Override
 	public Node getRootNode() {
 		return this;
@@ -323,5 +319,5 @@ public class TwoWeeksHUD extends Node implements IHUD {
 	public void addChild(Node n) {
 		this.attachChild(n);
 	}
-
+*/
 }

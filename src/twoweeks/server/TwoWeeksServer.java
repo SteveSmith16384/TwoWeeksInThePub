@@ -98,9 +98,10 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	private TwoWeeksServer(String gameIpAddress, int gamePort, //String lobbyIpAddress, int lobbyPort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, "key", new GameOptions(10*1000, 10*60*1000, 10*1000, 
+		super(GAME_ID, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
+				10*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-				10, 5), tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);
+				10, 5));
 
 		this.mapCreator = new CustomMap(this);
 		countUnitsInt = new RealtimeInterval(2000);
@@ -300,7 +301,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	}
 
 
-
+/*
 	@Override
 	protected String getSideName(int side) {
 		try {
@@ -309,7 +310,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			return "Unknown";
 		}
 	}
-
+*/
 
 	private void playerEnterCar(EnterCarMessage msg) {
 		//1 - find car
