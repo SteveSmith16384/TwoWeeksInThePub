@@ -129,7 +129,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			if (Globals.REMOVE_DEAD_SOLDIERS) {
 				long diff = System.currentTimeMillis() - timeKilled;
 				if (diff > server.gameOptions.avatarRestartTimeSecs * 1000) {
-					this.remove();
+					//this.remove();
+					game.markForRemoval(this.getID());
 					return;
 				}
 			}
@@ -148,7 +149,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public void fallenOffEdge() {
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 

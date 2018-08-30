@@ -85,7 +85,8 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 			}
 			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);  No, too many entities!*/
 		}
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 

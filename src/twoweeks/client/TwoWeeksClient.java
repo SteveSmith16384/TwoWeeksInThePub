@@ -4,15 +4,14 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.util.SkyFactory;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
+import com.scs.stevetech1.client.ValidClientSettings;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.PhysicalEntity;
-import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
@@ -20,6 +19,7 @@ import com.scs.stevetech1.server.Globals;
 import ssmith.util.MyProperties;
 import twoweeks.TwoWeeksCollisionValidator;
 import twoweeks.TwoWeeksGameData;
+import twoweeks.TwoWeeksGlobals;
 import twoweeks.client.hud.TwoWeeksHUD;
 import twoweeks.netmessages.EnterCarMessage;
 import twoweeks.netmessages.GameDataMessage;
@@ -45,7 +45,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 				Globals.p("Warning: No config file specified");
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
-			int gamePort = props.getPropertyAsInt("gamePort", 6145);
+			int gamePort = props.getPropertyAsInt("gamePort", TwoWeeksGlobals.PORT);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
@@ -66,7 +66,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 	private TwoWeeksClient(String gameIpAddress, int gamePort,
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(TwoWeeksServer.GAME_ID, "key", "Two Weeks", null,  
+		super(new ValidClientSettings(TwoWeeksServer.GAME_ID, "key", 1), "Two Weeks", null,  
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
 		ipAddress = gameIpAddress;
 		port = gamePort;
@@ -76,10 +76,11 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	public void simpleInitApp() {
-		super.physicsController.setStepForce(TwoWeeksServer.STEP_FORCE);
-		super.physicsController.setRampForce(TwoWeeksServer.RAMP_FORCE);
+		super.physicsController.setStepForce(TwoWeeksGlobals.STEP_FORCE);
+		super.physicsController.setRampForce(TwoWeeksGlobals.RAMP_FORCE);
 		
 		hud = new TwoWeeksHUD(this, this.cam);
+		this.getGuiNode().attachChild(hud);
 
 		super.simpleInitApp();
 
@@ -88,8 +89,6 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
 
-		//getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
-
 		// Add shadows
 		final int SHADOWMAP_SIZE = 1024*2;
 		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, 2);
@@ -97,7 +96,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		this.viewPort.addProcessor(dlsr);
 		
 		//this.setupForGame();
-		this.connect(this, ipAddress, port, false);
+		this.connect(ipAddress, port, false);
 	}
 
 
@@ -116,15 +115,15 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	@Override
 	protected void allEntitiesReceived() {
+		super.allEntitiesReceived();
 		getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
 	}
 
 	
 	@Override
-	public void simpleUpdate(float tpf_secs) {
-		super.simpleUpdate(tpf_secs);
-
-
+	public void simpleUpdate(float tpfSecs) {
+		super.simpleUpdate(tpfSecs);
+		this.hud.processByClient(this, tpfSecs);
 	}
 
 
@@ -161,7 +160,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		return entityCreator.createEntity(client, msg);
 	}
 
-
+/*
 	@Override
 	protected void playerHasWon() {
 		removeCurrentHUDTextImage();
@@ -181,13 +180,8 @@ public class TwoWeeksClient extends AbstractGameClient {
 		removeCurrentHUDTextImage();
 		//currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", this.cam.getWidth()/2, this.cam.getHeight()/2, 5);
 	}
-
-/*
-	@Override
-	protected IHUD createAndGetHUD() {
-		return hud;
-	}
 */
+
 
 	@Override
 	protected void gameStatusChanged(int oldStatus, int newStatus) {
@@ -226,23 +220,6 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 
 	@Override
-	protected Spatial getPlayersWeaponModel() {
-		//if (!Globals.HIDE_BELLS_WHISTLES) {
-		Spatial model = assetManager.loadModel("Models/pistol/pistol.blend");
-		JMEModelFunctions.setTextureOnSpatial(assetManager, model, "Models/pistol/pistol_tex.png");
-		model.scale(0.1f);
-		// x moves l-r, z moves further away
-		//model.setLocalTranslation(-0.20f, -.2f, 0.4f);
-		//model.setLocalTranslation(-0.15f, -.2f, 0.2f);
-		model.setLocalTranslation(-0.10f, -.15f, 0.2f);
-		return model;
-		/*} else {
-			return null;
-		}*/
-	}
-
-
-	@Override
 	protected Class[] getListofMessageClasses() {
 		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class, EnterCarMessage.class}; // Must be in the same order on client and server!
 	}
@@ -261,6 +238,30 @@ public class TwoWeeksClient extends AbstractGameClient {
 		} else {
 			super.onAction(name, value, tpf);
 		}
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void showDamageBox() {
+		hud.showDamageBox();
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void showMessage(String msg) {
+		hud.appendToLog(msg);
+	}
+
+
+	/**
+	 * Override if required
+	 */
+	protected void appendToLog(String msg) {
+		hud.appendToLog(msg);
 	}
 
 

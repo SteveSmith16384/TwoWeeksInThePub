@@ -13,7 +13,7 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
-import com.scs.stevetech1.netmessages.connecting.NewPlayerRequestMessage;
+import com.scs.stevetech1.netmessages.connecting.JoinGameRequestMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -23,6 +23,7 @@ import ssmith.util.MyProperties;
 import ssmith.util.RealtimeInterval;
 import twoweeks.TwoWeeksCollisionValidator;
 import twoweeks.TwoWeeksGameData;
+import twoweeks.TwoWeeksGlobals;
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.GenericStaticModel;
@@ -37,7 +38,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	public static final float LASER_DIAM = 0.03f;
 	public static final float LASER_LENGTH = 0.7f;
-	public static final float STEP_FORCE = 8f;
+	public static final float STEP_FORCE_ = 8f;
 	public static final float RAMP_FORCE = 3f;
 
 	private static AtomicInteger nextSideNum = new AtomicInteger(1);
@@ -59,7 +60,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 				Globals.p("No config file specified.  Using defaults.");
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
-			int gamePort = props.getPropertyAsInt("gamePort", 6145);
+			int gamePort = props.getPropertyAsInt("gamePort", TwoWeeksGlobals.PORT);
 			//String lobbyIpAddress = null;//props.getPropertyAsString("lobbyIpAddress", "localhost");
 			//int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
 
@@ -98,7 +99,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	private TwoWeeksServer(String gameIpAddress, int gamePort, //String lobbyIpAddress, int lobbyPort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
+		super(GAME_ID, 1d, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
 				10*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
 				10, 5));
@@ -106,8 +107,8 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		this.mapCreator = new CustomMap(this);
 		countUnitsInt = new RealtimeInterval(2000);
 
-		super.physicsController.setStepForce(STEP_FORCE);
-		super.physicsController.setRampForce(RAMP_FORCE);
+		super.physicsController.setStepForce(TwoWeeksGlobals.STEP_FORCE);
+		super.physicsController.setRampForce(TwoWeeksGlobals.RAMP_FORCE);
 
 		start(JmeContext.Type.Headless);
 

@@ -5,7 +5,7 @@ import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.entities.AbstractClientAvatar;
-import com.scs.stevetech1.entities.AbstractEnemyAvatar;
+import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
 import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.entities.ExplosionShard;
@@ -79,7 +79,7 @@ public class TwoWeeksClientEntityCreator {
 				return avatar;
 			} else {
 				// Create a simple avatar since we don't control these
-				AbstractEnemyAvatar avatar = new MercEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
+				AbstractOtherPlayersAvatar avatar = new MercEnemyAvatar(game, SOLDIER_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
 				return avatar;
 			}
 		}
@@ -96,7 +96,7 @@ public class TwoWeeksClientEntityCreator {
 				return avatar;
 			} else {
 				// Create a simple avatar since we don't control these
-				AbstractEnemyAvatar avatar = new CarEnemyAvatar(game, CAR_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
+				AbstractOtherPlayersAvatar avatar = new CarEnemyAvatar(game, CAR_AVATAR, id, pos.x, pos.y, pos.z, side, playersName);
 				return avatar;
 			}
 		}

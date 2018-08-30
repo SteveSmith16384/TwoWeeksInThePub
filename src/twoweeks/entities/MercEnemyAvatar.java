@@ -4,12 +4,12 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
 import com.scs.stevetech1.entities.AbstractAvatar;
-import com.scs.stevetech1.entities.AbstractEnemyAvatar;
+import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
 import com.scs.stevetech1.shared.IEntityController;
 
 import twoweeks.models.SoldierAvatarModel;
 
-public class MercEnemyAvatar extends AbstractEnemyAvatar implements AnimEventListener {
+public class MercEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimEventListener {
 	
 	//private ChronologicalLookup<HistoricalAnimationData> animData = new ChronologicalLookup<HistoricalAnimationData>(true, 500);
 	private SoldierAvatarModel soldier;

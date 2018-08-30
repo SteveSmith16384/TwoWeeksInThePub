@@ -61,7 +61,8 @@ public class PlayersBullet extends AbstractPlayersBullet implements INotifiedOfC
 				game.addEntity(ds);
 			}
 		}
-		this.remove();
+		//this.remove();
+		game.markForRemoval(this.getID());
 	}
 
 }
