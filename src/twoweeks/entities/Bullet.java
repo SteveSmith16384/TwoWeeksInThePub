@@ -17,15 +17,13 @@ import com.scs.stevetech1.shared.IEntityController;
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.server.TwoWeeksServer;
 
-public class PlayersBullet extends AbstractBullet implements INotifiedOfCollision { // todo - rename, also for AI
+public class Bullet extends AbstractBullet implements INotifiedOfCollision {
 
 	public static final float RANGE = 30f;
 	public static final float SPEED = 10f;
 
-	public PlayersBullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
+	public Bullet(IEntityController _game, int id, int playerOwnerId, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte _side, ClientData _client) {
 		super(_game, id, TwoWeeksClientEntityCreator.BULLET, "PlayersBullet", playerOwnerId, _shooter, startPos, _dir, _side, _client, true, SPEED, RANGE);
-
-		//this.getMainNode().setUserData(Globals.ENTITY, this);
 
 	}
 

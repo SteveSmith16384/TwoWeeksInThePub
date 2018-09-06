@@ -9,7 +9,7 @@ import com.scs.stevetech1.shared.IEntityController;
 import com.scs.stevetech1.weapons.AbstractMagazineGun;
 
 import twoweeks.client.TwoWeeksClientEntityCreator;
-import twoweeks.entities.PlayersBullet;
+import twoweeks.entities.Bullet;
 
 public class PlayersMachineGun extends AbstractMagazineGun implements IAbility {
 
@@ -63,8 +63,8 @@ public class PlayersMachineGun extends AbstractMagazineGun implements IAbility {
 
 */
 	@Override
-	protected PlayersBullet createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
-		return new PlayersBullet(game, entityid, playerID, _shooter, startPos, _dir, side, client);
+	protected Bullet createBullet(int entityid, int playerID, IEntity _shooter, Vector3f startPos, Vector3f _dir, byte side) {
+		return new Bullet(game, entityid, playerID, _shooter, startPos, _dir, side, client);
 	}
 	
 /*

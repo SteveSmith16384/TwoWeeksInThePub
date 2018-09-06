@@ -22,7 +22,7 @@ public class TWIP_AISoldier extends AbstractAISoldier {
 	
 	@Override
 	protected AbstractBullet createBullet(Vector3f pos, Vector3f dir) {
-		PlayersBullet bullet = new PlayersBullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
+		Bullet bullet = new Bullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
 		return bullet;
 	}
 

@@ -18,7 +18,7 @@ import twoweeks.entities.MapBorder;
 import twoweeks.entities.MercEnemyAvatar;
 import twoweeks.entities.PlayerCarClientAvatar;
 import twoweeks.entities.PlayerMercClientAvatar;
-import twoweeks.entities.PlayersBullet;
+import twoweeks.entities.Bullet;
 import twoweeks.entities.TWIP_AISoldier;
 import twoweeks.entities.Terrain1;
 
@@ -147,7 +147,7 @@ public class TwoWeeksClientEntityCreator {
 			IEntity shooter = game.entities.get(shooterId);
 			Vector3f startPos = (Vector3f) msg.data.get("startPos");
 			Vector3f dir = (Vector3f) msg.data.get("dir");
-			PlayersBullet bullet = new PlayersBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
+			Bullet bullet = new Bullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
 			return bullet;
 		}
 /*

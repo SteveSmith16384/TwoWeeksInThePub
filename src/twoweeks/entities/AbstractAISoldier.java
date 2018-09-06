@@ -263,7 +263,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public boolean isValidTargetForSide(int shootersSide) {
+	public boolean isValidTargetForSide(byte shootersSide) {
 		return shootersSide != this.side;
 	}
 

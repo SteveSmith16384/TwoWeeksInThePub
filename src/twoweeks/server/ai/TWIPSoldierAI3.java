@@ -15,7 +15,7 @@ import ssmith.util.RealtimeInterval;
 import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.Floor;
 import twoweeks.entities.MapBorder;
-import twoweeks.entities.PlayersBullet;
+import twoweeks.entities.Bullet;
 
 public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
@@ -51,7 +51,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 		if (currentTarget != null) { // Find enemy
 			boolean cansee = true;
 			if (this.currentTarget.isAlive()) {
-				cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, PlayersBullet.RANGE, VIEW_ANGLE_RADS);
+				cansee = soldierEntity.canSee((PhysicalEntity)this.currentTarget, Bullet.RANGE, VIEW_ANGLE_RADS);
 			} else {
 				cansee = false;
 			}
@@ -65,7 +65,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 		}
 		if (currentTarget == null) { // Check we can still see enemy
 			if (this.checkForEnemyInt.hitInterval()) {
-				currentTarget = server.getTarget(this.soldierEntity, this.soldierEntity.side, PlayersBullet.RANGE, VIEW_ANGLE_RADS);
+				currentTarget = server.getTarget(this.soldierEntity, this.soldierEntity.side, Bullet.RANGE, VIEW_ANGLE_RADS);
 				if (Globals.DEBUG_AI_TARGETTING) {
 					Globals.p("AI can now see " + currentTarget);
 				}
