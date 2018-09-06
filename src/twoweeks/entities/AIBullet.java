@@ -15,7 +15,6 @@ import com.jme3.texture.Texture;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.INotifiedOfCollision;
-import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.models.BeamLaserModel;
 import com.scs.stevetech1.server.AbstractGameServer;
@@ -24,7 +23,7 @@ import com.scs.stevetech1.shared.IEntityController;
 
 import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.server.TwoWeeksServer;
-
+/*
 public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 
 	public static final float RANGE = 25f;
@@ -77,13 +76,6 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 	@Override
 	public void collided(PhysicalEntity pe) {
 		if (game.isServer()) {
-			/*AbstractGameServer server = (AbstractGameServer)game;
-			String tex = "Textures/sun.jpg";
-			if (pe instanceof IDebrisTexture) {
-				IDebrisTexture dt = (IDebrisTexture)pe;
-				tex = dt.getDebrisTexture();
-			}
-			server.sendExplosion(this.getWorldTranslation(), 4, .8f, 1.2f, .04f, .1f, tex);  No, too many entities!*/
 		}
 		//this.remove();
 		game.markForRemoval(this.getID());
@@ -91,3 +83,4 @@ public class AIBullet extends AbstractAIBullet implements INotifiedOfCollision {
 
 
 }
+*/

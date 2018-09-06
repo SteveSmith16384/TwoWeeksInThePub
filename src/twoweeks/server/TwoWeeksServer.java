@@ -231,7 +231,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	protected int getWinningSideAtEnd() {
+	protected byte getWinningSideAtEnd() {
 		return -1; // todo
 	}
 
@@ -254,8 +254,8 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	public int getSide(ClientData client) {
-		return nextSideNum.getAndAdd(1);
+	public byte getSide(ClientData client) {
+		return (byte) nextSideNum.getAndAdd(1); // todo - check  > 127
 
 	}
 

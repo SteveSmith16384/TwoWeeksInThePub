@@ -11,7 +11,7 @@ import twoweeks.models.SoldierAvatarModel;
 
 public class CarEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimEventListener {
 	
-	public CarEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, int side, String name) {
+	public CarEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, String name) {
 		super(game, type, eid, x, y, z, new CarAvatarModel(game.getAssetManager()), side, name);
 	}
 	

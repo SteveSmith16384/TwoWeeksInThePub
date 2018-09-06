@@ -18,7 +18,7 @@ public class PlayerMercServerAvatar extends AbstractServerAvatar implements IDeb
 	public PlayerMercServerAvatar(TwoWeeksServer _module, ClientData client, IInputDevice _input, int eid) {
 		super(_module, TwoWeeksClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, TwoWeeksGlobals.MOVE_SPEED, TwoWeeksGlobals.JUMP_FORCE));
 
-		IAbility abilityGun = new PlayersMachineGun(_module, _module.getNextEntityID(), playerID, this, eid, 0, client);
+		IAbility abilityGun = new PlayersMachineGun(_module, _module.getNextEntityID(), playerID, this, eid, (byte)0, client);
 		_module.actuallyAddEntity(abilityGun);
 
 		//IAbility abilityGrenades = new GrenadeLauncher(_module, _module.getNextEntityID(), this, 1, client);

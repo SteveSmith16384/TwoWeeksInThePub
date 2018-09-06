@@ -26,8 +26,8 @@ import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.components.IRewindable;
 import com.scs.stevetech1.components.ISetRotation;
 import com.scs.stevetech1.components.ITargetable;
-import com.scs.stevetech1.entities.AbstractAIBullet;
 import com.scs.stevetech1.entities.AbstractAvatar;
+import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.netmessages.EntityKilledMessage;
@@ -51,7 +51,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	private IAvatarModel soldierModel; // Need this to animate the model
 	private float health = START_HEALTH;
-	public int side;
+	public byte side;
 	protected IArtificialIntelligence ai;
 	private int serverSideCurrentAnimCode;
 	private long timeKilled;
@@ -64,7 +64,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	private BitmapText hudNode;
 	private static BitmapFont font_small;
 
-	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, int _side, 
+	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
 			IAvatarModel _model, int _csInitialAnimCode, String name) {
 		super(_game, id, type, "AISoldier", true, false, true);
 
@@ -193,7 +193,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	@Override
-	public int getSide() {
+	public byte getSide() {
 		return side;
 	}
 
@@ -277,7 +277,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			Vector3f pos = this.getWorldTranslation().clone(); // Must clone otherwsei AI jumps when shooting
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
-			AbstractAIBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+			AbstractBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
 			this.game.addEntity(bullet);
 
 			this.bullets--;
@@ -292,7 +292,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	}
 
 
-	protected abstract AbstractAIBullet createBullet(Vector3f pos, Vector3f dir);
+	protected abstract AbstractBullet createBullet(Vector3f pos, Vector3f dir);
 
 
 	@Override

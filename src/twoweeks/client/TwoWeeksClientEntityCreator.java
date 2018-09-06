@@ -3,17 +3,14 @@ package twoweeks.client;
 import com.jme3.math.Vector3f;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.components.IEntityContainer;
 import com.scs.stevetech1.entities.AbstractClientAvatar;
 import com.scs.stevetech1.entities.AbstractOtherPlayersAvatar;
-import com.scs.stevetech1.entities.AbstractPlayersBullet;
 import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.entities.ExplosionShard;
 import com.scs.stevetech1.netmessages.NewEntityData;
 import com.scs.stevetech1.server.Globals;
 
 import twoweeks.abilities.PlayersMachineGun;
-import twoweeks.entities.AIBullet;
 import twoweeks.entities.CarEnemyAvatar;
 import twoweeks.entities.Floor;
 import twoweeks.entities.GenericStaticModel;
@@ -32,11 +29,10 @@ public class TwoWeeksClientEntityCreator {
 	public static final int FLOOR = 3;
 	public static final int GENERIC_STATIC_MODEL = 4;
 	public static final int CRATE = 5;
-	public static final int PLAYER_BULLET = 7;
+	public static final int BULLET = 7;
 	public static final int MACHINE_GUN = 8;
 	public static final int AI_SOLDIER = 10;
 	public static final int MAP_BORDER = 11;
-	public static final int AI_BULLET = 17;
 	public static final int CAR_AVATAR = 18;
 
 
@@ -49,10 +45,9 @@ public class TwoWeeksClientEntityCreator {
 		case SOLDIER_AVATAR: return "Avatar";
 		case FLOOR: return "FLOOR";
 		case CRATE: return "CRATE";
-		case PLAYER_BULLET: return "PLAYER_LASER_BULLET";
+		case BULLET: return "PLAYER_LASER_BULLET";
 		case MACHINE_GUN: return "LASER_RIFLE";
 		case MAP_BORDER: return "INVISIBLE_MAP_BORDER";
-		case AI_BULLET: return "AI_LASER_BULLET";
 		default: return "Unknown (" + type + ")";
 		}
 	}
@@ -69,7 +64,7 @@ public class TwoWeeksClientEntityCreator {
 		case SOLDIER_AVATAR:
 		{
 			int playerID = (int)msg.data.get("playerID");
-			int side = (int)msg.data.get("side");
+			byte side = (byte)msg.data.get("side");
 			//float moveSpeed = (float)msg.data.get("moveSpeed");
 			//float jumpForce = (float)msg.data.get("jumpForce");
 			String playersName = (String)msg.data.get("playersName");
@@ -87,7 +82,7 @@ public class TwoWeeksClientEntityCreator {
 		case CAR_AVATAR:
 		{
 			int playerID = (int)msg.data.get("playerID");
-			int side = (int)msg.data.get("side");
+			byte side = (byte)msg.data.get("side");
 			//float moveSpeed = (float)msg.data.get("moveSpeed");
 			String playersName = (String)msg.data.get("playersName");
 
@@ -136,7 +131,7 @@ public class TwoWeeksClientEntityCreator {
 			//if (game.currentAvatar != null && ownerid == game.currentAvatar.id) { // Don't care about other's abilities
 			//if (playerID == game.playerID) { // Don't care about other's abilities
 				//AbstractAvatar owner = (AbstractAvatar)game.entities.get(ownerid);
-				int num = (int)msg.data.get("num");
+			byte num = (byte)msg.data.get("num");
 				PlayersMachineGun gl = new PlayersMachineGun(game, id, playerID, null, ownerid, num, null);
 				return gl;
 			//}
@@ -144,33 +139,34 @@ public class TwoWeeksClientEntityCreator {
 
 		}
 
-		case PLAYER_BULLET:
+		case BULLET:
 		{
-			int containerID = (int) msg.data.get("containerID");
-			int side = (int) msg.data.get("side");
+			byte side = (byte) msg.data.get("side");
 			int playerID = (int) msg.data.get("playerID");
+			int shooterId =  (int) msg.data.get("shooterID");
+			IEntity shooter = game.entities.get(shooterId);
+			Vector3f startPos = (Vector3f) msg.data.get("startPos");
 			Vector3f dir = (Vector3f) msg.data.get("dir");
-			IEntityContainer<AbstractPlayersBullet> irac = (IEntityContainer<AbstractPlayersBullet>)game.entities.get(containerID);
-			PlayersBullet bullet = new PlayersBullet(game, id, playerID, irac, side, null, dir);
+			PlayersBullet bullet = new PlayersBullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
 			return bullet;
 		}
-
+/*
 		case AI_BULLET:
 		{
 			int side = (int) msg.data.get("side");
 			int shooterID = (int) msg.data.get("shooterID");
 			IEntity shooter = game.entities.get(shooterID);
 			Vector3f dir = (Vector3f) msg.data.get("dir");
-			AIBullet bullet = new AIBullet(game, id, side, pos.x, pos.y, pos.z, shooter, dir);
+			PlayersBullet bullet = new PlayersBullet(game, id, side, pos.x, pos.y, pos.z, shooter, dir);
 			return bullet;
 		}
-
+*/
 		case AI_SOLDIER:
 		{
-			int side = (int)msg.data.get("side");
+			//byte side = (byte)msg.data.get("side");
 			int animcode = (int)msg.data.get("animcode");
 			String name = (String)msg.data.get("name");
-			TWIP_AISoldier soldier = new TWIP_AISoldier(game, id, pos.x, pos.y, pos.z, side, animcode, name);
+			TWIP_AISoldier soldier = new TWIP_AISoldier(game, id, pos.x, pos.y, pos.z, animcode, name);
 			return soldier;
 		}
 
