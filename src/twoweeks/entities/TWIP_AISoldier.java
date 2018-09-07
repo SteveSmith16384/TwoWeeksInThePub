@@ -10,8 +10,8 @@ import twoweeks.server.ai.TWIPSoldierAI3;
 
 public class TWIP_AISoldier extends AbstractAISoldier {
 
-	public TWIP_AISoldier(IEntityController _game, int id, float x, float y, float z, int csInitialAnimCode, String name) {
-		super(_game, id, TwoWeeksClientEntityCreator.AI_SOLDIER, x, y, z, (byte)id, 
+	public TWIP_AISoldier(IEntityController _game, int id, float x, float y, float z, byte side, int csInitialAnimCode, String name) {
+		super(_game, id, TwoWeeksClientEntityCreator.AI_SOLDIER, x, y, z, side, 
 				new SoldierAvatarModel(_game.getAssetManager()), csInitialAnimCode, name);
 
 		if (_game.isServer()) {
@@ -22,7 +22,7 @@ public class TWIP_AISoldier extends AbstractAISoldier {
 	
 	@Override
 	protected AbstractBullet createBullet(Vector3f pos, Vector3f dir) {
-		Bullet bullet = new Bullet(game, game.getNextEntityID(), -1, this, pos, dir,  side, null);
+		Bullet bullet = new Bullet(game, game.getNextEntityID(), -1, this, pos, dir, side, null);
 		return bullet;
 	}
 

@@ -13,7 +13,6 @@ import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
 import com.scs.stevetech1.netmessages.MyAbstractMessage;
-import com.scs.stevetech1.netmessages.connecting.JoinGameRequestMessage;
 import com.scs.stevetech1.server.AbstractGameServer;
 import com.scs.stevetech1.server.ClientData;
 import com.scs.stevetech1.server.Globals;
@@ -28,7 +27,6 @@ import twoweeks.client.TwoWeeksClientEntityCreator;
 import twoweeks.entities.AbstractAISoldier;
 import twoweeks.entities.GenericStaticModel;
 import twoweeks.entities.PlayerMercServerAvatar;
-import twoweeks.entities.TWIP_AISoldier;
 import twoweeks.netmessages.EnterCarMessage;
 import twoweeks.netmessages.GameDataMessage;
 import twoweeks.server.maps.CustomMap;
@@ -41,7 +39,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	public static final float STEP_FORCE_ = 8f;
 	public static final float RAMP_FORCE = 3f;
 
-	private static AtomicInteger nextSideNum = new AtomicInteger(1);
+	private static AtomicInteger nextSideNum = new AtomicInteger(0);
 
 	public static final String GAME_ID = "Two Weeks";
 
@@ -61,8 +59,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			}
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
 			int gamePort = props.getPropertyAsInt("gamePort", TwoWeeksGlobals.PORT);
-			//String lobbyIpAddress = null;//props.getPropertyAsString("lobbyIpAddress", "localhost");
-			//int lobbyPort = props.getPropertyAsInt("lobbyPort", 6146);
 
 			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
 			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
@@ -78,30 +74,12 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 		}
 	}
 
-	/*
-	private static void startLobbyServer(int lobbyPort, int timeout) {
-		Thread r = new Thread("LobbyServer") {
 
-			@Override
-			public void run() {
-				try {
-					new MoonbaseAssaultLobbyServer(lobbyPort, timeout);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		r.start();
-
-
-	}
-	 */
-
-	private TwoWeeksServer(String gameIpAddress, int gamePort, //String lobbyIpAddress, int lobbyPort, 
+	private TwoWeeksServer(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
 		super(GAME_ID, 1d, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
 				10*1000, 10*60*1000, 10*1000, 
-				gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
+				gameIpAddress, gamePort, 
 				10, 5));
 
 		this.mapCreator = new CustomMap(this);
@@ -118,7 +96,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	@Override
 	public void simpleInitApp() {
 		super.simpleInitApp();
-
 	}
 
 
@@ -165,7 +142,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 	@Override
 	protected void createGame() {
 		this.twipGameData = new TwoWeeksGameData();
-
+		nextSideNum = new AtomicInteger(0); // Start side nums on 1 again
 		this.mapCreator.createMap();
 	}
 
@@ -255,7 +232,11 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	@Override
 	public byte getSide(ClientData client) {
-		return (byte) nextSideNum.getAndAdd(1); // todo - check  > 127
+		byte side = (byte)nextSideNum.getAndAdd(1);
+		if (side < 0) {
+			throw new RuntimeException("Too many sides!");
+		}
+		return side;
 
 	}
 

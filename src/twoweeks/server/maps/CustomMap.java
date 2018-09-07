@@ -21,7 +21,7 @@ import twoweeks.server.TwoWeeksServer;
 public class CustomMap implements IMapCreator {
 
 	private static final int NUM_AI_SOLDIERS = -1;//50; // -1 = Dont use this config
-	private static final float AI_SOLDIERS_PER_SECTOR = 0.05f;// .0008f;
+	private static final float AI_SOLDIERS_PER_SECTOR = 0.01f;// .005f;
 	
 	// Map codes
 	private static final int GRASS = 1;
@@ -185,10 +185,13 @@ public class CustomMap implements IMapCreator {
 					if (NUM_AI_SOLDIERS < 0) {
 						numAI = (int)(mapWidth * mapDepth * AI_SOLDIERS_PER_SECTOR);
 					}
+					if (numAI > Byte.MAX_VALUE) {
+						throw new IllegalArgumentException("Too many AI! (" + numAI + ")");
+					}
 					Globals.p("Creating " + numAI + " AI");
 					for (int num=0 ; num<numAI ; num++) {
 						Vector3f pos = getStartPos();
-						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
+						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSide(null), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
 						server.actuallyAddEntity(s);
 					}
 				}
