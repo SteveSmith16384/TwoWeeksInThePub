@@ -2,7 +2,7 @@ package twoweeks.server.ai;
 
 import com.jme3.math.Vector3f;
 import com.scs.stevetech1.components.IEntity;
-import com.scs.stevetech1.components.ITargetable;
+import com.scs.stevetech1.components.ITargetableByAI;
 import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -24,7 +24,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 	private AbstractAISoldier soldierEntity;
 	private Vector3f currDir;
 	private RealtimeInterval checkForEnemyInt = new RealtimeInterval(1000);
-	private ITargetable currentTarget;
+	private ITargetableByAI currentTarget;
 	private float distToTarget;
 	private int animCode = 0;
 	private Vector3f prevPos = new Vector3f(); // To check if we've moved
@@ -166,7 +166,7 @@ public class TWIPSoldierAI3 implements IArtificialIntelligence {
 
 
 	@Override
-	public ITargetable getCurrentTarget() {
+	public ITargetableByAI getCurrentTarget() {
 		return this.currentTarget;
 	}
 

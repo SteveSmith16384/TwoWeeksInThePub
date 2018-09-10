@@ -150,17 +150,7 @@ public class TwoWeeksClientEntityCreator {
 			Bullet bullet = new Bullet(game, game.getNextEntityID(), playerID, shooter, startPos, dir, side, null); // Notice we generate our own id
 			return bullet;
 		}
-/*
-		case AI_BULLET:
-		{
-			int side = (int) msg.data.get("side");
-			int shooterID = (int) msg.data.get("shooterID");
-			IEntity shooter = game.entities.get(shooterID);
-			Vector3f dir = (Vector3f) msg.data.get("dir");
-			PlayersBullet bullet = new PlayersBullet(game, id, side, pos.x, pos.y, pos.z, shooter, dir);
-			return bullet;
-		}
-*/
+
 		case AI_SOLDIER:
 		{
 			byte side = (byte)msg.data.get("side");

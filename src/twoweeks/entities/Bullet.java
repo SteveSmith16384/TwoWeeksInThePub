@@ -48,10 +48,6 @@ public class Bullet extends AbstractBullet implements INotifiedOfCollision {
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
 		if (game.isServer()) {
-			// todo
-			//ExplosionEffectEntity expl = new ExplosionEffectEntity(game, game.getNextEntityID(), this.getWorldTranslation());
-			//game.addEntity(expl);
-
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
 				// Create debugging sphere
 				Vector3f pos = this.getWorldTranslation();
