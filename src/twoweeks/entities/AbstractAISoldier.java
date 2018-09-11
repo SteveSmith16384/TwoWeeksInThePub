@@ -130,7 +130,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 				long diff = System.currentTimeMillis() - timeKilled;
 				if (diff > server.gameOptions.avatarRestartTimeSecs * 1000) {
 					//this.remove();
-					game.markForRemoval(this.getID());
+					game.markForRemoval(this);
 					return;
 				}
 			}
@@ -150,7 +150,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public void fallenOffEdge() {
 		//this.remove();
-		game.markForRemoval(this.getID());
+		game.markForRemoval(this);
 	}
 
 

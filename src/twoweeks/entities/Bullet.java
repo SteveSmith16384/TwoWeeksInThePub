@@ -55,7 +55,7 @@ public class Bullet extends AbstractBullet implements INotifiedOfCollision {
 				game.addEntity(ds);
 			}
 		}
-		game.markForRemoval(this.getID());
+		game.markForRemoval(this);
 	}
 
 }
