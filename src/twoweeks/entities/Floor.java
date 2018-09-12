@@ -64,7 +64,6 @@ public class Floor extends PhysicalEntity {
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 

@@ -66,7 +66,6 @@ public class MapBorder extends PhysicalEntity {
 
 		geometry.setLocalTranslation(0, BORDER_HEIGHT/2, 0); // move up
 		mainNode.attachChild(geometry);
-		//JMEAngleFunctions.rotateToWorldDirection(mainNode, dir);
 		mainNode.setLocalTranslation(x, y, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), false, this);
@@ -74,7 +73,6 @@ public class MapBorder extends PhysicalEntity {
 		simpleRigidBody.setNeverMoves(true);
 
 		geometry.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
 	}
 
 

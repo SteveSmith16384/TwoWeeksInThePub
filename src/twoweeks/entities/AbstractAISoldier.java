@@ -90,7 +90,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		bbGeom.setUserData(Globals.ENTITY, this);
 
 		this.mainNode.attachChild(bbGeom);
-		mainNode.setUserData(Globals.ENTITY, this);
 		mainNode.setLocalTranslation(x, y, z);
 
 		this.simpleRigidBody = new SimpleRigidBody<PhysicalEntity>(this, game.getPhysicsController(), game.isServer(), this); // was false
@@ -98,9 +97,9 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		simpleRigidBody.setBounciness(0);
 
 		if (!_game.isServer()) {
-		font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
-		hudNode = new BitmapText(font_small);
-		hudNode.setText(name);
+			font_small = _game.getAssetManager().loadFont("Interface/Fonts/Console.fnt");
+			hudNode = new BitmapText(font_small);
+			hudNode.setText(name);
 		}
 	}
 
@@ -149,7 +148,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public void fallenOffEdge() {
-		//this.remove();
 		game.markForRemoval(this);
 	}
 

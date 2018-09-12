@@ -54,9 +54,7 @@ public class GenericStaticModel extends PhysicalEntity {
 			model.lookAt(this.getWorldTranslation().add(dir), Vector3f.UNIT_Y);
 		}
 		
-		//Node container = new Node();
-		//container.attachChild(model); // Wrap the model in a node so we can keep the models rotation and position adjustment
-		this.mainNode.attachChild(model); //model.getLocalRotation();
+		this.mainNode.attachChild(model);
 		
 		mainNode.setLocalTranslation(x, y, z);
 
@@ -65,8 +63,6 @@ public class GenericStaticModel extends PhysicalEntity {
 		simpleRigidBody.setNeverMoves(true);
 
 		model.setUserData(Globals.ENTITY, this);
-		mainNode.setUserData(Globals.ENTITY, this);
-
 	}
 
 
