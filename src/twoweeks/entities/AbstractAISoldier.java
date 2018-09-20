@@ -17,6 +17,7 @@ import com.scs.stevetech1.components.IAnimatedClientSide;
 import com.scs.stevetech1.components.IAnimatedServerSide;
 import com.scs.stevetech1.components.IAvatarModel;
 import com.scs.stevetech1.components.IDamagable;
+import com.scs.stevetech1.components.IDontCollideWithComrades;
 import com.scs.stevetech1.components.IDrawOnHUD;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.components.IGetRotation;
@@ -39,7 +40,7 @@ import com.scs.stevetech1.shared.IEntityController;
 import twoweeks.TwoWeeksGlobals;
 
 public abstract class AbstractAISoldier extends PhysicalEntity implements IAffectedByPhysics, IDamagable, INotifiedOfCollision,
-IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetableByAI {
+IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByClient, IGetRotation, ISetRotation, IKillable, ITargetableByAI, IDontCollideWithComrades {
 
 	public static final int BULLETS_IN_MAG = 8;
 	public static final float SHOOT_INTERVAL = .3f;
@@ -69,6 +70,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		super(_game, id, type, "AISoldier", true, false, true);
 
 		side = _side;
+		
 		soldierModel = _model; // Need it for dimensions for bb
 
 
@@ -125,7 +127,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		} else {
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
 
-			if (Globals.REMOVE_DEAD_SOLDIERS) {
+			if (TwoWeeksGlobals.REMOVE_DEAD_SOLDIERS) {
 				long diff = System.currentTimeMillis() - timeKilled;
 				if (diff > server.gameOptions.avatarRestartTimeSecs * 1000) {
 					//this.remove();
@@ -267,7 +269,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 
 	public void shoot(PhysicalEntity target) {
-		//if (this.shootInt.hitInterval()) {
 		if (this.timeToNextShot <= 0) {
 			if (Globals.DEBUG_AI_BULLET_POS) {
 				Globals.p("AI shooting!  AI at " + this.getWorldTranslation());
@@ -275,7 +276,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			Vector3f pos = this.getWorldTranslation().clone(); // Must clone otherwsei AI jumps when shooting
 			pos.y += this.soldierModel.getBulletStartHeight();
 			Vector3f dir = target.getMainNode().getWorldBound().getCenter().subtract(pos).normalizeLocal();
-			AbstractBullet bullet = this.createBullet(pos, dir);// new AIBullet(game, game.getNextEntityID(), side, pos.x, pos.y, pos.z, this, dir);
+			AbstractBullet bullet = this.createBullet(pos, dir);
 			this.game.addEntity(bullet);
 
 			this.bullets--;
@@ -313,6 +314,12 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public int getTargetPriority() {
 		return TwoWeeksGlobals.PRI_STD_AI;
+	}
+
+
+	@Override
+	public boolean canBeDamaged() {
+		return this.health > 0;
 	}
 
 

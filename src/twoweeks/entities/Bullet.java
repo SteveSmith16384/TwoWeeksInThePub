@@ -35,6 +35,8 @@ public class Bullet extends AbstractBullet implements INotifiedOfCollision {
 		laserNode.setShadowMode(ShadowMode.Cast);
 		this.mainNode.attachChild(laserNode);
 
+		// Note that we don't create a SRB since we use Rays
+
 	}
 
 
@@ -47,6 +49,11 @@ public class Bullet extends AbstractBullet implements INotifiedOfCollision {
 
 	@Override
 	public void notifiedOfCollision(PhysicalEntity pe) {
+		if (Globals.STRICT) {
+			if (this.shooter == pe) {
+				throw new RuntimeException("Bullet has collided with shooter - both should implement " + INotifiedOfCollision.class.getSimpleName());
+			}
+		}
 		if (game.isServer()) {
 			if (Globals.SHOW_BULLET_COLLISION_POS) {
 				// Create debugging sphere

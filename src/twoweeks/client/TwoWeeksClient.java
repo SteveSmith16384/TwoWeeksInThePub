@@ -67,7 +67,8 @@ public class TwoWeeksClient extends AbstractGameClient {
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
 		super(new ValidateClientSettings(TwoWeeksServer.GAME_ID, "key", 1), "Two Weeks", null,  
-				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity); 
+				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity);
+		
 		ipAddress = gameIpAddress;
 		port = gamePort;
 		start();
@@ -95,7 +96,6 @@ public class TwoWeeksClient extends AbstractGameClient {
 		dlsr.setLight(sun);
 		this.viewPort.addProcessor(dlsr);
 		
-		//this.setupForGame();
 		this.connect(ipAddress, port, false);
 	}
 
@@ -230,10 +230,6 @@ public class TwoWeeksClient extends AbstractGameClient {
 		if (name.equalsIgnoreCase(TEST)) {
 			if (value) {
 				super.sendMessage(new EnterCarMessage(true));
-				/*SmallExplosionModel ex = new SmallExplosionModel(this.getAssetManager(), this.getRenderManager());
-				ex.setLocalTranslation(0, 0, 0);
-				ex.process();
-				this.getGameNode().attachChild(ex);*/
 			}
 		} else {
 			super.onAction(name, value, tpf);
@@ -241,28 +237,28 @@ public class TwoWeeksClient extends AbstractGameClient {
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void showDamageBox() {
 		hud.showDamageBox();
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void showMessage(String msg) {
 		hud.appendToLog(msg);
 	}
 
 
-	/**
-	 * Override if required
-	 */
+	@Override
 	protected void appendToLog(String msg) {
 		hud.appendToLog(msg);
 	}
 
 
+	@Override
+	public void disconnected() {
+		super.disconnected();
+		this.showMessage("DISCONNECTED");
+	}
+	
 }

@@ -7,9 +7,7 @@ By Stephen Carlyle-Smith (stephen.carlylesmith@googlemail.com)
 
 ## Gameplay Video
 
-[![Two Weeks Gameplay](http://img.youtube.com/vi/ROtYhj_YU80/0.jpg)](http://www.youtube.com/watch?v=O-QbPfuOZQ4
-
-
+[![Two Weeks Gameplay](http://img.youtube.com/vi/ROtYhj_YU80/0.jpg)](http://www.youtube.com/watch?v=O-QbPfuOZQ4)
 
 ## Credits: 
 Designed and programmed by Stephen Carlyle-Smith (stephen.carlylesmith@googlemail.com)

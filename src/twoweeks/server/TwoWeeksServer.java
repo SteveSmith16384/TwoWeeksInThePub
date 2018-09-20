@@ -231,7 +231,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	public byte getSide(ClientData client) {
+	public byte getSideForPlayer(ClientData client) {
 		byte side = (byte)nextSideNum.getAndAdd(1);
 		if (side < 0) {
 			throw new RuntimeException("Too many sides!");
