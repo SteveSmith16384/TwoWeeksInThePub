@@ -1,6 +1,6 @@
 package twoweeks.entities;
 
-import com.scs.stevetech1.avatartypes.PersonAvatar;
+import com.scs.stevetech1.avatartypes.PersonAvatarControl;
 import com.scs.stevetech1.components.IDebrisTexture;
 import com.scs.stevetech1.entities.AbstractServerAvatar;
 import com.scs.stevetech1.input.IInputDevice;
@@ -16,7 +16,7 @@ import twoweeks.server.TwoWeeksServer;
 public class PlayerMercServerAvatar extends AbstractServerAvatar implements IDebrisTexture {
 
 	public PlayerMercServerAvatar(TwoWeeksServer _module, ClientData client, IInputDevice _input, int eid) {
-		super(_module, TwoWeeksClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, new PersonAvatar(_module, _input, TwoWeeksGlobals.MOVE_SPEED, TwoWeeksGlobals.JUMP_FORCE));
+		super(_module, TwoWeeksClientEntityCreator.SOLDIER_AVATAR, client, _input, eid, new SoldierAvatarModel(_module.getAssetManager()), 100f, TwoWeeksGlobals.PRI_PLAYER, new PersonAvatarControl(_module, _input, TwoWeeksGlobals.MOVE_SPEED, TwoWeeksGlobals.JUMP_FORCE));
 
 		IAbility abilityGun = new PlayersMachineGun(_module, _module.getNextEntityID(), playerID, this, eid, (byte)0, client);
 		_module.actuallyAddEntity(abilityGun);
