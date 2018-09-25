@@ -256,8 +256,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 
 	@Override
-	public void disconnected() {
-		super.disconnected();
+	public void disconnectedCode() {
 		this.showMessage("DISCONNECTED");
 	}
 	
