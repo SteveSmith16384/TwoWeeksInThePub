@@ -66,7 +66,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 	private TwoWeeksClient(String gameIpAddress, int gamePort,
 			int tickrateMillis, int clientRenderDelayMillis, int timeoutMillis,
 			float mouseSensitivity) {
-		super(new ValidateClientSettings(TwoWeeksServer.GAME_ID, "key", 1), "Two Weeks", null,  
+		super(new ValidateClientSettings(TwoWeeksServer.GAME_ID, 1, "key"), "Two Weeks", null,  
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity);
 		
 		ipAddress = gameIpAddress;

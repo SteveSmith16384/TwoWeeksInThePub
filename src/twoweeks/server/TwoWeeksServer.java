@@ -7,6 +7,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.system.JmeContext;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.scs.simplephysics.SimpleRigidBody;
+import com.scs.stevetech1.client.ValidateClientSettings;
 import com.scs.stevetech1.components.IEntity;
 import com.scs.stevetech1.data.GameOptions;
 import com.scs.stevetech1.entities.AbstractAvatar;
@@ -77,7 +78,8 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	private TwoWeeksServer(String gameIpAddress, int gamePort, 
 			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
-		super(GAME_ID, 1d, "key", new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
+		super(new ValidateClientSettings(GAME_ID, 1d, "key"), 
+				new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
 				10*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, 
 				10, 5));
