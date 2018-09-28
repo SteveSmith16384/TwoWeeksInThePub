@@ -129,7 +129,7 @@ public class SoldierAvatarModel implements IAvatarModel {
 
 
 	@Override
-	public Vector3f getSize() {
+	public Vector3f getCollisionBoxSize() {
 		return new Vector3f(MODEL_WIDTH, MODEL_HEIGHT, MODEL_DEPTH);
 	}
 

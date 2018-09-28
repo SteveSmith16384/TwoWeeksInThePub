@@ -38,11 +38,4 @@ public class PlayerCarServerAvatar extends AbstractServerAvatar implements IDebr
 	}
 	
 
-	@Override
-	public void updateClientSideHealth(int amt) {
-		// Do nothing
-		
-	}
-	
-
 }

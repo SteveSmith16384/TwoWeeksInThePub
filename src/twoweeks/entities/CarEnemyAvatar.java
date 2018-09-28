@@ -14,28 +14,18 @@ public class CarEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimEv
 	public CarEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, String name) {
 		super(game, type, eid, x, y, z, new CarAvatarModel(game.getAssetManager()), side, name);
 	}
+
+	@Override
+	public void onAnimChange(AnimControl arg0, AnimChannel arg1, String arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAnimCycleDone(AnimControl arg0, AnimChannel arg1, String arg2) {
+		// TODO Auto-generated method stub
+		
+	}
 	
-
-	@Override
-	public void setAnimCode_ClientSide(int animCode) {
-	}
-
-
-	@Override
-	public void processManualAnimation_ClientSide(float tpf_secs) {
-		// Do nothing, JME handles it
-	}
-
-
-	@Override
-	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-	}
-
-
-	@Override
-	public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-		// Do nothing
-	}
-
 
 }

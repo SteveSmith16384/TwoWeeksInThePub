@@ -85,9 +85,9 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		}
 
 		// Create box for collisions
-		Box box = new Box(soldierModel.getSize().x/2, soldierModel.getSize().y/2, soldierModel.getSize().z/2);
+		Box box = new Box(soldierModel.getCollisionBoxSize().x/2, soldierModel.getCollisionBoxSize().y/2, soldierModel.getCollisionBoxSize().z/2);
 		Geometry bbGeom = new Geometry("bbGeom_" + name, box);
-		bbGeom.setLocalTranslation(0, soldierModel.getSize().y/2, 0); // origin is centre!
+		bbGeom.setLocalTranslation(0, box.getYExtent(), 0); // origin is centre!
 		bbGeom.setCullHint(CullHint.Always); // Don't draw the collision box
 		bbGeom.setUserData(Globals.ENTITY, this);
 
@@ -111,7 +111,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		HashMap<String, Object> creationData = super.getCreationData();
 		// Need this in case the soldier is dead, in which case they won't send any updates, meaning
 		// they won't get sent an animation code.
-		creationData.put("animcode", this.getCurrentAnimCode());
+		creationData.put("animcode", this.getCurrentAnimCode_ServerSide());
 		return creationData;
 	}
 
@@ -226,7 +226,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	 * Called server-side only,
 	 */
 	@Override
-	public int getCurrentAnimCode() {
+	public int getCurrentAnimCode_ServerSide() {
 		return this.serverSideCurrentAnimCode;
 	}
 
@@ -322,5 +322,11 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		return this.health > 0;
 	}
 
+
+	@Override
+	public void updateClientSideHealth(int amt) {
+		// Do nothing
+	}
+	
 
 }

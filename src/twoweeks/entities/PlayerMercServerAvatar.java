@@ -45,11 +45,4 @@ public class PlayerMercServerAvatar extends AbstractServerAvatar implements IDeb
 	}
 
 
-	@Override
-	public void updateClientSideHealth(int amt) {
-		// Do nothing
-
-	}
-
-
 }
