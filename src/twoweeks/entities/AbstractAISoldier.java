@@ -79,8 +79,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 			creationData.put("side", side);
 			creationData.put("name", name);
 		} else {
-			this.soldierModel.createAndGetModel();
-			game.getGameNode().attachChild(this.soldierModel.getModel());
+			//this.soldierModel.createAndGetModel();
+			game.getGameNode().attachChild(this.soldierModel.createAndGetModel());
 			this.setAnimCode_ClientSide(_csInitialAnimCode);
 		}
 

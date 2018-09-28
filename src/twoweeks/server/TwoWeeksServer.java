@@ -263,7 +263,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	public int getMinPlayersRequiredForGame() {
+	public int getMinSidesRequiredForGame() {
 		return 1;
 	}
 
