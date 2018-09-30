@@ -61,25 +61,16 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 			String gameIpAddress = props.getPropertyAsString("gameIpAddress", "localhost");
 			int gamePort = props.getPropertyAsInt("gamePort", TwoWeeksGlobals.PORT);
 
-			int tickrateMillis = props.getPropertyAsInt("tickrateMillis", 25);
-			int sendUpdateIntervalMillis = props.getPropertyAsInt("sendUpdateIntervalMillis", 40);
-			int clientRenderDelayMillis = props.getPropertyAsInt("clientRenderDelayMillis", 200);
-			int timeoutMillis = props.getPropertyAsInt("timeoutMillis", 1000000);
-
-			//startLobbyServer(lobbyPort, timeoutMillis); // Start the lobby in the same process, why not?  Feel from to comment this line out and run it seperately (If you want a lobby).
-
-			new TwoWeeksServer(gameIpAddress, gamePort, //lobbyIpAddress, lobbyPort, 
-					tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis);//, gravity, aerodynamicness);
+			new TwoWeeksServer(gameIpAddress, gamePort);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 
-	private TwoWeeksServer(String gameIpAddress, int gamePort, 
-			int tickrateMillis, int sendUpdateIntervalMillis, int clientRenderDelayMillis, int timeoutMillis) throws IOException {
+	private TwoWeeksServer(String gameIpAddress, int gamePort) throws IOException {
 		super(new ValidateClientSettings(GAME_ID, 1d, "key"), 
-				new GameOptions(tickrateMillis, sendUpdateIntervalMillis, clientRenderDelayMillis, timeoutMillis,
+				new GameOptions(Globals.DEFAULT_TICKRATE, Globals.DEFAULT_SEND_UPDATES_INTERVAL, Globals.DEFAULT_RENDER_DELAY, Globals.DEFAULT_NETWORK_TIMEOUT,
 				10*1000, 10*60*1000, 10*1000, 
 				gameIpAddress, gamePort, 
 				10, 5));
@@ -92,12 +83,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 		start(JmeContext.Type.Headless);
 
-	}
-
-
-	@Override
-	public void simpleInitApp() {
-		super.simpleInitApp();
 	}
 
 
@@ -222,11 +207,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	protected void playerJoinedGame(ClientData client) {
-	}
-
-
-	@Override
 	protected Class[] getListofMessageClasses() {
 		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class, EnterCarMessage.class}; // Must be in the same order on client and server!
 	}
@@ -284,17 +264,6 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 	}
 
-
-/*
-	@Override
-	protected String getSideName(int side) {
-		try {
-			return this.clientList.getClient(side).playerData.playerName;
-		} catch (Exception ex) { // Get error until we implement calculating the winning side
-			return "Unknown";
-		}
-	}
-*/
 
 	private void playerEnterCar(EnterCarMessage msg) {
 		//1 - find car
