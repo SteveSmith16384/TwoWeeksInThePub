@@ -191,7 +191,7 @@ public class CustomMap implements IMapCreator {
 					Globals.p("Creating " + numAI + " AI");
 					for (int num=0 ; num<numAI ; num++) {
 						Vector3f pos = getStartPos();
-						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSideForPlayer(null), AbstractAvatar.ANIM_IDLE, "Enemy " + (num+1));
+						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSideForPlayer(null), "Enemy " + (num+1));
 						server.actuallyAddEntity(s);
 					}
 				}

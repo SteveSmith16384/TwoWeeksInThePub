@@ -154,9 +154,9 @@ public class TwoWeeksClientEntityCreator {
 		case AI_SOLDIER:
 		{
 			byte side = (byte)msg.data.get("side");
-			int animcode = (int)msg.data.get("animcode");
+			//int animcode = (int)msg.data.get("animcode");
 			String name = (String)msg.data.get("name");
-			TWIP_AISoldier soldier = new TWIP_AISoldier(game, id, pos.x, pos.y, pos.z, side, animcode, name);
+			TWIP_AISoldier soldier = new TWIP_AISoldier(game, id, pos.x, pos.y, pos.z, side, name);
 			return soldier;
 		}
 

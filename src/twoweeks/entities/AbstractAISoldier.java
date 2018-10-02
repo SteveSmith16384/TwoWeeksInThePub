@@ -66,7 +66,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
-			IAvatarModel _model, int _csInitialAnimCode, String name) {
+			IAvatarModel _model, String name) {
 		super(_game, id, type, "AISoldier", true, false, true);
 
 		side = _side;
@@ -81,7 +81,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 		} else {
 			//this.soldierModel.createAndGetModel();
 			game.getGameNode().attachChild(this.soldierModel.createAndGetModel());
-			this.setAnimCode_ClientSide(_csInitialAnimCode);
+			this.setAnimCode_ClientSide(AbstractAvatar.ANIM_IDLE);
 		}
 
 		// Create box for collisions
@@ -303,11 +303,6 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	@Override
 	public float getHealth() {
 		return health;
-	}
-
-
-	public PhysicalEntity getPhysicalEntity() {
-		return this;
 	}
 
 

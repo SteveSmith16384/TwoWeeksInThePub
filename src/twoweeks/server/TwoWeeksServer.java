@@ -207,7 +207,7 @@ public class TwoWeeksServer extends AbstractGameServer implements ITerrainHeight
 
 
 	@Override
-	protected Class[] getListofMessageClasses() {
+	protected Class<? extends MyAbstractMessage>[] getListofMessageClasses() {
 		return new Class[] {TwoWeeksGameData.class, GameDataMessage.class, EnterCarMessage.class}; // Must be in the same order on client and server!
 	}
 
