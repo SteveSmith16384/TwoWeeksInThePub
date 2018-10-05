@@ -5,7 +5,6 @@ import java.nio.file.Paths;
 
 import com.jme3.math.Vector3f;
 import com.scs.stevetech1.entities.AbstractAvatar;
-import com.scs.stevetech1.entities.DebuggingSphere;
 import com.scs.stevetech1.jme.JMEAngleFunctions;
 import com.scs.stevetech1.jme.JMEModelFunctions;
 import com.scs.stevetech1.server.Globals;
@@ -191,7 +190,7 @@ public class CustomMap implements IMapCreator {
 					Globals.p("Creating " + numAI + " AI");
 					for (int num=0 ; num<numAI ; num++) {
 						Vector3f pos = getStartPos();
-						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSideForPlayer(null), "Enemy " + (num+1));
+						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSideForPlayer(null), "Enemy " + (num+1), AbstractAvatar.ANIM_IDLE);
 						server.actuallyAddEntity(s);
 					}
 				}

@@ -27,6 +27,7 @@ import com.scs.stevetech1.components.IProcessByClient;
 import com.scs.stevetech1.components.IRewindable;
 import com.scs.stevetech1.components.ISetRotation;
 import com.scs.stevetech1.components.ITargetableByAI;
+import com.scs.stevetech1.data.SimpleGameData;
 import com.scs.stevetech1.entities.AbstractAvatar;
 import com.scs.stevetech1.entities.AbstractBullet;
 import com.scs.stevetech1.entities.PhysicalEntity;
@@ -66,22 +67,20 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	private static BitmapFont font_small;
 
 	public AbstractAISoldier(IEntityController _game, int id, int type, float x, float y, float z, byte _side, 
-			IAvatarModel _model, String name) {
+			IAvatarModel _model, String name, int startAnimCode) {
 		super(_game, id, type, "AISoldier", true, false, true);
 
 		side = _side;
 		
 		soldierModel = _model; // Need it for dimensions for bb
 
-
 		if (_game.isServer()) {
 			creationData = new HashMap<String, Object>();
 			creationData.put("side", side);
 			creationData.put("name", name);
 		} else {
-			//this.soldierModel.createAndGetModel();
 			game.getGameNode().attachChild(this.soldierModel.createAndGetModel());
-			this.setAnimCode_ClientSide(AbstractAvatar.ANIM_IDLE);
+			this.setAnimCode_ClientSide(startAnimCode); // Need this since they may be dead, so we don't want to default to (say) idle
 		}
 
 		// Create box for collisions
@@ -120,9 +119,9 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 	public void processByServer(AbstractGameServer server, float tpf_secs) {
 		if (health > 0) {
 			timeToNextShot -= tpf_secs;
-			//if (server.getGameData().getGameStatus() == SimpleGameData.ST_STARTED) { No, move around in deploy stage
-			ai.process(server, tpf_secs);
-			//}
+			if (server.getGameData().getGameStatus() != SimpleGameData.ST_FINISHED) {
+				ai.process(server, tpf_secs);
+			}
 			this.serverSideCurrentAnimCode = ai.getAnimCode();
 		} else {
 			this.simpleRigidBody.setAdditionalForce(Vector3f.ZERO); // Stop moving
@@ -252,7 +251,7 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public Vector3f getRotation() {
-		return ai.getDirection();
+		return this.soldierModel.getModel().getLocalRotation().getRotationColumn(2);
 	}
 
 

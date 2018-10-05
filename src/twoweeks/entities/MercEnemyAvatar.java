@@ -18,7 +18,7 @@ public class MercEnemyAvatar extends AbstractOtherPlayersAvatar implements AnimE
 	public MercEnemyAvatar(IEntityController game, int type, int eid, float x, float y, float z, byte side, String name) {
 		super(game, type, eid, x, y, z, new SoldierAvatarModel(game.getAssetManager()), side, name);
 		
-		this.soldier = (SoldierAvatarModel)anim;
+		this.soldier = (SoldierAvatarModel)model;
 	}
 	
 

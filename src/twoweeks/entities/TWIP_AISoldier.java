@@ -10,9 +10,9 @@ import twoweeks.server.ai.TWIPSoldierAI3;
 
 public class TWIP_AISoldier extends AbstractAISoldier {
 
-	public TWIP_AISoldier(IEntityController _game, int id, float x, float y, float z, byte side, String name) {
+	public TWIP_AISoldier(IEntityController _game, int id, float x, float y, float z, byte side, String name, int startAnimCode) {
 		super(_game, id, TwoWeeksClientEntityCreator.AI_SOLDIER, x, y, z, side, 
-				new SoldierAvatarModel(_game.getAssetManager()), name);
+				new SoldierAvatarModel(_game.getAssetManager()), name, startAnimCode);
 
 		if (_game.isServer()) {
 			ai = new TWIPSoldierAI3(this);
