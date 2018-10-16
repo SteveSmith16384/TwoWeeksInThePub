@@ -251,7 +251,8 @@ IRewindable, IAnimatedClientSide, IAnimatedServerSide, IDrawOnHUD, IProcessByCli
 
 	@Override
 	public Vector3f getRotation() {
-		return this.soldierModel.getModel().getLocalRotation().getRotationColumn(2);
+		// This is called serverside, so use the main node.
+		return this.getMainNode().getLocalRotation().getRotationColumn(2);
 	}
 
 
