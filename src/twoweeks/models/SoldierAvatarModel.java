@@ -28,6 +28,7 @@ public class SoldierAvatarModel implements IAvatarModel {
 	private Spatial model;
 	private AnimChannel channel;
 	public boolean isJumping = false;
+	private long jumpEndTime;
 	private int currAnimCode = -1;
 
 	public SoldierAvatarModel(AssetManager _assetManager) {
@@ -74,13 +75,10 @@ public class SoldierAvatarModel implements IAvatarModel {
 			return;			
 		}
 
-		if (this.isJumping && animCode != AbstractAvatar.ANIM_DIED) {
+		boolean jumpEnded = this.jumpEndTime < System.currentTimeMillis();
+		if (this.isJumping && !jumpEnded && animCode != AbstractAvatar.ANIM_DIED) {
 			// Do nothing; only dying can stop a jumping anim
 			return;
-		}
-		
-		if (this.currAnimCode == AbstractAvatar.ANIM_DIED) { // Can't override "dead"
-			return; 
 		}
 
 		switch (animCode) {
@@ -113,6 +111,7 @@ public class SoldierAvatarModel implements IAvatarModel {
 			channel.setLoopMode(LoopMode.DontLoop);
 			channel.setAnim("Jump");
 			isJumping = true;
+			jumpEndTime = System.currentTimeMillis() + (long)(channel.getAnimMaxTime() * 1000); // System.currentTimeMillis() - jumpEndTime
 			break;
 
 		default:
