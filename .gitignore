@@ -16,3 +16,4 @@ jinput-raw_64.dll
 sources.txt
 *.log
 .settings
+/target/
