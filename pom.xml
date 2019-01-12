@@ -41,6 +41,12 @@
       <version>${jme3_v}</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>${jme3_g}</groupId>
+      <artifactId>jme3-plugins</artifactId>
+      <version>${jme3_v}</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   
   <build>
@@ -51,6 +57,9 @@
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
+      </resource>
+      <resource>
+        <directory>assets</directory>
       </resource>
     </resources>
     <plugins>
