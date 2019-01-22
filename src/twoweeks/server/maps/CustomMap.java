@@ -19,6 +19,7 @@ import twoweeks.server.TwoWeeksServer;
 
 public class CustomMap implements IMapCreator {
 
+	private static final float DEF_HEIGHT = 2f;
 	private static final int NUM_AI_SOLDIERS = -1;//50; // -1 = Dont use this config
 	private static final float AI_SOLDIERS_PER_SECTOR = 0.01f;// .005f;
 	
@@ -125,7 +126,7 @@ public class CustomMap implements IMapCreator {
 				for (int x=0 ; x<map.length ; x++) {
 					GenericStaticModel model = getModel(map[x][z]);
 					if (model != null) {
-						float height = mapHeight[x][z] * SECTOR_HEIGHT;
+						float height = mapHeight[x][z] * SECTOR_HEIGHT + DEF_HEIGHT;
 						placeGenericModel(model, x*NEW_SECTOR_SIZE, height, z*NEW_SECTOR_SIZE);
 
 						if (map[x][z] == HOUSE) {
@@ -143,7 +144,7 @@ public class CustomMap implements IMapCreator {
 								map[x][z] == CORNER_HILL_LOW_DOWN_SW) {
 							GenericStaticModel tree = new GenericStaticModel(server, server.getNextEntityID(), TwoWeeksClientEntityCreator.GENERIC_STATIC_MODEL, "Tree", "Models/MoreNature/Blends/BigTreeWithLeaves.blend", 3f, "Models/MoreNature/Blends/TreeTexture.png", x, 0, z, JMEAngleFunctions.getRandomDirection_All(), true, 1f);
 							//server.moveEntityUntilItHitsSomething(tree, new Vector3f(0, -1, 0));
-							placeGenericModel(tree, (x*NEW_SECTOR_SIZE) + NumberFunctions.rndFloat(-NEW_SECTOR_SIZE/3, NEW_SECTOR_SIZE/3), 2f, (z*NEW_SECTOR_SIZE) + NumberFunctions.rndFloat(-NEW_SECTOR_SIZE/3, NEW_SECTOR_SIZE/3));
+							placeGenericModel(tree, (x*NEW_SECTOR_SIZE) + NumberFunctions.rndFloat(-NEW_SECTOR_SIZE/3, NEW_SECTOR_SIZE/3), 2f+DEF_HEIGHT, (z*NEW_SECTOR_SIZE) + NumberFunctions.rndFloat(-NEW_SECTOR_SIZE/3, NEW_SECTOR_SIZE/3));
 							float treeHeight = JMEModelFunctions.getLowestHeightAtPoint(tree.getMainNode(), server.getGameNode());
 							tree.getMainNode().getLocalTranslation().y = treeHeight;
 						} else if (map[x][z] == CLIFF) {
@@ -158,13 +159,13 @@ public class CustomMap implements IMapCreator {
 			float mapWidth = map.length * NEW_SECTOR_SIZE;
 			float mapDepth = map[0].length * NEW_SECTOR_SIZE;
 			float thick = 1f;
-			MapBorder borderL = new MapBorder(server, server.getNextEntityID(), -(NEW_SECTOR_SIZE/2) - (thick/2), 0, (mapDepth/2)-(NEW_SECTOR_SIZE/2), thick, mapDepth);
+			MapBorder borderL = new MapBorder(server, server.getNextEntityID(), -(NEW_SECTOR_SIZE/2) - (thick/2), DEF_HEIGHT, (mapDepth/2)-(NEW_SECTOR_SIZE/2), thick, mapDepth);
 			server.actuallyAddEntity(borderL);
-			MapBorder borderR = new MapBorder(server, server.getNextEntityID(), mapWidth-(NEW_SECTOR_SIZE/2) + (thick/2), 0,  (mapDepth/2)-(NEW_SECTOR_SIZE/2), thick, mapDepth);
+			MapBorder borderR = new MapBorder(server, server.getNextEntityID(), mapWidth-(NEW_SECTOR_SIZE/2) + (thick/2), DEF_HEIGHT,  (mapDepth/2)-(NEW_SECTOR_SIZE/2), thick, mapDepth);
 			server.actuallyAddEntity(borderR);
-			MapBorder borderBack = new MapBorder(server, server.getNextEntityID(), (mapWidth/2)-(NEW_SECTOR_SIZE/2), 0, mapDepth-(NEW_SECTOR_SIZE/2) + (thick/2), mapWidth, thick);
+			MapBorder borderBack = new MapBorder(server, server.getNextEntityID(), (mapWidth/2)-(NEW_SECTOR_SIZE/2), DEF_HEIGHT, mapDepth-(NEW_SECTOR_SIZE/2) + (thick/2), mapWidth, thick);
 			server.actuallyAddEntity(borderBack);
-			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), (mapWidth/2)-(NEW_SECTOR_SIZE/2), 0, -(NEW_SECTOR_SIZE/2) - (thick/2), mapWidth, thick);
+			MapBorder borderFront = new MapBorder(server, server.getNextEntityID(), (mapWidth/2)-(NEW_SECTOR_SIZE/2), DEF_HEIGHT, -(NEW_SECTOR_SIZE/2) - (thick/2), mapWidth, thick);
 			server.actuallyAddEntity(borderFront);
 
 			//if (Globals.DEBUG_PLAYER_START_POS) {
@@ -184,13 +185,14 @@ public class CustomMap implements IMapCreator {
 					if (NUM_AI_SOLDIERS < 0) {
 						numAI = (int)(mapWidth * mapDepth * AI_SOLDIERS_PER_SECTOR);
 					}
-					if (numAI > Byte.MAX_VALUE) {
-						throw new IllegalArgumentException("Too many AI! (" + numAI + ")");
+					if (numAI > 20) {//Byte.MAX_VALUE) {
+						//throw new IllegalArgumentException("Too many AI! (" + numAI + ")");
+						numAI = 20;
 					}
 					Globals.p("Creating " + numAI + " AI");
 					for (int num=0 ; num<numAI ; num++) {
 						Vector3f pos = getStartPos();
-						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5, pos.z, server.getSideForPlayer(null), "Enemy " + (num+1), AbstractAvatar.ANIM_IDLE);
+						TWIP_AISoldier s = new TWIP_AISoldier(server, server.getNextEntityID(), pos.x, pos.y + 5 + DEF_HEIGHT, pos.z, server.getSideForPlayer(null), "Enemy " + (num+1), AbstractAvatar.ANIM_IDLE);
 						server.actuallyAddEntity(s);
 					}
 				}

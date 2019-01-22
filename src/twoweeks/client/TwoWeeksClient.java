@@ -4,8 +4,12 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
+import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.util.SkyFactory;
+import com.jme3.water.WaterFilter;
 import com.scs.simplephysics.SimpleRigidBody;
 import com.scs.stevetech1.client.AbstractGameClient;
 import com.scs.stevetech1.client.ValidateClientSettings;
@@ -34,6 +38,8 @@ public class TwoWeeksClient extends AbstractGameClient {
 
 	private String ipAddress;
 	private int port;
+
+	private FilterPostProcessor FPPWater;
 
 	public static void main(String[] args) {
 		try {
@@ -68,7 +74,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 			float mouseSensitivity) {
 		super(new ValidateClientSettings(TwoWeeksServer.GAME_ID, 1, "key"), "Two Weeks", null,  
 				tickrateMillis, clientRenderDelayMillis, timeoutMillis, mouseSensitivity);
-		
+
 		ipAddress = gameIpAddress;
 		port = gamePort;
 		start();
@@ -79,7 +85,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 	public void simpleInitApp() {
 		super.physicsController.setStepForce(TwoWeeksGlobals.STEP_FORCE);
 		super.physicsController.setRampForce(TwoWeeksGlobals.RAMP_FORCE);
-		
+
 		hud = new TwoWeeksHUD(this, this.cam);
 		this.getGuiNode().attachChild(hud);
 
@@ -88,14 +94,40 @@ public class TwoWeeksClient extends AbstractGameClient {
 		collisionValidator = new TwoWeeksCollisionValidator();
 		entityCreator = new TwoWeeksClientEntityCreator();
 
-		this.getViewPort().setBackgroundColor(ColorRGBA.Black);
+		this.getViewPort().setBackgroundColor(ColorRGBA.Cyan);
 
-		// Add shadows
-		final int SHADOWMAP_SIZE = 1024*2;
-		DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, 2);
-		dlsr.setLight(sun);
-		this.viewPort.addProcessor(dlsr);
-		
+		{
+			// Add shadows
+			final int SHADOWMAP_SIZE = 1024*2;
+			DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(getAssetManager(), SHADOWMAP_SIZE, 2);
+			dlsr.setLight(sun);
+			this.viewPort.addProcessor(dlsr);
+		}
+
+		{
+			// DepthOfFieldFilter
+			FilterPostProcessor fpp2 = new FilterPostProcessor(getAssetManager());
+			DepthOfFieldFilter dff = new DepthOfFieldFilter();
+			dff.setFocusDistance(10f);
+			dff.setFocusRange(40f);
+			fpp2.addFilter(dff);
+			viewPort.addProcessor(fpp2);
+		}
+/*
+		{
+			// Bloom
+			BloomFilter bloom = new BloomFilter();
+			bloom.setDownSamplingFactor(2);
+			bloom.setBlurScale(1.37f);
+			bloom.setExposurePower(3.30f);
+			bloom.setExposureCutOff(0.2f);
+			bloom.setBloomIntensity(2.45f);
+			FilterPostProcessor fpp2 = new FilterPostProcessor(getAssetManager());
+			fpp2.addFilter(bloom);
+			viewPort.addProcessor(fpp2);
+		}
+*/
+
 		this.connect(ipAddress, port, false);
 	}
 
@@ -117,9 +149,22 @@ public class TwoWeeksClient extends AbstractGameClient {
 	protected void allEntitiesReceived() {
 		super.allEntitiesReceived();
 		getGameNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/BrightSky.dds", SkyFactory.EnvMapType.CubeMap));
+
+		{
+			if (FPPWater != null) {
+				viewPort.removeProcessor(FPPWater);
+			}
+			// Water
+			FPPWater = new FilterPostProcessor(getAssetManager());
+			WaterFilter water = new WaterFilter(getRootNode(), sun.getDirection());
+			water.setWaterHeight(0);
+			FPPWater.addFilter(water);
+			viewPort.addProcessor(FPPWater);
+		}
+
 	}
 
-	
+
 	@Override
 	public void simpleUpdate(float tpfSecs) {
 		super.simpleUpdate(tpfSecs);
@@ -160,7 +205,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		return entityCreator.createEntity(client, msg);
 	}
 
-/*
+	/*
 	@Override
 	protected void playerHasWon() {
 		removeCurrentHUDTextImage();
@@ -180,7 +225,7 @@ public class TwoWeeksClient extends AbstractGameClient {
 		removeCurrentHUDTextImage();
 		//currentHUDTextImage = new AbstractHUDImage(this, this.getNextEntityID(), this.hud.getRootNode(), "Textures/text/defeat.png", this.cam.getWidth()/2, this.cam.getHeight()/2, 5);
 	}
-*/
+	 */
 
 
 	@Override
@@ -259,5 +304,5 @@ public class TwoWeeksClient extends AbstractGameClient {
 	public void runWhenDisconnected() {
 		this.showMessage("DISCONNECTED");
 	}
-	
+
 }

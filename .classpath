@@ -67,6 +67,6 @@
 	<classpathentry kind="lib" path="libs/stevetech1_lib/reflectasm-1.11.7.jar"/>
 	<classpathentry kind="lib" path="libs/stevetech1_lib/simple-0.27.jar"/>
 	<classpathentry kind="lib" path="libs/stevetech1_lib/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="libs/stevetech1-1.0.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SteTech1"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
