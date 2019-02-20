@@ -22,5 +22,5 @@ Designed and programmed by Stephen Carlyle-Smith (stephen.carlylesmith@googlemai
 For Model credits, see the files inside the model folder.
 
 
-## LICENCES
+## Licences
 * This game is licenced under MIT.
